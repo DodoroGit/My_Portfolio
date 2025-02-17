@@ -1,4 +1,4 @@
-module My_portfolio
+module github.com/DodoroGit/My_Portfolio
 
 go 1.23.2
 
