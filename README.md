@@ -1,3 +1,10 @@
+# My Portfolio
+
+這是一個個人作品集網站，採用 **Golang Gin** 作為後端，前端使用 **純 HTML、CSS、JavaScript**。
+
+## 專案結構
+
+```bash
 My_Portfolio/
 │── backend/                 # 後端 Golang Gin
 │   │── main.go              # 入口點
