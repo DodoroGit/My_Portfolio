@@ -21,3 +21,4 @@ My_Portfolio/
     │── assets/              # 靜態資源 (圖片、CSS、JS)
     │   │── styles.css       # 全站 CSS
     │   └── script.js        # 全站 JS
+```
