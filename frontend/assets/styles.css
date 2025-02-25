@@ -1,0 +1,83 @@
+/* styles.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Arial", "標楷體", sans-serif;
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    text-align: center;
+}
+
+header {
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 22px; /* 放大字體 */
+    font-family: "標楷體", sans-serif; /* 使用標楷體 */
+    padding: 10px 15px;
+    display: inline-block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hero {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 15px 25px; /* 放大按鈕 */
+    font-size: 20px; /* 增加字體大小 */
+    font-family: "標楷體", sans-serif; /* 使用標楷體 */
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+    font-size: 16px;
+}
