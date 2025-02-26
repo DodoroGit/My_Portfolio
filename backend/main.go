@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq" // 🚀 這行很重要，確保 PostgreSQL 驅動被加載
 )
 
 var DB *sql.DB
