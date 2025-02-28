@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // 🚀 這行很重要，確保 PostgreSQL 驅動被加載
 )
 
 var DB *sql.DB
@@ -32,7 +32,13 @@ func GetUsers(c *gin.Context) {
 }
 
 func GetProjects(c *gin.Context) {
-	c.File("./frontend/index.html")
+	projects := []map[string]string{
+		{"name": "個人作品集", "description": "展示我的個人專案", "url": "projects.html"},
+		{"name": "E-commerce 平台", "description": "一個簡單的線上購物網站", "url": "#"},
+		{"name": "部落格系統", "description": "基於 Gin 框架開發的部落格平台", "url": "#"},
+	}
+
+	c.JSON(200, gin.H{"projects": projects})
 }
 
 func main() {
@@ -40,21 +46,11 @@ func main() {
 	InitPostgres()
 
 	r := gin.Default()
-
-	// 🚀 新增靜態文件伺服，讓 Gin 服務 frontend 資料夾的靜態文件
-	r.Static("/static", "./frontend")
-
-	// 🚀 設定首頁 ("/") 轉向 index.html
-	r.GET("/", func(c *gin.Context) {
-		c.File("./frontend/index.html")
-	})
-
-	// API 路由
 	r.GET("/users", GetUsers)
 	r.GET("/projects", GetProjects)
 
-	// 讓 Gin 監聽 0.0.0.0:8080
 	if err := r.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal("Unable to start server: ", err)
 	}
+
 }
