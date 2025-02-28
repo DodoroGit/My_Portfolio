@@ -32,13 +32,7 @@ func GetUsers(c *gin.Context) {
 }
 
 func GetProjects(c *gin.Context) {
-	projects := []map[string]string{
-		{"name": "個人作品集", "description": "展示我的個人專案", "url": "projects.html"},
-		{"name": "E-commerce 平台", "description": "一個簡單的線上購物網站", "url": "#"},
-		{"name": "部落格系統", "description": "基於 Gin 框架開發的部落格平台", "url": "#"},
-	}
-
-	c.JSON(200, gin.H{"projects": projects})
+	c.File("./home/ec2-user/My_Portfolio/frontend/index.html")
 }
 
 func main() {
