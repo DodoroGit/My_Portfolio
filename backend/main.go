@@ -44,6 +44,13 @@ func main() {
 	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
 	r.LoadHTMLGlob("/home/ec2-user/My_Portfolio/frontend/*.html")
 
+	r.Static("/", "/home/ec2-user/My_Portfolio/frontend")
+	r.StaticFile("/index.html", "/home/ec2-user/My_Portfolio/frontend/index.html")
+	r.StaticFile("/about.html", "/home/ec2-user/My_Portfolio/frontend/about.html")
+	r.StaticFile("/projects.html", "/home/ec2-user/My_Portfolio/frontend/projects.html")
+	r.StaticFile("/skills.html", "/home/ec2-user/My_Portfolio/frontend/skills.html")
+	r.StaticFile("/contact.html", "/home/ec2-user/My_Portfolio/frontend/contact.html")
+
 	r.GET("/users", GetUsers)
 	r.GET("/projects", GetProjects)
 
