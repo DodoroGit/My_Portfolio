@@ -31,8 +31,24 @@ func GetUsers(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "Get all users"})
 }
 
-func GetProjects(c *gin.Context) {
+func GetIndex(c *gin.Context) {
 	c.HTML(200, "index.html", nil)
+}
+
+func GetAbout(c *gin.Context) {
+	c.HTML(200, "about.html", nil)
+}
+
+func GetProjects(c *gin.Context) {
+	c.HTML(200, "projects.html", nil)
+}
+
+func GetSkills(c *gin.Context) {
+	c.HTML(200, "skills.html", nil)
+}
+
+func GetContact(c *gin.Context) {
+	c.HTML(200, "contact.html", nil)
 }
 
 func main() {
@@ -44,27 +60,13 @@ func main() {
 	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
 	r.LoadHTMLGlob("/home/ec2-user/My_Portfolio/frontend/*.html")
 
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
-	})
-
-	r.GET("/about", func(c *gin.Context) {
-		c.HTML(200, "about.html", nil)
-	})
-
-	r.GET("/projects", func(c *gin.Context) {
-		c.HTML(200, "projects.html", nil)
-	})
-
-	r.GET("/skills", func(c *gin.Context) {
-		c.HTML(200, "skills.html", nil)
-	})
-
-	r.GET("/contact", func(c *gin.Context) {
-		c.HTML(200, "contact.html", nil)
-	})
-
 	r.GET("/users", GetUsers)
+
+	r.GET("/index", GetIndex)
+	r.GET("/about", GetAbout)
+	r.GET("/projects", GetProjects)
+	r.GET("/skills", GetSkills)
+	r.GET("/contact", GetContact)
 
 	if err := r.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal("Unable to start server: ", err)
