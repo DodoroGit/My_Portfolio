@@ -43,7 +43,8 @@ func main() {
 	r.GET("/users", GetUsers)
 	r.GET("/projects", GetProjects)
 
-	if err := r.Run(); err != nil {
+	if err := r.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal("Unable to start server: ", err)
 	}
+
 }
