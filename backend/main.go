@@ -41,7 +41,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.Static("/static", "./frontend")
+	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
 
 	r.GET("/users", GetUsers)
 	r.GET("/projects", GetProjects)
