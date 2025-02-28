@@ -44,15 +44,27 @@ func main() {
 	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
 	r.LoadHTMLGlob("/home/ec2-user/My_Portfolio/frontend/*.html")
 
-	r.Static("/", "/home/ec2-user/My_Portfolio/frontend")
-	r.StaticFile("/index.html", "/home/ec2-user/My_Portfolio/frontend/index.html")
-	r.StaticFile("/about.html", "/home/ec2-user/My_Portfolio/frontend/about.html")
-	r.StaticFile("/projects.html", "/home/ec2-user/My_Portfolio/frontend/projects.html")
-	r.StaticFile("/skills.html", "/home/ec2-user/My_Portfolio/frontend/skills.html")
-	r.StaticFile("/contact.html", "/home/ec2-user/My_Portfolio/frontend/contact.html")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+
+	r.GET("/about", func(c *gin.Context) {
+		c.HTML(200, "about.html", nil)
+	})
+
+	r.GET("/projects", func(c *gin.Context) {
+		c.HTML(200, "projects.html", nil)
+	})
+
+	r.GET("/skills", func(c *gin.Context) {
+		c.HTML(200, "skills.html", nil)
+	})
+
+	r.GET("/contact", func(c *gin.Context) {
+		c.HTML(200, "contact.html", nil)
+	})
 
 	r.GET("/users", GetUsers)
-	r.GET("/projects", GetProjects)
 
 	if err := r.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal("Unable to start server: ", err)
