@@ -32,7 +32,7 @@ func GetUsers(c *gin.Context) {
 }
 
 func GetProjects(c *gin.Context) {
-	c.File("./home/ec2-user/My_Portfolio/frontend/index.html")
+	c.File("/home/ec2-user/My_Portfolio/frontend/index.html")
 }
 
 func main() {
