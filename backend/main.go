@@ -46,6 +46,9 @@ func main() {
 	InitPostgres()
 
 	r := gin.Default()
+
+	r.Static("/static", "./frontend")
+
 	r.GET("/users", GetUsers)
 	r.GET("/projects", GetProjects)
 
