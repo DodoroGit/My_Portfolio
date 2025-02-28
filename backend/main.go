@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq" // 🚀 這行很重要，確保 PostgreSQL 驅動被加載
+	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
@@ -32,7 +32,7 @@ func GetUsers(c *gin.Context) {
 }
 
 func GetProjects(c *gin.Context) {
-	c.File("frontend/index.html")
+	c.HTML(200, "index.html", nil)
 }
 
 func main() {
@@ -41,7 +41,8 @@ func main() {
 
 	r := gin.Default()
 
-	r.Static("/", "/home/ec2-user/My_Portfolio/frontend")
+	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
+	r.LoadHTMLGlob("/home/ec2-user/My_Portfolio/frontend/*.html")
 
 	r.GET("/users", GetUsers)
 	r.GET("/projects", GetProjects)
