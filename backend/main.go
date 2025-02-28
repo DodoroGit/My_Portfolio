@@ -32,7 +32,7 @@ func GetUsers(c *gin.Context) {
 }
 
 func GetProjects(c *gin.Context) {
-	c.File("/index.html")
+	c.File("/home/ec2-user/My_Portfolio/frontend/index.html")
 }
 
 func main() {
@@ -41,7 +41,6 @@ func main() {
 
 	r := gin.Default()
 
-	r.Static("/", "/home/ec2-user/My_Portfolio/frontend")
 	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
 
 	r.GET("/users", GetUsers)
