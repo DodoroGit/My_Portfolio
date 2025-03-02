@@ -1,38 +1,38 @@
-/* styles.css */
+/* styles.css - Modernized Design */
+
 body {
     margin: 0;
     padding: 0;
-    font-family: "Arial", "標楷體", sans-serif;
-    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    font-family: "Arial", sans-serif;
+    background: linear-gradient(to right, #1e1e2f, #2c2c3a);
+    color: #f8f9fa;
     text-align: center;
 }
 
 header {
-    background-color: #343a40;
+    background: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 20px;
     font-size: 24px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 nav ul {
     list-style: none;
     padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
-    font-size: 22px; /* 放大字體 */
-    font-family: "標楷體", sans-serif; /* 使用標楷體 */
+    font-size: 18px;
     padding: 10px 15px;
     display: inline-block;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease-in-out;
 }
 
 nav ul li a:hover {
@@ -41,16 +41,16 @@ nav ul li a:hover {
 
 .hero {
     margin: 50px auto;
-    padding: 20px;
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .hero h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
+    font-size: 32px;
+    margin-bottom: 15px;
 }
 
 .hero p {
@@ -60,94 +60,26 @@ nav ul li a:hover {
 
 .btn {
     display: inline-block;
-    margin-top: 15px;
-    padding: 15px 25px; /* 放大按鈕 */
-    font-size: 20px; /* 增加字體大小 */
-    font-family: "標楷體", sans-serif; /* 使用標楷體 */
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 18px;
     color: white;
-    background-color: #007bff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.5);
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #0056b3, #004080);
 }
 
 footer {
-    margin-top: 30px;
-    padding: 10px;
-    background-color: #343a40;
+    margin-top: 50px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
     font-size: 16px;
-}
-
-.skills-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-.skill-category {
-    background: #f9f9f9;
-    border-left: 5px solid #333;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-}
-.skill-category h3 {
-    margin-top: 0;
-    color: #333;
-    border-bottom: 2px solid #333;
-    padding-bottom: 5px;
-}
-.skill-category ul {
-    list-style-type: none;
-    padding: 0;
-}
-.skill-category ul li {
-    background: #e7e7e7;
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 5px;
-    text-align: center;
-}
-.contact-info {
-    max-width: 600px;
-    margin: 40px auto;
-    text-align: left;
-    font-size: 18px;
-    line-height: 1.8;
-}
-.contact-card {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-}
-.contact-icon {
-    font-size: 24px;
-    margin-right: 15px;
-    color: #007bff;
-}
-.contact-card a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-.contact-card a:hover {
-    text-decoration: underline;
-}
-
-.content {
-    max-width: 800px;
-    margin: 40px auto;
-    text-align: left;
-    line-height: 1.8;
-}
-h2 {
-    margin-top: 30px;
 }
