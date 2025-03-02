@@ -3,7 +3,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Arial", "標楷體", sans-serif;
+    font-family: "Calibri", "標楷體", sans-serif;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     color: #333;
     text-align: center;
@@ -32,6 +32,7 @@ nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 18px;
+    font-weight: bold;
     padding: 10px 20px;
     border-radius: 30px;
     background: rgba(255, 255, 255, 0.1);
@@ -75,6 +76,25 @@ nav ul li a:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+.contact-info {
+    max-width: 900px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    flex: 1 1 calc(50% - 20px);
+    min-width: 280px;
+    text-align: center;
+}
+
 .btn {
     display: inline-block;
     margin-top: 20px;
@@ -100,17 +120,14 @@ footer {
     font-size: 16px;
 }
 
-.contact-info, .skills-section {
+.skills-section {
     max-width: 900px;
     margin: 40px auto;
-    font-size: 18px;
-}
-
-.skills-section {
     display: flex;
     justify-content: space-between;
     gap: 20px;
     flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 .skill-category {
@@ -121,11 +138,26 @@ footer {
     flex: 1;
     text-align: center;
     transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
 }
 
 .skill-category:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.skill-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skill-category li {
+    margin: 5px 0;
 }
 
 .contact-card a, .skill-category a {
