@@ -57,6 +57,14 @@ nav ul li a:hover {
     line-height: 1.6;
 }
 
+/* 調整關於我頁面內容靠左 */
+.content {
+    max-width: 800px;
+    margin: 40px auto;
+    text-align: left;
+    font-size: 18px;
+}
+
 .btn {
     display: inline-block;
     margin-top: 20px;
@@ -82,18 +90,22 @@ footer {
     font-size: 16px;
 }
 
-.contact-info, .skills-section {
+.contact-info {
     max-width: 800px;
     margin: 40px auto;
     text-align: left;
     font-size: 18px;
 }
 
+/* 修改技能方塊橫向排列 */
 .skills-section {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 20px;
+    padding: 20px 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #f4f4f9;
 }
 
 .skill-category {
@@ -101,8 +113,7 @@ footer {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    flex: 1 1 calc(33% - 20px);
-    min-width: 250px;
+    flex: 0 0 250px;
     text-align: center;
 }
 
