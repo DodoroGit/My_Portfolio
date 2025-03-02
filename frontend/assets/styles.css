@@ -82,10 +82,10 @@ nav ul li a:hover {
     max-width: 1000px;
     margin: 40px auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
-    flex-wrap: nowrap;
-    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .skill-category {
@@ -93,15 +93,15 @@ nav ul li a:hover {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    flex: 1.2; /* 增加橫向寬度 */
-    min-width: 220px; /* 確保足夠的寬度 */
+    flex: 1 1 300px;
+    min-width: 220px;
     text-align: center;
     transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* 讓內容上下對齊 */
+    justify-content: center;
     align-items: center;
-    min-height: 180px; /* 統一高度，避免不同區塊不對齊 */
+    min-height: 180px;
 }
 
 .skill-category:hover {
@@ -118,7 +118,6 @@ nav ul li a:hover {
 .skill-category li {
     margin: 5px 0;
 }
-
 
 .btn {
     display: inline-block;
