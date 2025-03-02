@@ -1,17 +1,17 @@
-/* Modern and Responsive Styles for Portfolio Website */
+/* Updated Styles for Portfolio Website with Modern Background and Design */
 
 body {
     margin: 0;
     padding: 0;
     font-family: "Arial", "標楷體", sans-serif;
-    background: #f4f4f9;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     color: #333;
     text-align: center;
     line-height: 1.6;
 }
 
 header {
-    background: linear-gradient(135deg, #222, #444);
+    background: rgba(34, 34, 34, 0.8);
     color: white;
     padding: 20px;
     font-size: 24px;
@@ -64,6 +64,17 @@ nav ul li a:hover {
     margin-top: 10px;
 }
 
+.content {
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: left;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 .btn {
     display: inline-block;
     margin-top: 20px;
@@ -84,7 +95,7 @@ nav ul li a:hover {
 footer {
     margin-top: 50px;
     padding: 20px;
-    background: #222;
+    background: rgba(34, 34, 34, 0.8);
     color: white;
     font-size: 16px;
 }
@@ -92,24 +103,22 @@ footer {
 .contact-info, .skills-section {
     max-width: 900px;
     margin: 40px auto;
-    text-align: left;
     font-size: 18px;
 }
 
 .skills-section {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
+    flex-wrap: nowrap;
 }
 
 .skill-category {
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    flex: 1 1 calc(33% - 20px);
-    min-width: 280px;
+    flex: 1;
     text-align: center;
     transition: transform 0.3s ease-in-out;
 }
