@@ -3,7 +3,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Arial", sans-serif;
+    font-family: "Arial", "標楷體", sans-serif;
     background: #f4f4f9;
     color: #333;
     text-align: center;
@@ -89,12 +89,21 @@ footer {
     font-size: 18px;
 }
 
-.contact-card, .skill-category {
+.skills-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.skill-category {
     background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 15px;
+    flex: 1 1 calc(33% - 20px);
+    min-width: 250px;
+    text-align: center;
 }
 
 .contact-card a, .skill-category a {
