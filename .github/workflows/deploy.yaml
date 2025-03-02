@@ -25,5 +25,5 @@ jobs:
           ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           cd /home/ec2-user/My_Portfolio
           git pull origin main
-          systemctl restart my-portfolio 
+          sudo systemctl restart nginx 
           EOF
