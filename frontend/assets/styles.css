@@ -76,8 +76,53 @@ nav ul li a:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* --- 修改: 技能與聯絡方式框框樣式 --- */
+
+.skills-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.skill-category {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    flex: 1.2; /* 增加橫向寬度 */
+    min-width: 220px; /* 確保足夠的寬度 */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 讓內容上下對齊 */
+    align-items: center;
+    min-height: 180px; /* 統一高度，避免不同區塊不對齊 */
+}
+
+.skill-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.skill-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skill-category li {
+    margin: 5px 0;
+}
+
+/* --- 修改: 聯絡方式框框 --- */
+
 .contact-info {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 40px auto;
     display: flex;
     flex-wrap: wrap;
@@ -87,13 +132,36 @@ nav ul li a:hover {
 
 .contact-card {
     background: rgba(255, 255, 255, 0.9);
-    padding: 15px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    flex: 1 1 calc(50% - 20px);
-    min-width: 280px;
+    flex: 1.2;
+    min-width: 300px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 讓內容上下對齊 */
+    min-height: 150px; /* 統一高度 */
 }
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.contact-card a, .skill-category a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.contact-card a:hover, .skill-category a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* --- 按鈕樣式 --- */
 
 .btn {
     display: inline-block;
@@ -112,62 +180,12 @@ nav ul li a:hover {
     background: linear-gradient(135deg, #0056b3, #003d80);
 }
 
+/* --- 修改: 頁腳 --- */
+
 footer {
     margin-top: 50px;
     padding: 20px;
     background: rgba(34, 34, 34, 0.8);
     color: white;
     font-size: 16px;
-}
-
-.skills-section {
-    max-width: 900px;
-    margin: 40px auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: nowrap;
-    flex-direction: row;
-}
-
-.skill-category {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    flex: 1;
-    text-align: center;
-    transition: transform 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 150px;
-}
-
-.skill-category:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.skill-category ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.skill-category li {
-    margin: 5px 0;
-}
-
-.contact-card a, .skill-category a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.contact-card a:hover, .skill-category a:hover {
-    text-decoration: underline;
-    color: #0056b3;
 }
