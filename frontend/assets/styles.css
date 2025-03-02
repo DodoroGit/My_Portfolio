@@ -7,14 +7,17 @@ body {
     background: #f4f4f9;
     color: #333;
     text-align: center;
+    line-height: 1.6;
 }
 
 header {
-    background: #222;
+    background: linear-gradient(135deg, #222, #444);
     color: white;
     padding: 20px;
     font-size: 24px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 nav ul {
@@ -29,100 +32,101 @@ nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 18px;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease-in-out;
 }
 
 nav ul li a:hover {
-    background: #444;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
 }
 
 .hero {
     margin: 50px auto;
-    padding: 40px;
+    padding: 50px;
     max-width: 800px;
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
 
 .hero h2 {
-    font-size: 32px;
+    font-size: 36px;
     color: #007bff;
+    font-weight: bold;
 }
 
 .hero p {
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-/* 調整關於我頁面內容靠左 */
-.content {
-    max-width: 800px;
-    margin: 40px auto;
-    text-align: left;
-    font-size: 18px;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 .btn {
     display: inline-block;
     margin-top: 20px;
-    padding: 12px 25px;
+    padding: 15px 30px;
     font-size: 18px;
     color: white;
-    background: #007bff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
     text-decoration: none;
-    border-radius: 8px;
-    transition: transform 0.2s ease-in-out;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
 }
 
 .btn:hover {
-    transform: scale(1.05);
-    background: #0056b3;
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #0056b3, #003d80);
 }
 
 footer {
     margin-top: 50px;
-    padding: 15px;
+    padding: 20px;
     background: #222;
     color: white;
     font-size: 16px;
 }
 
-.contact-info {
-    max-width: 800px;
+.contact-info, .skills-section {
+    max-width: 900px;
     margin: 40px auto;
     text-align: left;
     font-size: 18px;
 }
 
-/* 修改技能方塊橫向排列 */
 .skills-section {
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 20px;
-    padding: 20px 10px;
-    scrollbar-width: thin;
-    scrollbar-color: #007bff #f4f4f9;
 }
 
 .skill-category {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    flex: 0 0 250px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    flex: 1 1 calc(33% - 20px);
+    min-width: 280px;
     text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.skill-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .contact-card a, .skill-category a {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s;
 }
 
 .contact-card a:hover, .skill-category a:hover {
     text-decoration: underline;
+    color: #0056b3;
 }
