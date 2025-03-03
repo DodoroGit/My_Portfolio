@@ -5,6 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>作品展示</title>
     <link rel="stylesheet" href="/assets/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .portfolio-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .portfolio-item {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+        .portfolio-item:hover {
+            transform: scale(1.05);
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .portfolio-content {
+            padding: 15px;
+            text-align: center;
+        }
+        .portfolio-content h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        .portfolio-content p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .portfolio-content a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .portfolio-content a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -20,9 +77,21 @@
         </nav>
     </header>
     
-    <section>
+    <section class="portfolio-container">
         <h2>我的作品</h2>
-        <p>這裡可以展示你的專案或作品集。</p>
+        <div class="portfolio-grid">
+            <!-- 第一個作品 -->
+            <div class="portfolio-item">
+                <img src="/assets/images/portfolio-app.jpg" alt="個人簡歷 Web 應用">
+                <div class="portfolio-content">
+                    <h3>個人簡歷 Web 應用</h3>
+                    <p>這是一個展示我的個人經歷與技能的網站，使用了 Golang Gin 和 AWS 部署。</p>
+                    <a href="https://www.myportfolioapp.com/index" target="_blank">查看作品</a>
+                </div>
+            </div>
+
+            <!-- 這裡可以添加更多作品 -->
+        </div>
     </section>
     
     <footer>
