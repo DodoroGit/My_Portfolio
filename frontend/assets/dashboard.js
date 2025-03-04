@@ -34,7 +34,7 @@ async function getProfile() {
 function logout() {
     localStorage.removeItem("jwt");
     alert("登出成功！");
-    window.location.href = "/auth.html";
+    window.location.href = "/auth";
 }
 
 getProfile();

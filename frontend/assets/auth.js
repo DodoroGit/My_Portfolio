@@ -37,7 +37,7 @@ async function login() {
     if (data.token) {
         localStorage.setItem("jwt", data.token);
         alert("登入成功！");
-        window.location.href = "/dashboard.html"; // 導向個人頁面
+        window.location.href = "/dashboard"; // 導向個人頁面
     } else {
         alert(data.error);
     }
