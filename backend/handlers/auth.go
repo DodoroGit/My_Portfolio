@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/DodoroGit/My_Portfolio/backend/database"
-	models "github.com/DodoroGit/My_Portfolio/backend/model"
+	"github.com/DodoroGit/My_Portfolio/backend/models"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
