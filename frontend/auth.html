@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用者登入 / 註冊</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+    <header>
+        <h1>使用者管理系統</h1>
+    </header>
+
+    <section class="auth-container">
+        <div class="form-box">
+            <h2>登入</h2>
+            <input type="email" id="login-email" placeholder="輸入 Email">
+            <input type="password" id="login-password" placeholder="輸入密碼">
+            <button onclick="login()">登入</button>
+            <p>還沒有帳號？ <a href="#" onclick="toggleForm()">註冊</a></p>
+        </div>
+
+        <div class="form-box" style="display: none;">
+            <h2>註冊</h2>
+            <input type="text" id="register-name" placeholder="輸入名稱">
+            <input type="email" id="register-email" placeholder="輸入 Email">
+            <input type="password" id="register-password" placeholder="輸入密碼">
+            <button onclick="register()">註冊</button>
+            <p>已有帳號？ <a href="#" onclick="toggleForm()">登入</a></p>
+        </div>
+    </section>
+
+    <script src="/assets/auth.js"></script>
+</body>
+</html>
