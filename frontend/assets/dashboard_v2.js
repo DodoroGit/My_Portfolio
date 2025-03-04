@@ -4,8 +4,7 @@ const API_USER = "http://localhost:8080/api/user/profile";
 const token = localStorage.getItem("jwt");
 if (!token) {
     alert("請先登入！");
-    window.location.href = "/auth.html";
-
+    window.location.href = "/auth";
 }
 
 // 取得個人資訊
