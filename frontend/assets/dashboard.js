@@ -17,7 +17,7 @@ async function getProfile() {
     if (res.status === 401) {
         alert("登入已過期，請重新登入！");
         localStorage.removeItem("jwt");
-        window.location.href = "/auth.html";
+        window.location.href = "/auth";
     }
 
     const data = await res.json();
