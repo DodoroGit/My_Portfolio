@@ -24,6 +24,7 @@ func main() {
 	r := gin.Default()
 
 	routes.AuthRoutes(r)
+	routes.WebRoutes(r)
 
 	if err := r.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal("Unable to start server: ", err)
