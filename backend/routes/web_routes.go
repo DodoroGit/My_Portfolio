@@ -3,6 +3,7 @@ package routes
 import "github.com/gin-gonic/gin"
 
 func WebRoutes(r *gin.Engine) {
+	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
 	r.LoadHTMLGlob("/home/ec2-user/My_Portfolio/frontend/*.html")
 
 	r.GET("/index", func(c *gin.Context) { c.HTML(200, "index.html", nil) })
