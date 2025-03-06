@@ -15,7 +15,7 @@ function checkAuthStatus() {
         document.getElementById("login-btn").style.display = "none";
 
         // ✅ 如果用戶已登入但在 /login 頁面，應該導向 dashboard
-        if (window.location.pathname === "/login") {
+        if (window.location.pathname === "/auth") {
             window.location.href = "/dashboard";
         }
     } else {
@@ -26,7 +26,7 @@ function checkAuthStatus() {
         // ✅ 如果用戶未登入但在 /dashboard，應該導向 /login
         if (window.location.pathname === "/dashboard") {
             alert("請先登入！");
-            window.location.href = "/login";
+            window.location.href = "/auth";
         }
     }
 }
@@ -107,7 +107,7 @@ async function getProfile() {
 function logout() {
     localStorage.removeItem("jwt");
     alert("登出成功！");
-    window.location.href = "/login";
+    window.location.href = "/auth";
 }
 
 // ✅ 連結按鈕點擊行為
@@ -116,5 +116,5 @@ function goToProfile() {
 }
 
 function goToLogin() {
-    window.location.href = "/login";
+    window.location.href = "/auth";
 }
