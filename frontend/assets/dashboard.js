@@ -4,7 +4,7 @@ const API_USER = "http://localhost:8080/api/user/profile";
 const token = localStorage.getItem("jwt");
 if (!token) {
     alert("請先登入！");
-    window.location.href = "https://www.myportfolioapp.com/auth";
+    window.location.href = "/login";
 }
 
 // 取得個人資訊
@@ -17,7 +17,7 @@ async function getProfile() {
     if (res.status === 401) {
         alert("登入已過期，請重新登入！");
         localStorage.removeItem("jwt");
-        window.location.href = "/auth";
+        window.location.href = "/login";
     }
 
     const data = await res.json();
@@ -34,7 +34,7 @@ async function getProfile() {
 function logout() {
     localStorage.removeItem("jwt");
     alert("登出成功！");
-    window.location.href = "/auth";
+    window.location.href = "/login";
 }
 
 getProfile();
