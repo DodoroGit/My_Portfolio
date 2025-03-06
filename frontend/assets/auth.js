@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:8080/api/auth";
+const API_USER = window.location.origin + "/api/auth";
+
 
 // 切換登入 & 註冊表單
 function toggleForm() {
