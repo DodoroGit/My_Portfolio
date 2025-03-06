@@ -11,6 +11,6 @@ func WebRoutes(r *gin.Engine) {
 	r.GET("/projects", func(c *gin.Context) { c.HTML(200, "projects.html", nil) })
 	r.GET("/skills", func(c *gin.Context) { c.HTML(200, "skills.html", nil) })
 	r.GET("/contact", func(c *gin.Context) { c.HTML(200, "contact.html", nil) })
-	r.GET("/auth", func(c *gin.Context) { c.HTML(200, "auth.html", nil) })
+	r.GET("/auth", func(c *gin.Context) { c.HTML(200, "login.html", nil) })
 	r.GET("/dashboard", func(c *gin.Context) { c.HTML(200, "dashboard.html", nil) })
 }
