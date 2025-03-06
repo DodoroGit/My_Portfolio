@@ -226,7 +226,6 @@ footer {
     background-color: #0056b3;
 }
 
-
 /* ✅ 讓按鈕區塊固定在右上角 */
 .auth-buttons {
     position: absolute;
@@ -236,12 +235,11 @@ footer {
     gap: 10px;
 }
 
-/* ✅ 美化按鈕 */
+/* ✅ 通用按鈕樣式 */
 .auth-buttons button {
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -250,18 +248,31 @@ footer {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ✅ 按鈕懸停效果 */
-.auth-buttons button:hover {
+/* ✅ 個人資料按鈕 */
+.auth-buttons #profile-btn {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32); /* 綠色 */
+}
+
+.auth-buttons #profile-btn:hover {
+    background: linear-gradient(135deg, #388E3C, #1B5E20);
+    transform: scale(1.05);
+}
+
+/* ✅ 登入按鈕 */
+.auth-buttons #login-btn {
+    background: linear-gradient(135deg, #6e8efb, #a777e3); /* 藍紫色 */
+}
+
+.auth-buttons #login-btn:hover {
     background: linear-gradient(135deg, #5a7ded, #946ae6);
     transform: scale(1.05);
 }
 
-/* ✅ 登出按鈕的顏色 */
+/* ✅ 登出按鈕 */
 .auth-buttons #logout-btn {
-    background: linear-gradient(135deg, #ff6b6b, #e63946);
+    background: linear-gradient(135deg, #ff6b6b, #e63946); /* 紅色 */
 }
 
-/* ✅ 登出按鈕懸停效果 */
 .auth-buttons #logout-btn:hover {
     background: linear-gradient(135deg, #ff4f4f, #c92c37);
     transform: scale(1.05);
@@ -277,7 +288,8 @@ footer {
     }
     
     .auth-buttons button {
-        padding: 8px 16px;
+        padding: 10px 20px;
         font-size: 14px;
     }
 }
+
