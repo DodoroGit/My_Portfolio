@@ -158,6 +158,107 @@ nav ul li a:hover {
 }
 
 /* =======================
+   🎭 登入/註冊介面 Auth Interface
+   ======================= */
+
+/* 🌟 主要容器 */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+/* 🎨 玻璃擬態登入/註冊框 */
+.form-box {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 40px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 📜 標題 */
+.form-box h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* 📝 輸入框 */
+.form-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Placeholder 文字顏色 */
+.form-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 🔘 按鈕 */
+.form-box button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 按鈕懸停效果 */
+.form-box button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+}
+
+/* 🔗 轉換登入/註冊 */
+.form-box p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.form-box a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-box a:hover {
+    text-decoration: underline;
+}
+
+/* =======================
+   🎭 動畫效果 Animations
+   ======================= */
+   @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =======================
    🔘 按鈕區塊 Buttons
    ======================= */
 /* ✅ 讓按鈕區塊固定在右上角 */
@@ -300,6 +401,24 @@ nav ul li a:hover {
     }
 
     .auth-box button {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .form-box {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .form-box h2 {
+        font-size: 22px;
+    }
+
+    .form-box input {
+        font-size: 14px;
+    }
+
+    .form-box button {
         font-size: 16px;
         padding: 10px;
     }
