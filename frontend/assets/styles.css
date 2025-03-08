@@ -169,14 +169,14 @@ nav ul li a:hover {
     justify-content: center;
     width: 100%;
     height: 100vh;
+    margin-top: -40px; /* 🆕 讓登入框稍微上移 */
 }
 
 /* 🎨 玻璃擬態登入/註冊框 */
 .form-box {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.9); /* 🆕 使登入框變成較清晰的白色 */
     padding: 40px;
     border-radius: 12px;
-    backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 350px;
     text-align: center;
@@ -187,7 +187,7 @@ nav ul li a:hover {
 .form-box h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: white;
+    color: #333; /* 🆕 讓標題適應淺色背景 */
 }
 
 /* 📝 輸入框 */
@@ -195,18 +195,18 @@ nav ul li a:hover {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border: none;
+    border: 1px solid #ccc; /* 🆕 增加邊框，讓輸入框更清晰 */
     border-radius: 8px;
     outline: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: white; /* 🆕 讓輸入框區別於背景 */
+    color: #333;
     font-size: 16px;
     text-align: center;
 }
 
 /* Placeholder 文字顏色 */
 .form-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.5); /* 🆕 改為深灰色，提高可讀性 */
 }
 
 /* 🔘 按鈕 */
@@ -215,9 +215,10 @@ nav ul li a:hover {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: linear-gradient(135deg, #007bff, #0056b3); /* 🆕 改為藍色系，符合現代風格 */
     font-size: 18px;
     font-weight: bold;
+    color: white;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
@@ -225,7 +226,7 @@ nav ul li a:hover {
 /* 按鈕懸停效果 */
 .form-box button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    background: linear-gradient(135deg, #0056b3, #003d80);
 }
 
 /* 🔗 轉換登入/註冊 */
@@ -235,7 +236,7 @@ nav ul li a:hover {
 }
 
 .form-box a {
-    color: #ffd700;
+    color: #007bff; /* 🆕 改為深藍色，提高可讀性 */
     text-decoration: none;
     font-weight: bold;
 }
@@ -243,7 +244,6 @@ nav ul li a:hover {
 .form-box a:hover {
     text-decoration: underline;
 }
-
 /* =======================
    📊 Dashboard 面板樣式
    ======================= */
@@ -511,6 +511,10 @@ nav ul li a:hover {
     .auth-box button {
         font-size: 16px;
         padding: 10px;
+    }
+
+    .auth-container {
+        margin-top: -20px; /* 🆕 手機版適配，避免框框過低 */
     }
 
     .form-box {
