@@ -1,6 +1,7 @@
-/* Updated Styles for Portfolio Website with Modern Background and Design */
-
-body {
+/* =======================
+   🌟 全局設計 Global Styles
+   ======================= */
+   body {
     margin: 0;
     padding: 0;
     font-family: "Calibri", "標楷體", sans-serif;
@@ -10,6 +11,19 @@ body {
     line-height: 1.6;
 }
 
+/* 超連結樣式 */
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =======================
+   📌 頁首 Header
+   ======================= */
 header {
     background: rgba(34, 34, 34, 0.8);
     color: white;
@@ -20,6 +34,9 @@ header {
     letter-spacing: 1.5px;
 }
 
+/* =======================
+   🏠 導覽列 Navigation Bar
+   ======================= */
 nav ul {
     list-style: none;
     padding: 0;
@@ -44,27 +61,42 @@ nav ul li a:hover {
     transform: scale(1.1);
 }
 
-.hero {
-    margin: 50px auto;
-    padding: 50px;
-    max-width: 800px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    text-align: center;
+/* =======================
+   🏆 作品集區塊 Portfolio Section
+   ======================= */
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.hero h2 {
-    font-size: 36px;
-    color: #007bff;
-    font-weight: bold;
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
 
-.hero p {
-    font-size: 20px;
-    margin-top: 10px;
+.portfolio-item {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
 }
 
+.portfolio-item:hover {
+    transform: scale(1.05);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* =======================
+   📖 內容區塊 Content Section
+   ======================= */
 .content {
     max-width: 900px;
     margin: 40px auto;
@@ -76,8 +108,9 @@ nav ul li a:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* --- 修改: 技能與聯絡方式框框樣式 --- */
-
+/* =======================
+   🛠️ 技能區 Skills Section
+   ======================= */
 .skills-section {
     max-width: 1000px;
     margin: 40px auto;
@@ -85,7 +118,6 @@ nav ul li a:hover {
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
-    align-items: center;
 }
 
 .skill-category {
@@ -97,11 +129,6 @@ nav ul li a:hover {
     min-width: 220px;
     text-align: center;
     transition: transform 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 180px;
 }
 
 .skill-category:hover {
@@ -109,45 +136,9 @@ nav ul li a:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.skill-category ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.skill-category li {
-    margin: 5px 0;
-}
-
-.btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 15px 30px;
-    font-size: 18px;
-    color: white;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    text-decoration: none;
-    border-radius: 30px;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn:hover {
-    transform: scale(1.1);
-    background: linear-gradient(135deg, #0056b3, #003d80);
-}
-
-/* --- 修改: 頁腳 --- */
-
-footer {
-    margin-top: 50px;
-    padding: 20px;
-    background: rgba(34, 34, 34, 0.8);
-    color: white;
-    font-size: 16px;
-}
-
-/* --- 修改: 聯絡方式框框 --- */
-
+/* =======================
+   📩 聯絡方式 Contact Section
+   ======================= */
 .contact-info {
     max-width: 1000px;
     margin: 40px auto;
@@ -163,70 +154,12 @@ footer {
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     flex: 1 1 45%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    gap: 15px;
-    min-height: 80px;
-}
-
-.contact-icon {
-    font-size: 24px;
-}
-
-/* project */
-.portfolio-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-.portfolio-item {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-}
-.portfolio-item:hover {
-    transform: scale(1.05);
-}
-.portfolio-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-.portfolio-content {
-    padding: 15px;
     text-align: center;
 }
-.portfolio-content h3 {
-    margin: 10px 0;
-    font-size: 1.2em;
-}
-.portfolio-content p {
-    color: #666;
-    font-size: 0.9em;
-}
-.portfolio-content a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-.portfolio-content a:hover {
-    background-color: #0056b3;
-}
 
-/* ✅ 讓按鈕區塊固定在右上角 */
+/* =======================
+   🔘 按鈕區塊 Buttons
+   ======================= */
 .auth-buttons {
     position: absolute;
     top: 20px;
@@ -235,7 +168,7 @@ footer {
     gap: 10px;
 }
 
-/* ✅ 通用按鈕樣式 */
+/* 通用按鈕樣式 */
 .auth-buttons button {
     border: none;
     color: white;
@@ -248,47 +181,83 @@ footer {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ✅ 個人資料按鈕 */
-.auth-buttons #profile-btn {
-    background: linear-gradient(135deg, #4CAF50, #2E7D32); /* 綠色 */
-}
+/* =======================
+   ⚙️ 響應式設計 Responsive Design
+   ======================= */
 
-.auth-buttons #profile-btn:hover {
-    background: linear-gradient(135deg, #388E3C, #1B5E20);
-    transform: scale(1.05);
-}
-
-/* ✅ 登入按鈕 */
-.auth-buttons #login-btn {
-    background: linear-gradient(135deg, #6e8efb, #a777e3); /* 藍紫色 */
-}
-
-.auth-buttons #login-btn:hover {
-    background: linear-gradient(135deg, #5a7ded, #946ae6);
-    transform: scale(1.05);
-}
-
-/* ✅ 登出按鈕 */
-.auth-buttons #logout-btn {
-    background: linear-gradient(135deg, #ff6b6b, #e63946); /* 紅色 */
-}
-
-.auth-buttons #logout-btn:hover {
-    background: linear-gradient(135deg, #ff4f4f, #c92c37);
-    transform: scale(1.05);
-}
-
-/* ✅ 響應式設計，確保在小螢幕上按鈕不會擠在一起 */
-@media (max-width: 768px) {
+/* 🌟 平板適配（最大 1024px） */
+@media (max-width: 1024px) {
     .auth-buttons {
         top: 10px;
         right: 10px;
+    }
+
+    .auth-box {
+        width: 70%;
+        padding: 30px;
+    }
+
+    .content {
+        max-width: 85%;
+    }
+
+    .contact-info {
+        max-width: 90%;
+    }
+}
+
+/* 📱 手機適配（最大 768px） */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auth-buttons {
         flex-direction: column;
         gap: 5px;
     }
-    
-    .auth-buttons button {
-        padding: 10px 20px;
+
+    .auth-box {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .content {
+        max-width: 95%;
+        padding: 15px;
+    }
+
+    .contact-card {
+        flex: 1 1 100%;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-item {
+        margin-bottom: 20px;
+    }
+}
+
+/* 📱 超小型手機適配（最大 480px） */
+@media (max-width: 480px) {
+    .auth-box {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .auth-box h2 {
+        font-size: 20px;
+    }
+
+    .auth-box input {
         font-size: 14px;
+    }
+
+    .auth-box button {
+        font-size: 16px;
+        padding: 10px;
     }
 }
