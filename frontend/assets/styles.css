@@ -556,7 +556,7 @@ nav ul li a:hover {
 }
 
 /* =======================
-   ⚙️ 響應式設計 Responsive Design
+   ⚙️ 完整 RWD 響應設計 Responsive Design
    ======================= */
 
 /* 🌟 平板適配（最大 1024px） */
@@ -566,11 +566,6 @@ nav ul li a:hover {
         right: 10px;
     }
 
-    .auth-box {
-        width: 70%;
-        padding: 30px;
-    }
-
     .content {
         max-width: 85%;
     }
@@ -578,13 +573,48 @@ nav ul li a:hover {
     .contact-info {
         max-width: 90%;
     }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
 }
 
 /* 📱 手機適配（最大 768px） */
 @media (max-width: 768px) {
+    /* 🔘 改為漢堡選單 */
+    .menu-toggle {
+        display: block;
+        font-size: 28px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+
     nav ul {
+        display: none; /* 預設隱藏，需點擊才展開 */
         flex-direction: column;
-        gap: 10px;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 1000;
+    }
+
+    nav ul li {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    nav ul li a {
+        display: block;
+        padding: 10px;
+        font-size: 16px;
     }
 
     .auth-buttons {
@@ -599,27 +629,11 @@ nav ul li a:hover {
         font-size: 14px;
     }
 
-    .auth-box {
-        width: 90%;
-        padding: 25px;
-    }
-
     .content {
         max-width: 95%;
         padding: 15px;
     }
 
-    .contact-card {
-        flex: 1 1 100%;
-    }
-
-    .portfolio-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-item {
-        margin-bottom: 20px;
-    }
     .profile {
         width: 90%;
         padding: 20px;
@@ -672,10 +686,37 @@ nav ul li a:hover {
     .skill-category li {
         font-size: 16px;
     }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-item {
+        margin-bottom: 20px;
+    }
+
+    .contact-card {
+        flex: 1 1 100%;
+    }
 }
 
 /* 📱 超小型手機適配（最大 480px） */
 @media (max-width: 480px) {
+    .menu-toggle {
+        font-size: 24px;
+    }
+
+    nav ul {
+        top: 50px;
+        right: 10px;
+        padding: 5px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+        padding: 8px;
+    }
+
     .auth-box {
         width: 95%;
         padding: 20px;
@@ -714,5 +755,19 @@ nav ul li a:hover {
     .form-box button {
         font-size: 16px;
         padding: 10px;
+    }
+
+    .dashboard-buttons button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .portfolio-container {
+        padding: 10px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
     }
 }
