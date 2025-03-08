@@ -1,12 +1,12 @@
-/* ✅ 預設隱藏 HTML，避免未登入時短暫顯示內容 */
+/* ✅ 預設隱藏 HTML */
 html {
-    display: none;
+    display: none !important; /* 🛠 確保 CSS 預設隱藏 */
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 }
 
-/* ✅ 當登入成功時，JavaScript 會設置 display: block; */
+/* ✅ 顯示頁面（透過 JavaScript 添加 `show` class） */
 html.show {
-    display: block;
+    display: block !important; /* 🛠 最高優先權，確保覆蓋 display: none */
     opacity: 1;
 }
