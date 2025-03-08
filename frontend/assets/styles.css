@@ -293,3 +293,7 @@ footer {
     }
 }
 
+/* 預設隱藏 HTML，避免未登入時短暫顯示內容 */
+html {
+    display: none;
+}
