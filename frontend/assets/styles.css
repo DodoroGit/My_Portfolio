@@ -245,6 +245,99 @@ nav ul li a:hover {
 }
 
 /* =======================
+   📊 Dashboard 面板樣式
+   ======================= */
+
+/* 🎨 個人資訊區塊 */
+.profile {
+    max-width: 600px;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 📜 標題 */
+.profile h2 {
+    font-size: 24px;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* 📝 個人資訊內容 */
+.profile p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #555;
+}
+
+/* 🌟 讓 Email 與角色名稱更加醒目 */
+.profile span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* =======================
+   ⚙️ Dashboard 面板按鈕
+   ======================= */
+.dashboard-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* 通用按鈕樣式 */
+.dashboard-buttons button {
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ 編輯個人資料按鈕（藍色） */
+.dashboard-buttons .edit-profile {
+    background: linear-gradient(135deg, #6c63ff, #3f3dff);
+    color: white;
+}
+
+.dashboard-buttons .edit-profile:hover {
+    background: linear-gradient(135deg, #4f46e5, #3730a3);
+    transform: scale(1.05);
+}
+
+/* ✅ 更改密碼按鈕（橘色） */
+.dashboard-buttons .change-password {
+    background: linear-gradient(135deg, #ff9800, #e65100);
+    color: white;
+}
+
+.dashboard-buttons .change-password:hover {
+    background: linear-gradient(135deg, #fb8c00, #d84315);
+    transform: scale(1.05);
+}
+
+/* ✅ 登出按鈕（紅色） */
+.dashboard-buttons .logout {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+}
+
+.dashboard-buttons .logout:hover {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    transform: scale(1.05);
+}
+
+/* =======================
    🎭 動畫效果 Animations
    ======================= */
    @keyframes fadeIn {
@@ -382,6 +475,21 @@ nav ul li a:hover {
 
     .portfolio-item {
         margin-bottom: 20px;
+    }
+    .profile {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .dashboard-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-buttons button {
+        width: 80%;
+        padding: 12px;
+        font-size: 16px;
     }
 }
 
