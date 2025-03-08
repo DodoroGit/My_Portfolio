@@ -1,4 +1,12 @@
-/* 預設隱藏 HTML，避免未登入時短暫顯示內容 */
+/* ✅ 預設隱藏 HTML，避免未登入時短暫顯示內容 */
 html {
     display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* ✅ 當登入成功時，JavaScript 會設置 display: block; */
+html.show {
+    display: block;
+    opacity: 1;
 }
