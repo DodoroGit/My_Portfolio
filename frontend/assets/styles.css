@@ -4,8 +4,8 @@
    body {
     margin: 0;
     padding: 0;
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: "Calibri", "標楷體", sans-serif;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     color: #333;
     text-align: center;
     line-height: 1.6;
@@ -14,7 +14,7 @@
 /* 超連結樣式 */
 a {
     text-decoration: none;
-    color: #ffd700;
+    color: #007bff;
 }
 
 a:hover {
@@ -75,11 +75,10 @@ nav ul li a:hover {
 
 /* 登入/註冊框 */
 .auth-box {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.95);
     padding: 40px;
     border-radius: 12px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 350px;
     text-align: center;
 }
@@ -88,7 +87,7 @@ nav ul li a:hover {
 .auth-box h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #fff;
+    color: #333;
 }
 
 /* 輸入框 */
@@ -96,18 +95,10 @@ nav ul li a:hover {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    outline: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
     font-size: 16px;
     text-align: center;
-}
-
-/* Placeholder 顏色 */
-.auth-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
 }
 
 /* 按鈕 */
@@ -116,7 +107,8 @@ nav ul li a:hover {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: #007bff;
+    color: white;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
@@ -124,8 +116,8 @@ nav ul li a:hover {
 }
 
 .auth-box button:hover {
+    background: #0056b3;
     transform: scale(1.05);
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
 }
 
 /* =======================
@@ -140,6 +132,34 @@ nav ul li a:hover {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* =======================
+   🛠️ 技能區 Skills Section
+   ======================= */
+.skills-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.skill-category {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    flex: 1 1 300px;
+    min-width: 220px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.skill-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* =======================
@@ -160,10 +180,7 @@ nav ul li a:hover {
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     flex: 1 1 45%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    text-align: center;
 }
 
 /* =======================
@@ -205,7 +222,6 @@ nav ul li a:hover {
 
     .contact-card {
         flex: 1 1 100%;
-        text-align: center;
     }
 
     .portfolio-grid {
