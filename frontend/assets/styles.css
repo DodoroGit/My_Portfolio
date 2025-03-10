@@ -555,6 +555,20 @@ nav ul li a:hover {
     background: linear-gradient(135deg, #dc2626, #991b1b);
 }
 
+/* 漢堡選單 (桌機版預設隱藏) */
+.menu-toggle {
+    display: none; /* 預設桌機版不顯示 */
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+}
+
 /* =======================
    ⚙️ 完整 RWD 響應設計 Responsive Design
    ======================= */

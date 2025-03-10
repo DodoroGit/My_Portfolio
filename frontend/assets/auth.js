@@ -124,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const menuToggle = document.createElement("button");
     menuToggle.classList.add("menu-toggle");
     menuToggle.innerHTML = "☰"; // 漢堡圖示
+    menuToggle.style.display = "none"; // 預設桌機版隱藏
     document.querySelector("header").appendChild(menuToggle);
 
     // 取得導覽列
@@ -147,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 監聽視窗變化，確保桌機恢復預設顯示
-    window.addEventListener("resize", function () {
+    function updateMenuDisplay() {
         if (window.innerWidth > 768) {
             navMenu.style.display = "flex"; // 桌機版顯示
             navMenu.style.flexDirection = "row"; // 恢復水平排列
@@ -155,13 +156,14 @@ document.addEventListener("DOMContentLoaded", function () {
             navMenu.style.background = "";
             navMenu.style.padding = "";
             navMenu.style.borderRadius = "";
+            menuToggle.style.display = "none"; // 隱藏漢堡選單
         } else {
             navMenu.style.display = "none"; // 小螢幕時隱藏，需點擊才展開
+            menuToggle.style.display = "block"; // 顯示漢堡選單
         }
-    });
+    }
 
     // 初始檢查 RWD 狀態
-    if (window.innerWidth <= 768) {
-        navMenu.style.display = "none"; // 手機版一開始隱藏選單
-    }
+    updateMenuDisplay();
+    window.addEventListener("resize", updateMenuDisplay);
 });
