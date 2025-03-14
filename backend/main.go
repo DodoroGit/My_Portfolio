@@ -147,8 +147,9 @@ func main() {
 	auth := r.Group("/api").Use(AuthMiddleware())
 	auth.GET("/profile", GetProfile)
 
-	r.Static("/assets", "./frontend/assets")
-	r.LoadHTMLGlob("frontend/*.html")
+	r.Static("/assets", "/home/ec2-user/My_Portfolio/frontend/assets")
+	r.LoadHTMLGlob("/home/ec2-user/My_Portfolio/frontend/*.html")
+
 	r.GET("/index", func(c *gin.Context) { c.HTML(200, "index.html", nil) })
 	r.GET("/about", func(c *gin.Context) { c.HTML(200, "about.html", nil) })
 	r.GET("/projects", func(c *gin.Context) { c.HTML(200, "projects.html", nil) })
