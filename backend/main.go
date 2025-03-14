@@ -148,7 +148,7 @@ func main() {
 	auth.GET("/profile", GetProfile)
 
 	r.Static("/assets", "./frontend/assets")
-	r.LoadHTMLGlob("./frontend/*.html")
+	r.LoadHTMLGlob("frontend/*.html")
 	r.GET("/index", func(c *gin.Context) { c.HTML(200, "index.html", nil) })
 	r.GET("/about", func(c *gin.Context) { c.HTML(200, "about.html", nil) })
 	r.GET("/projects", func(c *gin.Context) { c.HTML(200, "projects.html", nil) })
