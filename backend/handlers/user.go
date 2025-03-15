@@ -18,8 +18,8 @@ func GetProfile(c *gin.Context) {
 	}
 
 	var user models.User
-	err := database.DB.QueryRow("SELECT id, name, email, role, created_at FROM users WHERE id = $1", userID).
-		Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.CreatedAt)
+	err := database.DB.QueryRow("SELECT id, name, email, role, status, created_at FROM users WHERE id = $1", userID).
+		Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.Status, &user.CreatedAt)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "User not found"})
@@ -67,7 +67,7 @@ func GetAllUsers(c *gin.Context) {
 		return
 	}
 
-	rows, err := database.DB.Query("SELECT id, name, email, role, created_at FROM users")
+	rows, err := database.DB.Query("SELECT id, name, email, role, status, created_at FROM users")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch users"})
 		return
@@ -77,7 +77,7 @@ func GetAllUsers(c *gin.Context) {
 	var users []models.User
 	for rows.Next() {
 		var user models.User
-		if err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.CreatedAt); err != nil {
+		if err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.Status, &user.CreatedAt); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error scanning user"})
 			return
 		}
