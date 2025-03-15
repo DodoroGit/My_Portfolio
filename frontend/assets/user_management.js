@@ -108,7 +108,7 @@ async function loadAllUsers() {
     try {
         const response = await fetch('/api/admin/users', {
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
             }
         });
         const data = await response.json();
