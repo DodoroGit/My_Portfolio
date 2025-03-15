@@ -5,7 +5,7 @@ const API_USER = window.location.origin + "/api/user/profile";
 const token = localStorage.getItem("jwt");
 if (!token) {
     alert("請先登入！");
-    window.location.href = "/auth";
+    window.location.href = "/usermanagement";
 }
 
 // 取得個人資訊
@@ -18,7 +18,7 @@ async function getProfile() {
     if (res.status === 401) {
         alert("登入已過期，請重新登入！");
         localStorage.removeItem("jwt");
-        window.location.href = "/auth";
+        window.location.href = "/usermanagement";
     }
 
     const data = await res.json();
@@ -35,7 +35,7 @@ async function getProfile() {
 function logout() {
     localStorage.removeItem("jwt");
     alert("登出成功！");
-    window.location.href = "/auth";
+    window.location.href = "/usermanagement";
 }
 
 
