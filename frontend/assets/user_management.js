@@ -1,7 +1,7 @@
 const API_USER = window.location.origin + "/api/user/profile";
-const API_PENDING_USERS = "/api/admin/pending-users";
-const API_ALL_USERS = "/api/admin/users";
-const API_APPROVE_USER = "/api/admin/approve-user";
+const API_PENDING_USERS = window.location.origin + "/api/admin/pending-users";
+const API_ALL_USERS = window.location.origin + "/api/admin/users";
+const API_APPROVE_USER = window.location.origin + "/api/admin/approve-user";
 
 // 取得 JWT Token
 const token = localStorage.getItem("jwt");
