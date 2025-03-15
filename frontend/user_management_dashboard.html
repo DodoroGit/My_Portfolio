@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人頁面</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/dashboard.js" defer></script>
+    <script src="/assets/auth.js" defer></script>
+    <script src="/assets/user_management.js" defer></script> <!-- 新增引用 -->
+</head>
+<body>
+    <header>
+        <h1>歡迎，<span id="user-name">使用者</span></h1>
+        <nav>
+            <ul>
+                <li><a href="/index">首頁</a></li>
+                <li><a href="/about">關於我</a></li>
+                <li><a href="/projects">作品展示</a></li>
+                <li><a href="/skills">技能介紹</a></li>
+                <li><a href="/contact">聯絡方式</a></li>
+            </ul>
+        </nav>
+         <div class="auth-buttons">
+            <button id="profile-btn" onclick="goToProfile()" style="display:none;">個人資料</button>
+            <button id="login-btn" onclick="goToLogin()">登入</button>
+            <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
+        </div>
+    </header>
+
+    <section class="profile">
+        <h2>個人資訊</h2>
+        <p><strong>Email：</strong> <span id="user-email"></span></p>
+        <p><strong>角色：</strong> <span id="user-role"></span></p>
+    </section>
+
+    <!-- 管理員專用區域 -->
+    <section id="admin-section" style="display: none;">
+        <h2>管理員功能</h2>
+        
+        <div class="pending-users">
+            <h3>待審核用戶</h3>
+            <div id="pending-users-list">
+                <!-- 待審核用戶列表將由 JavaScript 動態填充 -->
+            </div>
+        </div>
+
+        <div class="all-users">
+            <h3>所有用戶</h3>
+            <div id="all-users-list">
+                <!-- 所有用戶列表將由 JavaScript 動態填充 -->
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
