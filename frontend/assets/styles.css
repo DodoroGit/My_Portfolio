@@ -369,7 +369,6 @@ nav ul li a:hover {
 /* =======================
    📊 Dashboard 面板樣式
    ======================= */
-
 /* 讓所有用戶區塊置中 */
 .all-users {
     display: flex;
@@ -377,10 +376,15 @@ nav ul li a:hover {
     align-items: center; /* ✅ 讓內部 `.user-item` 置中 */
 }
 
-/* 讓用戶框框 (.user-item) 也置中 */
+#all-users-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ✅ 讓 `.user-item` 置中 */
+}
+
 .user-item {
-    width: 90%;  /* ✅ 控制寬度，避免太窄 */
-    max-width: 500px; /* ✅ 限制最大寬度 */
+    width: 90%; /* ✅ 控制寬度，避免太窄或太寬 */
+    max-width: 500px; /* ✅ 限制最大寬度，避免過大 */
     background: white;
     padding: 15px;
     margin: 10px 0;
@@ -388,7 +392,6 @@ nav ul li a:hover {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 
 /* 🎨 讓區塊置中，但內容仍向左對齊 */
 .profile, #admin-section {
