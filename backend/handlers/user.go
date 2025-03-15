@@ -86,3 +86,69 @@ func GetAllUsers(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"users": users})
 }
+
+// GetPendingUsers 獲取待審核的用戶列表
+func GetPendingUsers(c *gin.Context) {
+	role, _ := c.Get("role")
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "權限不足"})
+		return
+	}
+
+	rows, err := database.DB.Query("SELECT id, name, email, role, status, created_at FROM users WHERE status = 'pending'")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "獲取待審核用戶失敗"})
+		return
+	}
+	defer rows.Close()
+
+	var users []models.User
+	for rows.Next() {
+		var user models.User
+		if err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.Status, &user.CreatedAt); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "處理用戶數據時出錯"})
+			return
+		}
+		users = append(users, user)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"pending_users": users})
+}
+
+type ApprovalInput struct {
+	UserID int    `json:"user_id" binding:"required"`
+	Action string `json:"action" binding:"required,oneof=approve reject"` // approve 或 reject
+}
+
+// ApproveUser 審核用戶註冊
+func ApproveUser(c *gin.Context) {
+	role, _ := c.Get("role")
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "權限不足"})
+		return
+	}
+
+	var input ApprovalInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	status := "approved"
+	if input.Action == "reject" {
+		status = "rejected"
+	}
+
+	_, err := database.DB.Exec("UPDATE users SET status = $1 WHERE id = $2", status, input.UserID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "更新用戶狀態失敗"})
+		return
+	}
+
+	message := "已批准用戶註冊"
+	if input.Action == "reject" {
+		message = "已拒絕用戶註冊"
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": message})
+}

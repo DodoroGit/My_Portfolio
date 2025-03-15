@@ -40,13 +40,13 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	_, err = database.DB.Exec("INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, 'user')", input.Name, input.Email, string(hashedPassword))
+	_, err = database.DB.Exec("INSERT INTO users (name, email, password, role, status) VALUES ($1, $2, $3, 'user', 'pending')", input.Name, input.Email, string(hashedPassword))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error creating user"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully!"})
+	c.JSON(http.StatusOK, gin.H{"message": "註冊申請已提交，請等待管理員審核"})
 }
 
 func Login(c *gin.Context) {
@@ -57,17 +57,22 @@ func Login(c *gin.Context) {
 	}
 
 	var user models.User
-	err := database.DB.QueryRow("SELECT id, name, email, password, role FROM users WHERE email = $1", input.Email).
-		Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Role)
+	err := database.DB.QueryRow("SELECT id, name, email, password, role, status FROM users WHERE email = $1", input.Email).
+		Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Role, &user.Status)
 
 	if err == sql.ErrNoRows {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "無效的電子郵件或密碼"})
+		return
+	}
+
+	if user.Status != "approved" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "您的帳號尚未通過審核"})
 		return
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "無效的電子郵件或密碼"})
 		return
 	}
 
@@ -80,7 +85,7 @@ func Login(c *gin.Context) {
 
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "生成令牌失敗"})
 		return
 	}
 

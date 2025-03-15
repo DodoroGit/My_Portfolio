@@ -20,5 +20,7 @@ func UserRoutes(r *gin.Engine) {
 	admin.Use(middlewares.AuthMiddleware()) // 保護管理員 API
 	{
 		admin.GET("/users", handlers.GetAllUsers)
+		admin.GET("/pending-users", handlers.GetPendingUsers)
+		admin.POST("/approve-user", handlers.ApproveUser)
 	}
 }
