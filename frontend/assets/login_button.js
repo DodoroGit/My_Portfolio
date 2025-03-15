@@ -2,7 +2,7 @@
 function logout() {
     localStorage.removeItem("jwt");
     alert("登出成功！");
-    window.location.href = "/auth";
+    window.location.href = "/usermanagement";
 }
 
 // ✅ 連結按鈕點擊行為
