@@ -7,9 +7,9 @@ function logout() {
 
 // ✅ 連結按鈕點擊行為
 function goToProfile() {
-    window.location.href = "/dashboard";
+    window.location.href = "/usermanagementdashboard";
 }
 
 function goToLogin() {
-    window.location.href = "/user_management";
+    window.location.href = "/usermanagement";
 }
