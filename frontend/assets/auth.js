@@ -24,9 +24,9 @@ function checkAuthStatus() {
         document.getElementById("login-btn").style.display = "inline-block";
 
         // ✅ 如果用戶未登入但在 /dashboard，應該導向 /login
-        if (window.location.pathname === "/dashboard") {
+        if (window.location.pathname === "/usermanagementdashboard") {
             alert("請先登入！");
-            window.location.href = "/auth";
+            window.location.href = "/usermanagement";
         }
     }
 }

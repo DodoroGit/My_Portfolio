@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!token) {
         alert("請先登入！\n您將被導向至登入頁面。");
         console.log("未登入，重導向至登入頁面");
-        window.location.href = "/auth";
+        window.location.href = "/usermanagement";
     } else {
         console.log("登入成功，嘗試顯示頁面");
 
