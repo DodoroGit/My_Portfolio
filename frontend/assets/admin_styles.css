@@ -1,0 +1,143 @@
+/* ================================
+   🎨 管理員功能區塊 (Admin Section) - 置中
+   ================================ */
+   #admin-section {
+    max-width: 800px; /* 限制最大寬度 */
+    margin: 50px auto; /* ✅ 讓區塊完全置中 */
+    background: rgba(255, 255, 255, 0.98); /* 淡白色背景 */
+    padding: 30px;
+    border-radius: 12px; /* 圓角 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ✅ 讓區塊置中 */
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 📌 標題樣式 - 置中 */
+#admin-section h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center; /* ✅ 標題置中 */
+}
+
+/* ================================
+   📋 用戶列表區塊 (Pending & All Users)
+   ================================ */
+.pending-users, .all-users {
+    width: 100%; /* ✅ 讓區塊充滿 #admin-section */
+    max-width: 600px; /* ✅ 限制最大寬度，避免過寬 */
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 📌 用戶列表標題 */
+.pending-users h3, .all-users h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #444;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* ================================
+   👤 單個用戶 (User Item) - 置中但內文靠左
+   ================================ */
+.user-item {
+    width: 100%;
+    max-width: 550px; /* ✅ 限制最大寬度 */
+    background: rgba(248, 249, 250, 1); /* 淺灰色背景 */
+    padding: 15px;
+    margin: 10px auto; /* ✅ 讓 `.user-item` 置中 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left; /* ✅ 內容靠左 */
+}
+
+/* 用戶資訊內文字 */
+.user-item p {
+    font-size: 16px;
+    margin: 3px 0;
+    color: #333;
+}
+
+/* ================================
+   🔘 按鈕設計 (Approve / Reject)
+   ================================ */
+.user-item button {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-item button:first-of-type {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.user-item button:first-of-type:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: scale(1.05);
+}
+
+.user-item button:last-of-type {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.user-item button:last-of-type:hover {
+    background: linear-gradient(135deg, #c82333, #a71d2a);
+    transform: scale(1.05);
+}
+
+/* ================================
+   📱 響應式設計 (RWD)
+   ================================ */
+@media (max-width: 768px) {
+    #admin-section {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .pending-users, .all-users {
+        max-width: 100%;
+    }
+
+    .user-item {
+        max-width: 100%;
+    }
+
+    .user-item button {
+        width: 100%; /* 小螢幕時按鈕佔滿整行 */
+    }
+}
+
+/* ================================
+   🎭 動畫效果 (Animations)
+   ================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
