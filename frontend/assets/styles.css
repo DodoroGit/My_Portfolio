@@ -370,15 +370,17 @@ nav ul li a:hover {
    📊 Dashboard 面板樣式
    ======================= */
 
-/* 🎨 個人資訊區塊 */
-.profile, #admin-section{
+/* 🎨 讓區塊置中，但內容仍向左對齊 */
+.profile, #admin-section {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 50px auto;  /* ✅ `auto` 讓區塊水平置中 */
     background: rgba(255, 255, 255, 0.95);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* ✅ 讓內部內容靠左 */
     animation: fadeIn-login 0.6s ease-in-out;
 }
 
