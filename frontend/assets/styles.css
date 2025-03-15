@@ -370,58 +370,25 @@ nav ul li a:hover {
    📊 Dashboard 面板樣式
    ======================= */
 
-.all-users {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* ✅ 讓內部 `.user-item` 置中 */
-}
-   
-/* 🎨 讓區塊置中，但內容仍向左對齊 */
-.profile, #admin-section {
+/* 🎨 個人資訊區塊 */
+.profile {
     max-width: 600px;
-    margin: 50px auto;  /* ✅ `auto` 讓區塊水平置中 */
+    margin: 50px auto;
     background: rgba(255, 255, 255, 0.95);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* ✅ 讓內部內容靠左 */
+    text-align: left;
     animation: fadeIn-login 0.6s ease-in-out;
 }
 
-
 /* 📜 標題 */
-.profile h2, #admin-section h2, .pending-users h3, .all-users h3 {
+.profile h2 {
     font-size: 24px;
     color: #333;
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
     margin-bottom: 20px;
-}
-
-/* 🎨 待審核用戶 & 所有用戶區塊 */
-.pending-users, .all-users {
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 🎨 用戶列表項目 */
-.user-item {
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.user-item p {
-    font-size: 16px;
-    margin: 5px 0;
 }
 
 /* 📝 個人資訊內容 */
@@ -436,39 +403,6 @@ nav ul li a:hover {
     font-weight: bold;
     color: #007bff;
 }
-
-/* 🟢 按鈕設計 (審核按鈕) */
-.user-item button {
-    margin: 5px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-
-.user-item button:first-of-type {
-    background: linear-gradient(135deg, #28a745, #218838);
-}
-
-.user-item button:first-of-type:hover {
-    background: linear-gradient(135deg, #218838, #1e7e34);
-    transform: scale(1.05);
-}
-
-.user-item button:last-of-type {
-    background: linear-gradient(135deg, #dc3545, #c82333);
-}
-
-.user-item button:last-of-type:hover {
-    background: linear-gradient(135deg, #c82333, #a71d2a);
-    transform: scale(1.05);
-}
-
 
 /* =======================
    ⚙️ Dashboard 面板按鈕
@@ -561,6 +495,17 @@ nav ul li a:hover {
     }
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* =======================
    🔘 按鈕區塊 Buttons
    ======================= */
@@ -633,6 +578,105 @@ nav ul li a:hover {
     top: 20px;
     left: 20px;
     z-index: 1001;
+}
+
+/* ================================
+   🎨 管理員功能區塊 (Admin Section)
+   ================================ */
+   #admin-section {
+    max-width: 800px; /* 限制最大寬度 */
+    margin: 50px auto; /* 讓區塊置中 */
+    background: rgba(255, 255, 255, 0.98); /* 淡白色背景 */
+    padding: 30px;
+    border-radius: 12px; /* 圓角 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
+    text-align: center; /* 讓標題置中 */
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 📌 標題樣式 */
+#admin-section h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* ================================
+   📋 用戶列表區塊 (Pending & All Users)
+   ================================ */
+.pending-users, .all-users {
+    margin: 20px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+.pending-users h3, .all-users h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #444;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* ================================
+   👤 單個用戶 (User Item)
+   ================================ */
+.user-item {
+    background: rgba(248, 249, 250, 1); /* 淺灰色背景 */
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.user-item p {
+    font-size: 16px;
+    margin: 3px 0;
+    color: #333;
+}
+
+/* ================================
+   🔘 按鈕設計 (Approve / Reject)
+   ================================ */
+.user-item button {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-item button:first-of-type {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.user-item button:first-of-type:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: scale(1.05);
+}
+
+.user-item button:last-of-type {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.user-item button:last-of-type:hover {
+    background: linear-gradient(135deg, #c82333, #a71d2a);
+    transform: scale(1.05);
 }
 
 /* =======================
@@ -777,6 +821,19 @@ nav ul li a:hover {
 
     .contact-card {
         flex: 1 1 100%;
+    }
+
+    #admin-section {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .user-item {
+        padding: 12px;
+    }
+
+    .user-item button {
+        width: 100%; /* 小螢幕時按鈕佔滿整行 */
     }
 }
 
