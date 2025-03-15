@@ -1,6 +1,5 @@
 const API_USER = window.location.origin + "/api/user/profile";
 
-
 // 取得 JWT Token
 const token = localStorage.getItem("jwt");
 if (!token) {
@@ -38,7 +37,6 @@ function logout() {
     window.location.href = "/usermanagement";
 }
 
-
 // 檢查是否為管理員
 function checkAdminRole() {
     const userRole = document.getElementById('user-role').textContent;
@@ -55,7 +53,7 @@ async function loadPendingUsers() {
     try {
         const response = await fetch('/api/admin/pending-users', {
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
             }
         });
         const data = await response.json();
