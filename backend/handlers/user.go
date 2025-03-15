@@ -18,8 +18,8 @@ func GetProfile(c *gin.Context) {
 	}
 
 	var user models.User
-	err := database.DB.QueryRow("SELECT id, name, email, role, status, created_at FROM users WHERE id = $1", userID).
-		Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.Status, &user.CreatedAt)
+	err := database.DB.QueryRow("SELECT id, name, email, role, created_at FROM users WHERE id = $1", userID).
+		Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.CreatedAt)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "User not found"})
