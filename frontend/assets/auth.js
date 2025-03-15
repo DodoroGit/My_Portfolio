@@ -16,7 +16,7 @@ function checkAuthStatus() {
 
         // ✅ 如果用戶已登入但在 /login 頁面，應該導向 dashboard
         if (window.location.pathname === "/auth") {
-            window.location.href = "/dashboard";
+            window.location.href = "/usermanagementdashboard";
         }
     } else {
         document.getElementById("profile-btn").style.display = "none";
