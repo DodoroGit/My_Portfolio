@@ -43,14 +43,14 @@ MY_PORTFOLIO/
 │   │   ├── hind_page.css               # 隱藏頁面樣式
 │   │   ├── login_button.js             # 登入按鈕邏輯
 │   │   ├── styles.css                  # 全站 CSS 樣式
-│   │   ├── user_management.js          # 使用者管理 JS
+│   │   └── user_management.js          # 使用者管理 JS
 │   ├── about.html                      # 關於我們頁面
 │   ├── contact.html                    # 聯絡我們頁面
 │   ├── index.html                      # 首頁
 │   ├── projects.html                   # 專案展示頁面
 │   ├── skills.html                     # 技能介紹頁面
 │   ├── user_management_dashboard.html  # 管理後台儀表板
-│   ├── user_management.html            # 使用者管理頁面
+│   └── user_management.html            # 使用者管理頁面
 │
 ├── docker-compose.yml                  # Docker 多容器部署設定
 ├── Dockerfile.backend                  # Golang 後端 Docker 設定
