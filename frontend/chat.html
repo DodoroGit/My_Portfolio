@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的作品集</title>
-    <link rel="stylesheet" href="/assets/styles.css">
+    <title>聊天室</title>
+    <link rel="stylesheet" href="/assets/chat.css">
     <script src="/assets/auth.js" defer></script>
-    <script src="/assets/login_button.js" defer></script>
+    <script src="/assets/chat.js" defer></script>
+    <script src="/assets/login_button.js" defer></script> <!-- 加上登入按鈕功能 -->
 </head>
 <body>
     <header>
-        <h1>歡迎來到我的作品集</h1>
+        <h1>聊天室</h1>
         <nav>
             <ul>
                 <li><a href="/index">首頁</a></li>
@@ -27,15 +28,13 @@
             <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
         </div>
     </header>
-    
-    <section class="webintro">
-        <h2>你好，我是王偉任</h2>
-        <p>歡迎來到我的個人網站！熱愛學習與創造，並持續挑戰自己，探索更多可能性。這裡是我的作品集，記錄我的成長歷程、過去的專案以及各種有趣的想法。</p>
-        <p>無論是解決問題、開發新功能，還是將想法轉化為現實，我都樂於投入並享受這個過程。如果你對我的作品感興趣，或者有任何合作的機會，歡迎與我交流！</p>
-        <p>
-            👉 <a href="/about">了解更多</a>
-            👉 <a href="/projects">查看我的作品</a>
-        </p>
+
+    <section class="chat-container">
+        <div id="chat-box" class="chat-box"></div>
+        <div class="chat-input-container">
+            <input type="text" id="message-input" placeholder="輸入訊息..." maxlength="500" class="chat-input">
+            <button onclick="sendMessage()" class="chat-send-btn">送出</button>
+        </div>
     </section>
 
     <footer>
