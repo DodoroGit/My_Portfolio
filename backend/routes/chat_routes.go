@@ -12,4 +12,11 @@ func ChatRoutes(r *gin.Engine) {
 	{
 		chat.GET("/chat", handlers.ChatHandler)
 	}
+
+	// ⭐ 新增API路由：清除聊天紀錄
+	api := r.Group("/api/chat")
+	api.Use(middlewares.AuthMiddleware()) // 一樣保護，必須登入
+	{
+		api.POST("/clear", handlers.ClearChatHandler)
+	}
 }

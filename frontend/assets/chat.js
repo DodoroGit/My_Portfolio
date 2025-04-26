@@ -1,6 +1,7 @@
 let socket;
 let currentUserName = "";
 let currentUserId = 0;
+let currentUserRole = ""; // ⭐ 新增：角色
 
 document.addEventListener("DOMContentLoaded", async function() {
     const token = localStorage.getItem("jwt");
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     if (data.user) {
         currentUserName = data.user.name;
         currentUserId = data.user.id;
+        currentUserRole = data.user.role; // ⭐ 把role記下來
     } else {
         alert("取得使用者資訊失敗！");
         return;
@@ -68,6 +70,15 @@ document.addEventListener("DOMContentLoaded", async function() {
             sendMessage();
         }
     });
+
+    // ⭐⭐ 新增：如果是admin，動態產生「清除聊天紀錄」按鈕
+    if (currentUserRole === "admin") {
+        const clearButton = document.createElement("button");
+        clearButton.textContent = "清除聊天紀錄";
+        clearButton.classList.add("chat-clear-btn");
+        clearButton.onclick = clearChatHistory;
+        document.querySelector(".chat-input-container").appendChild(clearButton);
+    }
 });
 
 function sendMessage() {
@@ -77,8 +88,11 @@ function sendMessage() {
     input.value = "";
 }
 
-// ⭐ 新增：清除聊天紀錄
 async function clearChatHistory() {
+    if (!confirm("⚠️ 確定要清除所有聊天紀錄嗎？此操作無法復原！")) {
+        return; // 使用者按了取消
+    }
+
     const token = localStorage.getItem("jwt");
     const res = await fetch("/api/chat/clear", {
         method: "POST",

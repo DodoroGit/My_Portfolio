@@ -127,8 +127,13 @@ func broadcastSystemMessage(content string) {
 	broadcastMessage(msg)
 }
 
-// ⭐ 新增：清除所有聊天紀錄API
 func ClearChatHandler(c *gin.Context) {
+	role := c.GetString("role")
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "只有管理員可以清除聊天紀錄"})
+		return
+	}
+
 	_, err := database.DB.Exec("DELETE FROM messages")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "無法清空聊天紀錄"})
