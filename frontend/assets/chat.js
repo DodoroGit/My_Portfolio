@@ -27,23 +27,24 @@ document.addEventListener("DOMContentLoaded", async function() {
     socket.onmessage = function(event) {
         const msg = JSON.parse(event.data);
         const timeStr = new Date(msg.timestamp).toLocaleTimeString();
-
+    
         const chatBox = document.getElementById("chat-box");
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
-
+    
         if (msg.user_name === currentUserName) {
             messageDiv.classList.add("right");
         } else {
             messageDiv.classList.add("left");
         }
-
+    
+        // 這裡加上 "暱稱 + 訊息" 兩層結構
         messageDiv.innerHTML = `
-            <strong>${msg.user_name}</strong><br>
-            ${msg.content}
+            <div class="message-author">${msg.user_name}</div>
+            <div class="message-content">${msg.content}</div>
             <div class="message-time">${timeStr}</div>
         `;
-
+    
         chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     };
@@ -68,3 +69,4 @@ function sendMessage() {
     socket.send(JSON.stringify({ content: input.value.trim() }));
     input.value = "";
 }
+
