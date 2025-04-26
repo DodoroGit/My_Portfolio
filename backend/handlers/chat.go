@@ -43,14 +43,15 @@ func ChatHandler(c *gin.Context) {
 	clientsMutex.Unlock()
 
 	// 初始發送最近 500 則訊息
-	rows, err := database.DB.Query("SELECT user_name, content, created_at FROM messages ORDER BY created_at DESC LIMIT 500")
+	rows, err := database.DB.Query("SELECT user_id, user_name, content, created_at FROM messages ORDER BY created_at DESC LIMIT 500")
+
 	if err == nil {
 		defer rows.Close()
 		var history []Message
 		for rows.Next() {
 			var msg Message
-			if err := rows.Scan(&msg.UserName, &msg.Content, &msg.Timestamp); err == nil {
-				history = append([]Message{msg}, history...) // 倒序
+			if err := rows.Scan(&msg.UserID, &msg.UserName, &msg.Content, &msg.Timestamp); err == nil {
+				history = append([]Message{msg}, history...)
 			}
 		}
 		for _, msg := range history {
