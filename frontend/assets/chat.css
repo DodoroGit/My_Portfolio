@@ -95,6 +95,21 @@
     transform: scale(1.05);
 }
 
+.message.right {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    text-align: right;
+}
+
+.message.left {
+    align-self: flex-start;
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    color: #333;
+    text-align: left;
+}
+
+
 /* =======================
    🌟 Animations
    ======================= */
