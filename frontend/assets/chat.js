@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    // 換成 wss://yourdomain.com/ws/chat (如果有https)
-    const wsUrl = (location.protocol === "https:" ? "wss://" : "ws://") + location.host + "/ws/chat";
+    // ⭐ 修正這裡：在 WebSocket URL 上加上 ?token=xxx
+    const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+    const wsUrl = `${protocol}//${location.host}/ws/chat?token=${token}`;
     socket = new WebSocket(wsUrl);
 
     socket.onmessage = function(event) {

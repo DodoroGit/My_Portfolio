@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// JWTClaims 定義 JWT 內的數據結構
 type JWTClaims struct {
 	UserID int    `json:"user_id"`
 	Email  string `json:"email"`
@@ -17,18 +16,22 @@ type JWTClaims struct {
 	jwt.StandardClaims
 }
 
-// AuthMiddleware 驗證 JWT Token
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.GetHeader("Authorization")
 
-		if tokenString == "" || !strings.HasPrefix(tokenString, "Bearer ") {
+		// ⭐ 如果Header沒帶，就從QueryString撈
+		if tokenString == "" {
+			tokenString = c.Query("token")
+		} else if strings.HasPrefix(tokenString, "Bearer ") {
+			tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+		}
+
+		if tokenString == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization token required"})
 			c.Abort()
 			return
 		}
-
-		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 
 		token, err := jwt.ParseWithClaims(tokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(os.Getenv("JWT_SECRET")), nil
@@ -47,7 +50,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// 將解析後的使用者資訊存入 Context，讓後續處理函數可以使用
 		c.Set("user_id", claims.UserID)
 		c.Set("email", claims.Email)
 		c.Set("role", claims.Role)
