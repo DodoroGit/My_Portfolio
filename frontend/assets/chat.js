@@ -1,6 +1,6 @@
 let socket;
 let currentUserName = "";
-let currentUserId = 0; // ⭐️新增記住 user_id
+let currentUserId = 0;
 
 document.addEventListener("DOMContentLoaded", async function() {
     const token = localStorage.getItem("jwt");
@@ -10,14 +10,13 @@ document.addEventListener("DOMContentLoaded", async function() {
         return;
     }
 
-    // 取得目前登入使用者資訊
     const res = await fetch(`${window.location.origin}/api/user/profile`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     const data = await res.json();
     if (data.user) {
         currentUserName = data.user.name;
-        currentUserId = data.user.id; // ⭐️拿到自己的 user_id
+        currentUserId = data.user.id;
     } else {
         alert("取得使用者資訊失敗！");
         return;
@@ -35,7 +34,6 @@ document.addEventListener("DOMContentLoaded", async function() {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
 
-        // ⭐️改成用 user_id 判斷自己/別人
         if (msg.user_id === currentUserId) {
             messageDiv.classList.add("right");
         } else {

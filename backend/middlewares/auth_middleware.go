@@ -9,22 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ✅ JWT payload中的欄位
 type JWTClaims struct {
 	UserID int    `json:"user_id"`
 	Email  string `json:"email"`
-	Name   string `json:"name"` // ⭐ 新增 Name 支援
+	Name   string `json:"name"` // ⭐新增暱稱
 	Role   string `json:"role"`
 	jwt.StandardClaims
 }
 
-// ✅ Middleware
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.GetHeader("Authorization")
 
 		if tokenString == "" {
-			tokenString = c.Query("token") // WebSocket時從query撈
+			tokenString = c.Query("token")
 		} else if strings.HasPrefix(tokenString, "Bearer ") {
 			tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 		}
@@ -52,16 +50,14 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// ⭐ 這裡正確地把資料寫入 Context
 		c.Set("user_id", claims.UserID)
 		c.Set("email", claims.Email)
 		c.Set("role", claims.Role)
 
-		// ⭐⭐ 重點：補上 user_name
 		if claims.Name != "" {
-			c.Set("user_name", claims.Name) // 有Name就用Name
+			c.Set("user_name", claims.Name)
 		} else {
-			c.Set("user_name", claims.Email) // 沒Name就用Email頂著
+			c.Set("user_name", claims.Email)
 		}
 
 		c.Next()
