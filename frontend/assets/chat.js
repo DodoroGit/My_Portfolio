@@ -28,25 +28,32 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     socket.onmessage = function(event) {
         const msg = JSON.parse(event.data);
-        const timeStr = new Date(msg.timestamp).toLocaleTimeString();
-
         const chatBox = document.getElementById("chat-box");
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("message");
 
-        if (msg.user_id === currentUserId) {
-            messageDiv.classList.add("right");
-        } else {
-            messageDiv.classList.add("left");
+        if (msg.type === "system") {
+            const systemDiv = document.createElement("div");
+            systemDiv.classList.add("system-message");
+            systemDiv.textContent = `[系統訊息] ${msg.content}`;
+            chatBox.appendChild(systemDiv);
+        } else if (msg.type === "message") {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+
+            if (msg.user_id === currentUserId) {
+                messageDiv.classList.add("right");
+            } else {
+                messageDiv.classList.add("left");
+            }
+
+            const timeStr = new Date(msg.timestamp).toLocaleTimeString();
+            messageDiv.innerHTML = `
+                <div class="message-author">${msg.user_name || '未知使用者'}</div>
+                <div class="message-content">${msg.content}</div>
+                <div class="message-time">${timeStr}</div>
+            `;
+            chatBox.appendChild(messageDiv);
         }
 
-        messageDiv.innerHTML = `
-            <div class="message-author">${msg.user_name || '未知使用者'}</div>
-            <div class="message-content">${msg.content}</div>
-            <div class="message-time">${timeStr}</div>
-        `;
-
-        chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     };
 
@@ -56,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     const input = document.getElementById("message-input");
     input.addEventListener("keydown", function(event) {
-        if (event.key === "Enter" && !event.shiftKey) { 
+        if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
             sendMessage();
         }
@@ -68,4 +75,19 @@ function sendMessage() {
     if (input.value.trim() === "") return;
     socket.send(JSON.stringify({ content: input.value.trim() }));
     input.value = "";
+}
+
+// ⭐ 新增：清除聊天紀錄
+async function clearChatHistory() {
+    const token = localStorage.getItem("jwt");
+    const res = await fetch("/api/chat/clear", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+    if (res.ok) {
+        document.getElementById("chat-box").innerHTML = "";
+        alert("聊天紀錄已清空！");
+    } else {
+        alert("清除失敗！");
+    }
 }

@@ -114,6 +114,42 @@
     transform: scale(1.05);
 }
 
+/* ========================
+   ✨ 系統訊息特別樣式
+   ======================== */
+   .system-message {
+    background-color: #f0ad4e; /* 橘色提醒色 */
+    color: white;
+    text-align: center;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    animation: fadeIn-message 0.3s ease-in-out;
+}
+
+/* ========================
+   ✨ 清除聊天紀錄按鈕特別樣式
+   ======================== */
+.chat-clear-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333); /* 紅色系 */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chat-clear-btn:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    transform: scale(1.05);
+}
+
+
 @keyframes fadeIn-message {
     from {
         opacity: 0;
