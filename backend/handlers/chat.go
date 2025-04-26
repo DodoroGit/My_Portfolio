@@ -20,6 +20,7 @@ var upgrader = websocket.Upgrader{
 }
 
 type Message struct {
+	UserID    int       `json:"user_id"` // ⭐️新增 user_id
 	UserName  string    `json:"user_name"`
 	Content   string    `json:"content"`
 	Timestamp time.Time `json:"timestamp"`
@@ -69,6 +70,7 @@ func ChatHandler(c *gin.Context) {
 			incoming.Content = incoming.Content[:500] // 限制最大長度
 		}
 
+		incoming.UserID = userID
 		incoming.UserName = userName
 		incoming.Timestamp = time.Now()
 

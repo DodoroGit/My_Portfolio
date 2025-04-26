@@ -1,5 +1,6 @@
 let socket;
 let currentUserName = "";
+let currentUserId = 0; // ⭐️新增記住 user_id
 
 document.addEventListener("DOMContentLoaded", async function() {
     const token = localStorage.getItem("jwt");
@@ -9,19 +10,19 @@ document.addEventListener("DOMContentLoaded", async function() {
         return;
     }
 
-    // 取得目前登入使用者的名稱
+    // 取得目前登入使用者資訊
     const res = await fetch(`${window.location.origin}/api/user/profile`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     const data = await res.json();
     if (data.user) {
         currentUserName = data.user.name;
+        currentUserId = data.user.id; // ⭐️拿到自己的 user_id
     } else {
         alert("取得使用者資訊失敗！");
         return;
     }
 
-    // 建立 WebSocket 連線
     const protocol = location.protocol === "https:" ? "wss:" : "ws:";
     const wsUrl = `${protocol}//${location.host}/ws/chat?token=${token}`;
     socket = new WebSocket(wsUrl);
@@ -34,14 +35,13 @@ document.addEventListener("DOMContentLoaded", async function() {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
 
-        // 判斷是自己還是別人的訊息
-        if (msg.user_name === currentUserName) {
+        // ⭐️改成用 user_id 判斷自己/別人
+        if (msg.user_id === currentUserId) {
             messageDiv.classList.add("right");
         } else {
             messageDiv.classList.add("left");
         }
 
-        // 🔥 塞入【暱稱】【內容】【時間】三塊結構
         messageDiv.innerHTML = `
             <div class="message-author">${msg.user_name || '未知使用者'}</div>
             <div class="message-content">${msg.content}</div>
@@ -56,7 +56,6 @@ document.addEventListener("DOMContentLoaded", async function() {
         alert("連線中斷，請重新整理頁面！");
     };
 
-    // 監聽 Enter 鍵送出訊息
     const input = document.getElementById("message-input");
     input.addEventListener("keydown", function(event) {
         if (event.key === "Enter" && !event.shiftKey) { 
@@ -66,7 +65,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     });
 });
 
-// 送出訊息到伺服器
 function sendMessage() {
     const input = document.getElementById("message-input");
     if (input.value.trim() === "") return;
