@@ -31,20 +31,19 @@ document.addEventListener("DOMContentLoaded", async function() {
         const chatBox = document.getElementById("chat-box");
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
-    
+
         if (msg.user_name === currentUserName) {
             messageDiv.classList.add("right");
         } else {
             messageDiv.classList.add("left");
         }
-    
-        // 這裡加上 "暱稱 + 訊息" 兩層結構
+
         messageDiv.innerHTML = `
             <div class="message-author">${msg.user_name}</div>
             <div class="message-content">${msg.content}</div>
             <div class="message-time">${timeStr}</div>
         `;
-    
+
         chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     };
@@ -53,11 +52,10 @@ document.addEventListener("DOMContentLoaded", async function() {
         alert("連線中斷，請重新整理頁面！");
     };
 
-    // ⭐⭐ 新增：監聽Enter鍵按下，發送訊息
     const input = document.getElementById("message-input");
     input.addEventListener("keydown", function(event) {
         if (event.key === "Enter" && !event.shiftKey) { 
-            event.preventDefault(); // 防止換行
+            event.preventDefault();
             sendMessage();
         }
     });
@@ -69,4 +67,3 @@ function sendMessage() {
     socket.send(JSON.stringify({ content: input.value.trim() }));
     input.value = "";
 }
-
