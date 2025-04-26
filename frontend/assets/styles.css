@@ -830,3 +830,47 @@ nav ul li a:hover {
 .user-item button:hover {
     opacity: 0.8;
 }
+
+/* Chat 特別區域 */
+.chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.chat-box {
+    height: 400px;
+    overflow-y: scroll;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.chat-send-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.chat-send-btn:hover {
+    background-color: #0056b3;
+}
