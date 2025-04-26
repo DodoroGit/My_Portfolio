@@ -1,121 +1,138 @@
-/* 基本 Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* =======================
+   🛜 Chatroom 聊天室專用樣式
+   ======================= */
 
-body {
-    font-family: 'Noto Sans TC', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-}
-
-/* Header */
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 15px 30px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
-header h1 {
-    font-size: 24px;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-nav ul li {
-    margin-left: 20px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-/* 登入登出按鈕 */
-.auth-buttons button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 7px 15px;
-    margin-left: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.auth-buttons button:hover {
-    background-color: #45a049;
-}
-
-/* Section 主體 */
-section {
-    padding: 30px;
-}
-
-/* Footer */
-footer {
-    text-align: center;
+   .chat-container {
+    max-width: 900px;
+    margin: 50px auto;
     padding: 20px;
-    background-color: #333;
-    color: #fff;
-    margin-top: 50px;
-}
-
-/* Chat 特別區域 */
-.chat-container {
-    max-width: 800px;
-    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-box {
-    height: 400px;
-    overflow-y: scroll;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: linear-gradient(135deg, #f0f2f5, #e9ecef);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    word-wrap: break-word;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    align-self: flex-end;
+    animation: fadeIn-message 0.3s ease-in-out;
+}
+
+.message.left {
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    color: #333;
+    align-self: flex-start;
+}
+
+.message-time {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    text-align: right;
+}
+
+.message.left .message-time {
+    color: rgba(0, 0, 0, 0.5);
+    text-align: left;
 }
 
 .chat-input-container {
+    margin-top: 20px;
     display: flex;
     gap: 10px;
 }
 
 .chat-input {
     flex-grow: 1;
-    padding: 10px;
-    font-size: 16px;
+    padding: 12px 15px;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 10px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.chat-input:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 .chat-send-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: #fff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
     border: none;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .chat-send-btn:hover {
-    background-color: #0056b3;
+    background: linear-gradient(135deg, #0056b3, #003d80);
+    transform: scale(1.05);
+}
+
+/* =======================
+   🌟 Animations
+   ======================= */
+@keyframes fadeIn-message {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =======================
+   📱 RWD for Chatroom
+   ======================= */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 90%;
+        margin: 30px auto;
+        padding: 15px;
+    }
+
+    .chat-box {
+        padding: 15px;
+    }
+
+    .message {
+        max-width: 80%;
+    }
+
+    .chat-input {
+        font-size: 14px;
+    }
+
+    .chat-send-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
 }
