@@ -24,7 +24,7 @@ func main() {
 	r := gin.Default()
 
 	routes.AuthRoutes(r)
-	routes.WebRoutes(r)
+	//routes.WebRoutes(r)
 	routes.UserRoutes(r)
 	routes.ChatRoutes(r)
 
