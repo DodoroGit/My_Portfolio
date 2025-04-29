@@ -1,5 +1,5 @@
 # 使用官方 Golang 基礎映像
-FROM golang:1.22-alpine
+FROM golang:1.23.3-alpine
 
 # 安裝必要套件
 RUN apk --no-cache add ca-certificates
