@@ -18,7 +18,7 @@ func LoadEnv() {
 }
 
 func main() {
-	LoadEnv()
+	//LoadEnv()
 	database.InitPostgres()
 
 	r := gin.Default()
