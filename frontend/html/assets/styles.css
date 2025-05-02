@@ -92,21 +92,21 @@ header {
 }
 
 /* ✅ 了解更多（藍色） */
-.webintro a[href="/about"] {
+.webintro a[href="/about.html"] {
     background: linear-gradient(135deg, #007bff, #0056b3);
 }
 
-.webintro a[href="/about"]:hover {
+.webintro a[href="/about.html"]:hover {
     background: linear-gradient(135deg, #0056b3, #003d80);
     transform: scale(1.05);
 }
 
 /* ✅ 查看我的作品（綠色） */
-.webintro a[href="/projects"] {
+.webintro a[href="/projects.html"] {
     background: linear-gradient(135deg, #28a745, #218838);
 }
 
-.webintro a[href="/projects"]:hover {
+.webintro a[href="/projects.html"]:hover {
     background: linear-gradient(135deg, #218838, #1e7e34);
     transform: scale(1.05);
 }
