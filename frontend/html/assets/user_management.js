@@ -7,7 +7,7 @@ const API_APPROVE_USER = window.location.origin + "/api/admin/approve-user";
 const token = localStorage.getItem("jwt");
 if (!token) {
     alert("請先登入！");
-    window.location.href = "/usermanagement";
+    window.location.href = "/usermanagement.html";
 }
 
 // 取得個人資訊
@@ -22,7 +22,7 @@ async function getProfile() {
             if (res.status === 401) {
                 alert("登入已過期，請重新登入！");
                 localStorage.removeItem("jwt");
-                window.location.href = "/usermanagement";
+                window.location.href = "/usermanagement.html";
             } else {
                 alert("無法獲取個人資訊，請稍後再試！");
             }
@@ -50,7 +50,7 @@ function logout() {
     localStorage.clear();
     sessionStorage.clear();
     alert("登出成功！");
-    window.location.href = "/usermanagement";
+    window.location.href = "/usermanagement.html";
 }
 
 // 檢查是否為管理員
