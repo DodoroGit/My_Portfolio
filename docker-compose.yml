@@ -20,7 +20,7 @@ services:
       - "8080:8080"
     environment:
       - DATABASE_URL=postgres://myuser:mypassword@database:5432/mydatabase?sslmode=disable
-      - JWT_SECRET=paN7$zXk!vR9Lm3bQ5W2tXy8dT@rCk1H
+      - JWT_SECRET=secret123
     depends_on:
       - database
     restart: always
@@ -38,13 +38,13 @@ services:
       - ./certbot/www:/var/www/certbot
     depends_on:
       - backend
+    restart: always
 
   certbot:
     image: certbot/certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done'"
 
 volumes:
   postgres_data:
