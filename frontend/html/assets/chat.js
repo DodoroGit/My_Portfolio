@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const token = localStorage.getItem("jwt");
     if (!token) {
         alert("請先登入！");
-        window.location.href = "/usermanagement";
+        window.location.href = "/user_management.html";
         return;
     }
 

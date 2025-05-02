@@ -16,7 +16,7 @@ function checkAuthStatus() {
 
         // ✅ 如果用戶已登入但在 /login 頁面，應該導向 dashboard
         if (window.location.pathname === "/auth") {
-            window.location.href = "/usermanagementdashboard";
+            window.location.href = "/user_management_dashboard";
         }
     } else {
         document.getElementById("profile-btn").style.display = "none";
@@ -24,9 +24,9 @@ function checkAuthStatus() {
         document.getElementById("login-btn").style.display = "inline-block";
 
         // ✅ 如果用戶未登入但在 /dashboard，應該導向 /login
-        if (window.location.pathname === "/usermanagementdashboard.html") {
+        if (window.location.pathname === "/user_management_dashboard.html") {
             alert("請先登入！");
-            window.location.href = "/usermanagement.html";
+            window.location.href = "/user_management.html";
         }
     }
 }
@@ -74,7 +74,7 @@ async function login() {
     if (data.token) {
         localStorage.setItem("jwt", data.token);
         alert("登入成功！");
-        window.location.href = "/usermanagementdashboard.html"; // 導向個人頁面
+        window.location.href = "/user_management_dashboard.html"; // 導向個人頁面
     } else {
         alert(data.error);
     }
