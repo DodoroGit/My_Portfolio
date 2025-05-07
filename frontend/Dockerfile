@@ -1,5 +1,8 @@
 FROM nginx:1.25
 
+# 建立 certbot 驗證目錄
+RUN mkdir -p /var/www/certbot
+
 # 複製 nginx 設定
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
