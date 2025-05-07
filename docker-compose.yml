@@ -30,27 +30,8 @@ services:
       context: ./frontend
     ports:
       - "80:80"
-      - "443:443"
     depends_on:
       - backend
-    volumes:
-      - ./frontend/nginx/conf.d:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/www/certbot
-
-  certbot:
-    image: certbot/certbot
-    depends_on:
-      - frontend
-    volumes:
-      - certbot-etc:/etc/letsencrypt
-      - ./certbot-webroot:/var/www/certbot
-    entrypoint: >
-      sh -c "certbot certonly --webroot -w /var/www/certbot
-      --email dokebi871218@gmail.com
-      -d myportfolioapp.com --agree-tos --non-interactive"
 
 volumes:
   postgres_data:
-  certbot-etc:
-  certbot-var:
