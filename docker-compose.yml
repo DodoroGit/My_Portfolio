@@ -44,7 +44,7 @@ services:
       - frontend
     volumes:
       - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/www/certbot
+      - ./certbot-webroot:/var/www/certbot
     entrypoint: >
       sh -c "certbot certonly --webroot -w /var/www/certbot
       --email dokebi871218@gmail.com
