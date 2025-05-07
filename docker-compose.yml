@@ -47,7 +47,7 @@ services:
       - certbot-var:/var/www/certbot
     entrypoint: >
       sh -c "certbot certonly --webroot -w /var/www/certbot
-      --email your-email@example.com
+      --email dokebi871218@gmail.com
       -d myportfolioapp.com --agree-tos --non-interactive"
 
 volumes:
