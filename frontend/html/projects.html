@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作品展示</title>
+    <title>功能展示</title>
     <base href="/">
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/hind_page.css">
@@ -13,12 +13,12 @@
 </head>
 <body>
     <header>
-        <h1>作品展示</h1>
+        <h1>功能展示</h1>
         <nav>
             <ul>
                 <li><a href="/index.html">首頁</a></li>
                 <li><a href="/about.html">關於我</a></li>
-                <li><a href="/projects.html">作品展示</a></li>
+                <li><a href="/projects.html">功能展示</a></li>
                 <li><a href="/skills.html">技能介紹</a></li>
                 <li><a href="/contact.html">聯絡方式</a></li>
                 <li><a href="/chat.html">聊天室</a></li>
@@ -32,21 +32,37 @@
     </header>
     
     <section class="portfolio-container">
-        <h2>我的作品</h2>
+        <h2>整合功能區</h2>
         <div class="portfolio-grid">
-            <!-- 第一個作品 -->
+            <!-- 功能一：聊天室 -->
             <div class="portfolio-item">
                 <div class="portfolio-content">
-                    <h3>個人簡歷 Web 應用</h3>
-                    <p>這是一個展示我的個人經歷與技能的網站，使用了 Golang Gin 和 AWS 部署。</p>
-                    <a href="https://www.myportfolioapp.com/index" target="_blank">查看作品</a>
+                    <h3>即時聊天室</h3>
+                    <p>用戶可登入後進行即時訊息交流，支援基本身份驗證與訊息紀錄。</p>
+                    <a href="/chat.html" target="_blank">進入聊天室</a>
                 </div>
             </div>
 
-            <!-- 這裡可以添加更多作品 -->
+            <!-- 功能二：報表管理系統 -->
+            <div class="portfolio-item">
+                <div class="portfolio-content">
+                    <h3>報表上傳與整理工具</h3>
+                    <p>提供 Excel 報表的上傳、分析與下載，後端以 Golang 處理數據邏輯。</p>
+                    <a href="#" onclick="alert('開發中，敬請期待！')">查看功能</a>
+                </div>
+            </div>
+
+            <!-- 功能三：智能回話機器人 -->
+            <div class="portfolio-item">
+                <div class="portfolio-content">
+                    <h3>AI 智能對話（RAG 模型）</h3>
+                    <p>搭載 Retrieval-Augmented Generation 架構，可回答技術性或項目相關問題。</p>
+                    <a href="#" onclick="alert('開發中，敬請期待！')">開始互動</a>
+                </div>
+            </div>
         </div>
     </section>
-    
+
     <footer>
         <p>&copy; 2025 我的作品集. All rights reserved.</p>
     </footer>
