@@ -23,8 +23,9 @@ func main() {
 
 	r := gin.Default()
 
+	//routes.WebRoutes(r) 透過Frontend Nginx反向代理替換
 	routes.AuthRoutes(r)
-	//routes.WebRoutes(r)
+	routes.ExpenseRoutes(r)
 	routes.UserRoutes(r)
 	routes.ChatRoutes(r)
 

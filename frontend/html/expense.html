@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記帳系統</title>
+    <base href="/">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/auth.js" defer></script>
+    <script src="/assets/login_button.js" defer></script>
+</head>
+<body>
+<header>
+    <h1>個人記帳系統</h1>
+    <nav>
+        <ul>
+            <li><a href="/index.html">首頁</a></li>
+            <li><a href="/about.html">關於我</a></li>
+            <li><a href="/projects.html">功能展示</a></li>
+            <li><a href="/skills.html">技能介紹</a></li>
+            <li><a href="/contact.html">聯絡方式</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="form-section">
+    <h2>新增支出</h2>
+    <form id="expense-form">
+        <label>類別：
+            <select id="category">
+                <option value="早餐">早餐</option>
+                <option value="午餐">午餐</option>
+                <option value="晚餐">晚餐</option>
+                <option value="飲料">飲料</option>
+                <option value="交通">交通</option>
+                <option value="其他">其他</option>
+            </select>
+        </label><br>
+        <label>金額：<input type="number" id="amount" required></label><br>
+        <label>備註：<input type="text" id="note"></label><br>
+        <label>花費日期：<input type="date" id="spentAt" required></label><br>
+        <button type="submit">送出</button>
+    </form>
+</section>
+
+<section class="list-section">
+    <h2>支出紀錄</h2>
+    <table border="1" id="expense-table">
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>類別</th>
+                <th>金額</th>
+                <th>備註</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 資料將由 JS 動態填入 -->
+        </tbody>
+    </table>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+        alert("請先登入！");
+        window.location.href = "/user_management.html";
+        return;
+    }
+
+    loadExpenses();
+
+    document.getElementById("expense-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const category = document.getElementById("category").value;
+        const amount = parseFloat(document.getElementById("amount").value);
+        const note = document.getElementById("note").value;
+        const spentAt = document.getElementById("spentAt").value;
+
+        const res = await fetch("/api/expense/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ category, amount, note, spent_at: spentAt })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("新增成功！");
+            loadExpenses();
+            document.getElementById("expense-form").reset();
+        } else {
+            alert(data.error);
+        }
+    });
+
+    async function loadExpenses() {
+        const res = await fetch("/api/expense/", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        const tbody = document.querySelector("#expense-table tbody");
+        tbody.innerHTML = "";
+
+        if (data.expenses) {
+            for (const item of data.expenses) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${item.spent_at}</td>
+                    <td>${item.category}</td>
+                    <td>${item.amount}</td>
+                    <td>${item.note || ""}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

@@ -34,6 +34,17 @@ CREATE TABLE IF NOT EXISTS messages (
     user_name VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    category VARCHAR(50),
+    amount NUMERIC(10,2) NOT NULL,
+    note TEXT,
+    spent_at DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );`
 
 	_, err = DB.Exec(createTableQuery)
