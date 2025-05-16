@@ -13,7 +13,10 @@
     font-size: 24px;
 }
 
-input, select, button {
+/* ✅ 限縮表單欄位樣式只針對記帳區塊 */
+.expense-container input,
+.expense-container select,
+.expense-container button {
     padding: 10px;
     font-size: 16px;
     margin-bottom: 10px;
@@ -22,18 +25,7 @@ input, select, button {
     width: 100%;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
+/* ✅ 計算機樣式保持方形排列 */
 .calculator {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -44,18 +36,34 @@ button:hover {
 .calculator button {
     padding: 15px;
     font-size: 18px;
+    width: 100%;
 }
 
+/* ✅ 綠色送出按鈕樣式 */
+.expense-container button {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.expense-container button:hover {
+    background-color: #45a049;
+}
+
+/* ✅ 支出紀錄標題置中 */
 .list-section {
     text-align: center;
 }
 
+/* ✅ 表格樣式美化並置中 */
 #expense-table {
     width: 100%;
     max-width: 100%;
     border-collapse: collapse;
     font-size: 16px;
-    margin: 0 auto; /* 讓表格置中 */
+    margin: 0 auto;
     margin-top: 20px;
     table-layout: fixed;
 }
