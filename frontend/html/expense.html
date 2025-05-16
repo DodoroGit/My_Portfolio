@@ -23,6 +23,11 @@
                 <li><a href="/contact.html">聯絡方式</a></li>
             </ul>
         </nav>
+        <div class="auth-buttons">
+            <button id="profile-btn" onclick="goToProfile()" style="display:none;">個人資料</button>
+            <button id="login-btn" onclick="goToLogin()">登入</button>
+            <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
+        </div>
     </header>
     <div class="expense-container">
         <section class="form-section">
@@ -75,7 +80,7 @@
                 </thead>
                 <tbody>
                     <!-- 資料將由 JS 動態填入 -->
-                     
+
                 </tbody>
             </table>
         </section>
