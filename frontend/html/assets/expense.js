@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    loadExpenses();
+    loadExpenses(); // 原本的支出載入
 
     document.getElementById("expense-form").addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -34,6 +34,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // ✅ 把 export 功能也包進 DOMContentLoaded 裡
+    document.getElementById("export-btn").addEventListener("click", async () => {
+        try {
+            const res = await fetch("/api/expense/export", {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                alert(`匯出失敗：${error.error || res.status}`);
+                return;
+            }
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "expenses.xlsx";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (err) {
+            alert("下載錯誤：" + err.message);
+        }
+    });
+
+    // 🔢 原有計算機邏輯也可考慮包進來以避免綁定失敗
+    const amountInput = document.getElementById("amount");
+    document.getElementById("calculator").addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") return;
+
+        const value = e.target.textContent;
+
+        if (value === "清除") {
+            amountInput.value = "";
+        } else if (value === "刪除") {
+            amountInput.value = amountInput.value.slice(0, -1);
+        } else {
+            amountInput.value += value;
+        }
+    });
+
     async function loadExpenses() {
         const res = await fetch("/api/expense/", {
             headers: { "Authorization": `Bearer ${token}` }
@@ -56,38 +100,35 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
-});
 
-// 處理計算機按鈕輸入
-const amountInput = document.getElementById("amount");
-document.getElementById("calculator").addEventListener("click", (e) => {
-    if (e.target.tagName !== "BUTTON") return;
+    document.getElementById("upload-btn").addEventListener("click", async () => {
+        const token = localStorage.getItem("jwt");
+        const fileInput = document.getElementById("upload-file");
+        const file = fileInput.files[0];
 
-    const value = e.target.textContent;
-
-    if (value === "清除") {
-        amountInput.value = "";
-    } else if (value === "刪除") {
-        amountInput.value = amountInput.value.slice(0, -1);
-    } else {
-        amountInput.value += value;
-    }
-});
-
-document.getElementById("export-btn").addEventListener("click", () => {
-    const token = localStorage.getItem("jwt");
-    fetch("/api/expense/export", {
-        headers: {
-            "Authorization": `Bearer ${token}`
+        if (!file) {
+            alert("請先選擇檔案");
+            return;
         }
-    }).then(res => res.blob())
-      .then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "expenses.xlsx";
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-      });
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/api/expense/upload", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("上傳成功！");
+            location.reload();
+        } else {
+            alert(data.error || "上傳失敗");
+        }
+    });
+
 });

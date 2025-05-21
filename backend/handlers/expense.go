@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/DodoroGit/My_Portfolio/backend/database"
@@ -115,4 +116,84 @@ func ExportExcel(c *gin.Context) {
 	c.Header("File-Name", "expenses.xlsx")
 	c.Header("Content-Transfer-Encoding", "binary")
 	_ = file.Write(c.Writer)
+}
+
+func UploadExcel(c *gin.Context) {
+	userID := c.GetInt("user_id")
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "請提供 Excel 檔案"})
+		return
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "無法讀取檔案"})
+		return
+	}
+	defer src.Close()
+
+	f, err := excelize.OpenReader(src)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "無法解析 Excel 檔案"})
+		return
+	}
+
+	rows, err := f.GetRows("Expenses")
+	if err != nil || len(rows) < 2 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Excel 資料格式錯誤或為空"})
+		return
+	}
+
+	tx, err := database.DB.Begin()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "資料庫交易失敗"})
+		return
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec("DELETE FROM expenses WHERE user_id = $1", userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "刪除舊資料失敗"})
+		return
+	}
+
+	stmt, err := tx.Prepare("INSERT INTO expenses (user_id, category, amount, note, spent_at) VALUES ($1, $2, $3, $4, $5)")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "準備寫入失敗"})
+		return
+	}
+	defer stmt.Close()
+
+	for i, row := range rows[1:] {
+		if len(row) < 4 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("第 %d 行資料不完整", i+2)})
+			return
+		}
+
+		date, err := time.Parse("2006-01-02", row[0])
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("第 %d 行日期格式錯誤", i+2)})
+			return
+		}
+
+		amount, err := strconv.ParseFloat(row[2], 64)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("第 %d 行金額格式錯誤", i+2)})
+			return
+		}
+
+		_, err = stmt.Exec(userID, row[1], amount, row[3], date)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "資料寫入失敗"})
+			return
+		}
+	}
+
+	if err = tx.Commit(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "提交資料失敗"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "上傳並更新成功"})
 }

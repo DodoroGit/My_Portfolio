@@ -12,7 +12,7 @@ func ExpenseRoutes(r *gin.Engine) {
 	{
 		expense.POST("/", handlers.CreateExpense)
 		expense.GET("/", handlers.GetExpenses)
-		// expense.POST("/upload", handlers.UploadExcel) // 後續擴充
-		expense.GET("/export", handlers.ExportExcel) // 後續擴充
+		expense.POST("/upload", handlers.UploadExcel) // 後續擴充
+		expense.GET("/export", handlers.ExportExcel)  // 後續擴充
 	}
 }
