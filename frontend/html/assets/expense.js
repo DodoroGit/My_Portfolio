@@ -73,3 +73,21 @@ document.getElementById("calculator").addEventListener("click", (e) => {
         amountInput.value += value;
     }
 });
+
+document.getElementById("export-btn").addEventListener("click", () => {
+    const token = localStorage.getItem("jwt");
+    fetch("/api/expense/export", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }).then(res => res.blob())
+      .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "expenses.xlsx";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+      });
+});
