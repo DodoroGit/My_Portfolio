@@ -45,6 +45,7 @@ function renderTable(stocks) {
         row.innerHTML = `
             <td>${stock.symbol}</td>
             <td>${stock.shares}</td>
+            <td id="avg-${stock.symbol}">${stock.avg_price !== undefined ? stock.avg_price.toFixed(2) : '-'}</td>
             <td id="price-${stock.symbol}">-</td>
             <td id="profit-${stock.symbol}">-</td>
         `;
@@ -89,18 +90,28 @@ function connectWebSocket() {
 function updateStockRow(data) {
     const rowId = `stock-row-${data.symbol}`;
     let row = document.getElementById(rowId);
+
+    const profitClass = data.profit >= 0 ? "profit-positive" : "profit-negative";
+    const avgPriceText = data.avg_price !== undefined ? data.avg_price.toFixed(2) : "-";
+    const priceText = data.price !== undefined ? data.price.toFixed(2) : "-";
+    const profitText = data.profit !== undefined ? data.profit.toFixed(2) : "-";
+
     if (!row) {
         row = document.createElement("tr");
         row.id = rowId;
         row.innerHTML = `
             <td>${data.symbol}</td>
             <td>${data.shares}</td>
-            <td id="price-${data.symbol}">${data.price}</td>
-            <td id="profit-${data.symbol}">${data.profit.toFixed(2)}</td>
+            <td id="avg-${data.symbol}">${avgPriceText}</td>
+            <td id="price-${data.symbol}">${priceText}</td>
+            <td id="profit-${data.symbol}" class="${profitClass}">${profitText}</td>
         `;
         document.getElementById("stock-table-body").appendChild(row);
     } else {
-        document.getElementById(`price-${data.symbol}`).textContent = data.price;
-        document.getElementById(`profit-${data.symbol}`).textContent = data.profit.toFixed(2);
+        document.getElementById(`avg-${data.symbol}`).textContent = avgPriceText;
+        document.getElementById(`price-${data.symbol}`).textContent = priceText;
+        const profitCell = document.getElementById(`profit-${data.symbol}`);
+        profitCell.textContent = profitText;
+        profitCell.className = profitClass;
     }
 }
