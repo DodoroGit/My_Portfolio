@@ -29,18 +29,23 @@ document.addEventListener("DOMContentLoaded", () => {
             location.reload();
         });
     });
+
+    // 連線 WebSocket
+    connectWebSocket();
 });
 
-// 渲染股票表格
+// 渲染股票表格（初始用）
 function renderTable(stocks) {
     const tbody = document.getElementById("stock-table-body");
     tbody.innerHTML = "";
     stocks.forEach(stock => {
         const row = document.createElement("tr");
+        row.id = `stock-row-${stock.symbol}`;
         row.innerHTML = `
             <td>${stock.symbol}</td>
             <td>${stock.shares}</td>
-            <td><button onclick="deleteStock(${stock.id})">刪除</button></td>
+            <td id="price-${stock.symbol}">-</td>
+            <td id="profit-${stock.symbol}">-</td>
         `;
         tbody.appendChild(row);
     });
@@ -59,12 +64,11 @@ function deleteStock(id) {
     });
 }
 
-
 let socket;
 
 function connectWebSocket() {
     const token = localStorage.getItem("jwt");
-    socket = new WebSocket(`ws://${window.location.host}/ws/stocks/?token=${token}`);
+    socket = new WebSocket(`wss://${window.location.host}/ws/stocks/?token=${token}`); // ✅ wss 用於 https
 
     socket.onopen = () => {
         console.log("✅ WebSocket 已連線");
@@ -81,7 +85,6 @@ function connectWebSocket() {
     };
 }
 
-// 更新前端持股損益資料
 function updateStockRow(data) {
     const rowId = `stock-row-${data.symbol}`;
     let row = document.getElementById(rowId);
@@ -92,7 +95,7 @@ function updateStockRow(data) {
             <td>${data.symbol}</td>
             <td>${data.shares}</td>
             <td id="price-${data.symbol}">${data.price}</td>
-            <td id="profit-${data.symbol}">${data.profit}</td>
+            <td id="profit-${data.symbol}">${data.profit.toFixed(2)}</td>
         `;
         document.getElementById("stock-table-body").appendChild(row);
     } else {
