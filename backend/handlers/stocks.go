@@ -152,10 +152,11 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 	defer rows.Close()
 
 	type StockPayload struct {
-		Symbol string  `json:"symbol"`
-		Price  float64 `json:"price"`
-		Shares int     `json:"shares"`
-		Profit float64 `json:"profit"`
+		Symbol   string  `json:"symbol"`
+		Price    float64 `json:"price"`
+		Shares   int     `json:"shares"`
+		AvgPrice float64 `json:"avg_price"`
+		Profit   float64 `json:"profit"`
 	}
 
 	for rows.Next() {
@@ -172,10 +173,11 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 		}
 
 		payload := StockPayload{
-			Symbol: symbol,
-			Price:  price,
-			Shares: shares,
-			Profit: float64(shares) * (price - avgPrice),
+			Symbol:   symbol,
+			Price:    price,
+			Shares:   shares,
+			AvgPrice: avgPrice,
+			Profit:   float64(shares) * (price - avgPrice),
 		}
 
 		if err := conn.WriteJSON(payload); err != nil {
