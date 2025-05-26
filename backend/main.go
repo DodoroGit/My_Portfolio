@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/DodoroGit/My_Portfolio/backend/database"
+	"github.com/DodoroGit/My_Portfolio/backend/handlers"
 	"github.com/DodoroGit/My_Portfolio/backend/routes"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,7 @@ func main() {
 	routes.UserRoutes(r)
 	routes.ChatRoutes(r)
 	routes.StockRoutes(r)
+	handlers.StartStockPriceBroadcast()
 
 	if err := r.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal("Unable to start server: ", err)

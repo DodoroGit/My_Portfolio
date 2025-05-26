@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const symbol = document.getElementById("symbol").value.trim();
         const shares = parseInt(document.getElementById("shares").value);
+        const avg_price = parseFloat(document.getElementById("avgPrice").value || "0");
         if (!symbol || !shares) return alert("請填寫完整欄位");
 
         fetch("/api/stocks/", {
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ symbol, shares })
+            body: JSON.stringify({ symbol, shares, avg_price })
         })
         .then(res => res.json())
         .then(data => {
@@ -68,7 +69,7 @@ let socket;
 
 function connectWebSocket() {
     const token = localStorage.getItem("jwt");
-    socket = new WebSocket(`wss://${window.location.host}/ws/stocks/?token=${token}`); // ✅ wss 用於 https
+    socket = new WebSocket(`wss://${window.location.host}/ws/stocks/?token=${token}`);
 
     socket.onopen = () => {
         console.log("✅ WebSocket 已連線");

@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS stocks (
     user_id INT NOT NULL,
     symbol VARCHAR(10) NOT NULL,
     shares INT NOT NULL,
+    avg_price NUMERIC(10,2) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (user_id, symbol),
     FOREIGN KEY (user_id) REFERENCES users(id)
