@@ -1,3 +1,4 @@
+/* 輸入框樣式 */
 input[type="text"], input[type="number"] {
     padding: 10px;
     margin: 5px;
@@ -5,9 +6,10 @@ input[type="text"], input[type="number"] {
     border-radius: 8px;
     font-size: 16px;
     width: 200px;
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* 按鈕樣式 */
 button {
     padding: 10px 20px;
     border: none;
@@ -22,12 +24,13 @@ button:hover {
     background-color: #0056b3;
 }
 
-td.profit-positive {
+/* 損益顯示：正為紅、負為綠 */
+.profit-positive {
     color: red;
     font-weight: bold;
 }
 
-td.profit-negative {
+.profit-negative {
     color: green;
     font-weight: bold;
 }

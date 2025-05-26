@@ -7,6 +7,34 @@
     <link rel="stylesheet" href="/assets/stock.css">
     <script src="/assets/auth.js" defer></script>
     <script src="/assets/stocks.js" defer></script>
+    <script>
+        function updateStockRow(data) {
+            const rowId = `stock-row-${data.symbol}`;
+            let row = document.getElementById(rowId);
+
+            const profitClass = data.profit >= 0 ? "profit-positive" : "profit-negative";
+            const avgPriceDisplay = data.avg_price !== undefined ? parseFloat(data.avg_price).toFixed(2) : '-';
+
+            if (!row) {
+                row = document.createElement("tr");
+                row.id = rowId;
+                row.innerHTML = `
+                    <td>${data.symbol}</td>
+                    <td>${data.shares}</td>
+                    <td id="avg-${data.symbol}">${avgPriceDisplay}</td>
+                    <td id="price-${data.symbol}">${data.price.toFixed(2)}</td>
+                    <td id="profit-${data.symbol}" class="${profitClass}">${data.profit.toFixed(2)}</td>
+                `;
+                document.getElementById("stock-table-body").appendChild(row);
+            } else {
+                document.getElementById(`price-${data.symbol}`).textContent = data.price.toFixed(2);
+                document.getElementById(`avg-${data.symbol}`).textContent = avgPriceDisplay;
+                const profitCell = document.getElementById(`profit-${data.symbol}`);
+                profitCell.textContent = data.profit.toFixed(2);
+                profitCell.className = profitClass;
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -14,17 +42,9 @@
         <nav>
             <ul>
                 <li><a href="/index.html">首頁</a></li>
-                <li><a href="/about.html">關於我</a></li>
                 <li><a href="/projects.html">功能展示</a></li>
-                <li><a href="/skills.html">技能介紹</a></li>
-                <li><a href="/contact.html">聯絡方式</a></li>
             </ul>
         </nav>
-        <div class="auth-buttons">
-            <button id="profile-btn" onclick="goToProfile()" style="display:none;">個人資料</button>
-            <button id="login-btn" onclick="goToLogin()">登入</button>
-            <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
-        </div>
     </header>
 
     <section class="content">
