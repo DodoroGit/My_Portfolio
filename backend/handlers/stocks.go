@@ -16,6 +16,7 @@ type Stock struct {
 	ID        int       `json:"id"`
 	Symbol    string    `json:"symbol"`
 	Shares    int       `json:"shares"`
+	AvgPrice  float64   `json:"avg_price"`
 	UserID    int       `json:"user_id"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -23,7 +24,7 @@ type Stock struct {
 // 取得用戶所有股票
 func GetStocks(c *gin.Context) {
 	userID := c.GetInt("user_id")
-	rows, err := database.DB.Query(`SELECT id, symbol, shares, created_at FROM stocks WHERE user_id = $1`, userID)
+	rows, err := database.DB.Query(`SELECT id, symbol, shares, avg_price, created_at FROM stocks WHERE user_id = $1`, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "讀取失敗"})
 		return
@@ -34,7 +35,7 @@ func GetStocks(c *gin.Context) {
 	for rows.Next() {
 		var s Stock
 		s.UserID = userID
-		if err := rows.Scan(&s.ID, &s.Symbol, &s.Shares, &s.CreatedAt); err == nil {
+		if err := rows.Scan(&s.ID, &s.Symbol, &s.Shares, &s.AvgPrice, &s.CreatedAt); err == nil {
 			stocks = append(stocks, s)
 		}
 	}
@@ -45,8 +46,9 @@ func GetStocks(c *gin.Context) {
 func CreateStock(c *gin.Context) {
 	userID := c.GetInt("user_id")
 	var input struct {
-		Symbol string `json:"symbol"`
-		Shares int    `json:"shares"`
+		Symbol   string  `json:"symbol"`
+		Shares   int     `json:"shares"`
+		AvgPrice float64 `json:"avg_price"`
 	}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "格式錯誤"})
@@ -54,14 +56,17 @@ func CreateStock(c *gin.Context) {
 	}
 
 	_, err := database.DB.Exec(`
-		INSERT INTO stocks (user_id, symbol, shares)
-		VALUES ($1, $2, $3)
+		INSERT INTO stocks (user_id, symbol, shares, avg_price)
+		VALUES ($1, $2, $3, $4)
 		ON CONFLICT (user_id, symbol)
-		DO UPDATE SET shares = EXCLUDED.shares`, userID, input.Symbol, input.Shares)
+		DO UPDATE SET shares = EXCLUDED.shares, avg_price = EXCLUDED.avg_price
+	`, userID, input.Symbol, input.Shares, input.AvgPrice)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "新增/更新失敗"})
+		log.Println("❌ SQL 錯誤:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "新增/更新失敗", "detail": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "儲存成功"})
 }
 
@@ -85,7 +90,7 @@ func DeleteStock(c *gin.Context) {
 var (
 	stockClients      = make(map[*websocket.Conn]int) // conn => userID
 	stockClientsMutex sync.Mutex
-	stockUpgrader     = websocket.Upgrader{ // renamed from upgrader
+	stockUpgrader     = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool { return true },
 	}
 )
@@ -140,7 +145,7 @@ func StartStockPriceBroadcast() {
 
 // 傳送使用者持股資訊（包含即時價格與損益）
 func pushUserStocks(conn *websocket.Conn, userID int) {
-	rows, err := database.DB.Query("SELECT symbol, shares FROM stocks WHERE user_id = $1", userID)
+	rows, err := database.DB.Query("SELECT symbol, shares, avg_price FROM stocks WHERE user_id = $1", userID)
 	if err != nil {
 		return
 	}
@@ -156,7 +161,8 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 	for rows.Next() {
 		var symbol string
 		var shares int
-		if err := rows.Scan(&symbol, &shares); err != nil {
+		var avgPrice float64
+		if err := rows.Scan(&symbol, &shares, &avgPrice); err != nil {
 			continue
 		}
 
@@ -169,7 +175,7 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 			Symbol: symbol,
 			Price:  price,
 			Shares: shares,
-			Profit: float64(shares)*price - 10000, // 假設成本
+			Profit: float64(shares) * (price - avgPrice),
 		}
 
 		if err := conn.WriteJSON(payload); err != nil {
