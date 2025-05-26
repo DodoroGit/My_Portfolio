@@ -53,10 +53,9 @@ CREATE TABLE IF NOT EXISTS stocks (
     symbol VARCHAR(10) NOT NULL,
     shares INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (user_id, symbol), -- ⭐️ 這行是關鍵
+    UNIQUE (user_id, symbol),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
 
 CREATE TABLE IF NOT EXISTS stock_prices (
     id SERIAL PRIMARY KEY,
@@ -64,12 +63,11 @@ CREATE TABLE IF NOT EXISTS stock_prices (
     price NUMERIC(10, 2) NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-`
+	`
 
 	_, err = DB.Exec(createTableQuery)
 	if err != nil {
-		log.Fatal("Failed to create users table: ", err)
+		log.Fatal("Failed to create tables: ", err)
 	}
 
 	log.Println("Database initialized successfully")
