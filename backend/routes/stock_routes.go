@@ -15,4 +15,11 @@ func StockRoutes(r *gin.Engine) {
 		stock.POST("/", handlers.CreateStock)      // 新增或更新持股資料
 		stock.DELETE("/:id", handlers.DeleteStock) // 刪除持股資料
 	}
+
+	// ⭐️ 加入 WebSocket 路由
+	ws := r.Group("/ws/stocks")
+	ws.Use(middlewares.AuthMiddleware())
+	{
+		ws.GET("/", handlers.StockSocketHandler)
+	}
 }
