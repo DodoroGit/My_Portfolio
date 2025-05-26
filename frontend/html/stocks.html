@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>股票追蹤系統</title>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/stock.css">
     <script src="/assets/auth.js" defer></script>
     <script src="/assets/stocks.js" defer></script>
 </head>
@@ -13,9 +14,17 @@
         <nav>
             <ul>
                 <li><a href="/index.html">首頁</a></li>
+                <li><a href="/about.html">關於我</a></li>
                 <li><a href="/projects.html">功能展示</a></li>
+                <li><a href="/skills.html">技能介紹</a></li>
+                <li><a href="/contact.html">聯絡方式</a></li>
             </ul>
         </nav>
+        <div class="auth-buttons">
+            <button id="profile-btn" onclick="goToProfile()" style="display:none;">個人資料</button>
+            <button id="login-btn" onclick="goToLogin()">登入</button>
+            <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
+        </div>
     </header>
 
     <section class="content">
@@ -33,6 +42,7 @@
                 <tr>
                     <th>股票代碼</th>
                     <th>持股數</th>
+                    <th>購入均價</th>
                     <th>即時價格</th>
                     <th>損益</th>
                 </tr>
