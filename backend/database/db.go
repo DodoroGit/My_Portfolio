@@ -53,8 +53,10 @@ CREATE TABLE IF NOT EXISTS stocks (
     symbol VARCHAR(10) NOT NULL,
     shares INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, symbol), -- ⭐️ 這行是關鍵
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE IF NOT EXISTS stock_prices (
     id SERIAL PRIMARY KEY,
