@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>股票追蹤系統</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/auth.js" defer></script>
+    <script src="/assets/stocks.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>📈 股票追蹤系統</h1>
+        <nav>
+            <ul>
+                <li><a href="/index.html">首頁</a></li>
+                <li><a href="/projects.html">功能展示</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="content">
+        <h2>輸入股票</h2>
+        <form id="stock-form">
+            <input type="text" id="symbol" placeholder="股票代碼 (e.g., 2330)" required>
+            <input type="number" id="shares" placeholder="持股數量" required>
+            <button type="submit">新增/更新</button>
+        </form>
+
+        <h2>我的持股</h2>
+        <table border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>股票代碼</th>
+                    <th>持股數</th>
+                    <th>即時價格</th>
+                    <th>損益</th>
+                </tr>
+            </thead>
+            <tbody id="stock-table-body">
+                <!-- 股票列表會在這邊插入 -->
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

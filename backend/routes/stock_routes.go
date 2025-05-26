@@ -1,0 +1,18 @@
+package routes
+
+import (
+	"github.com/DodoroGit/My_Portfolio/backend/handlers"
+	"github.com/DodoroGit/My_Portfolio/backend/middlewares"
+	"github.com/gin-gonic/gin"
+)
+
+// StockRoutes 設定股票追蹤功能的 API 路由
+func StockRoutes(r *gin.Engine) {
+	stock := r.Group("/api/stocks")
+	stock.Use(middlewares.AuthMiddleware())
+	{
+		stock.GET("/", handlers.GetStocks)         // 取得所有持股資料
+		stock.POST("/", handlers.CreateStock)      // 新增或更新持股資料
+		stock.DELETE("/:id", handlers.DeleteStock) // 刪除持股資料
+	}
+}
