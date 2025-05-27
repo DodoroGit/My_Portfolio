@@ -31,36 +31,46 @@
     </header>
     
     <section class="portfolio-container">
-        <h2>整合功能區</h2>
-        <div class="portfolio-grid">
-            <!-- 功能一：聊天室 -->
-            <div class="portfolio-item">
-                <div class="portfolio-content">
-                    <h3>即時聊天室</h3>
-                    <p>用戶可登入後進行即時訊息交流，支援基本身份驗證與訊息紀錄。</p>
-                    <a href="/chat.html">進入聊天室</a>
-                </div>
-            </div>
-
-            <!-- 功能二：報表管理系統 -->
-            <div class="portfolio-item">
-                <div class="portfolio-content">
-                    <h3>個人記帳系統</h3>
-                    <p>用戶可新增每日支出項目並查看金流紀錄，後續可支援Excel上傳與匯出。</p>
-                    <a href="/expense.html">前往記帳</a>
-                </div>
-            </div>
-
-            <!-- 功能三：智能回話機器人 -->
-            <div class="portfolio-item">
-                <div class="portfolio-content">
-                    <h3>AI 智能對話（RAG 模型）</h3>
-                    <p>搭載 Retrieval-Augmented Generation 架構，可回答技術性或項目相關問題。</p>
-                    <a href="#" onclick="alert('開發中，敬請期待！')">開始互動</a>
-                </div>
+    <h2>整合功能區</h2>
+    <div class="portfolio-grid">
+        <!-- 功能一：聊天室 -->
+        <div class="portfolio-item">
+            <div class="portfolio-content">
+                <h3>即時聊天室</h3>
+                <p>使用 WebSocket 技術實作，用戶登入後可即時訊息交流，具備身份驗證、歷史訊息查詢與系統提示訊息功能。</p>
+                <a href="/chat.html">進入聊天室</a>
             </div>
         </div>
+
+        <!-- 功能二：個人記帳系統 -->
+        <div class="portfolio-item">
+            <div class="portfolio-content">
+                <h3>個人記帳系統</h3>
+                <p>透過 RESTful API 與 PostgreSQL 建立金流管理機制，支援每日支出記錄、Excel 匯出/上傳資料、資料表呈現與使用者身份綁定。</p>
+                <a href="/expense.html">前往記帳</a>
+            </div>
+        </div>
+
+        <!-- 功能三：AI 智能對話（RAG 模型） -->
+        <div class="portfolio-item">
+            <div class="portfolio-content">
+                <h3>AI 智能對話（RAG 模型）</h3>
+                <p>使用 Retrieval-Augmented Generation 架構整合 OpenAI API，規劃用於自動回覆技術能力與專案相關問答，目前功能開發中。</p>
+                <a href="#" onclick="alert('開發中，敬請期待！')">開始互動</a>
+            </div>
+        </div>
+
+        <!-- 功能四：股票追蹤系統 -->
+        <div class="portfolio-item">
+            <div class="portfolio-content">
+                <h3>股票追蹤系統</h3>
+                <p>整合 WebSocket、即時網頁爬蟲與自製股票損益計算邏輯，可追蹤即時價格、計算獲利損益、顯示趨勢圖與匯出 Excel，介面支援使用者輸入與資料儲存。</p>
+                <a href="/stocks.html">查看股票追蹤</a>
+            </div>
+        </div>
+    </div>
     </section>
+
 
     <footer>
         <p>&copy; 2025 我的作品集. All rights reserved.</p>
