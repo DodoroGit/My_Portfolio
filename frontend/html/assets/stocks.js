@@ -136,8 +136,11 @@ function viewChart(symbol) {
     const modal = document.getElementById("chart-modal");
     const canvas = document.getElementById("stock-chart");
     const ctx = canvas.getContext("2d");
+    const token = localStorage.getItem("jwt");
 
-    fetch(`/api/stocks/history/${symbol}`)
+    fetch(`/api/stocks/history/${symbol}`, {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
         .then(res => res.json())
         .then(data => {
             const labels = data.map(p => p.date);
@@ -166,6 +169,7 @@ function viewChart(symbol) {
             modal.style.display = "block";
         });
 }
+
 
 // 點擊外部區域或關閉按鈕關掉 modal
 window.addEventListener("click", (e) => {
