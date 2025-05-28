@@ -31,6 +31,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // 匯出 Excel 按鈕行為
+    document.getElementById("export-btn").addEventListener("click", () => {
+        fetch("/api/stocks/export", {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+        .then(res => res.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "stocks.xlsx";
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+    });
+
     // 連線 WebSocket
     connectWebSocket();
 });
@@ -115,19 +131,3 @@ function updateStockRow(data) {
         profitCell.className = profitClass;
     }
 }
-
-document.getElementById("export-btn").addEventListener("click", () => {
-    const token = localStorage.getItem("jwt");
-    fetch("/api/stocks/export", {
-        headers: { "Authorization": `Bearer ${token}` }
-    })
-    .then(res => res.blob())
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "stocks.xlsx";
-        a.click();
-        URL.revokeObjectURL(url);
-    });
-});
