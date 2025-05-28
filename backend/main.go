@@ -25,11 +25,8 @@ func main() {
 	r := gin.Default()
 
 	//routes.WebRoutes(r) 透過Frontend Nginx反向代理替換
-	routes.AuthRoutes(r)
-	routes.ExpenseRoutes(r)
-	routes.UserRoutes(r)
-	routes.ChatRoutes(r)
-	routes.StockRoutes(r)
+	routes.RegisterRoutes(r)
+	// WebSocket 路由
 	handlers.StartStockPriceBroadcast()
 
 	if err := r.Run("0.0.0.0:8080"); err != nil {

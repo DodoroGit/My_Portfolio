@@ -243,3 +243,19 @@ func ExportStockExcel(c *gin.Context) {
 	c.Header("Content-Transfer-Encoding", "binary")
 	_ = f.Write(c.Writer)
 }
+
+func GetStockHistory(c *gin.Context) {
+	symbol := c.Param("symbol")
+	if symbol == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "請提供股票代碼"})
+		return
+	}
+
+	history, err := utils.FetchTWSEHistory(symbol)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "無法取得歷史資料"})
+		return
+	}
+
+	c.JSON(http.StatusOK, history)
+}
