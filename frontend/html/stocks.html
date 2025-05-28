@@ -5,6 +5,7 @@
     <title>股票追蹤系統</title>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/stock.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- 新增 Chart.js -->
     <script src="/assets/auth.js" defer></script>
     <script src="/assets/stocks.js" defer></script>
 </head>
@@ -53,5 +54,12 @@
             </tbody>
         </table>
     </section>
+
+    <!-- Modal for Chart -->
+    <div id="chart-modal" class="modal">
+        <div class="modal-content">
+            <canvas id="stock-chart" width="600" height="400"></canvas>
+        </div>
+    </div>
 </body>
 </html>

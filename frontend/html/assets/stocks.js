@@ -59,7 +59,7 @@ function renderTable(stocks) {
         const row = document.createElement("tr");
         row.id = `stock-row-${stock.symbol}`;
         row.innerHTML = `
-            <td>${stock.symbol}</td>
+            <td><button onclick="viewChart('${stock.symbol}')">${stock.symbol}</button></td>
             <td>${stock.shares}</td>
             <td id="avg-${stock.symbol}">${stock.avg_price !== undefined ? stock.avg_price.toFixed(2) : '-'}</td>
             <td id="price-${stock.symbol}">-</td>
@@ -116,7 +116,7 @@ function updateStockRow(data) {
         row = document.createElement("tr");
         row.id = rowId;
         row.innerHTML = `
-            <td>${data.symbol}</td>
+            <td><button onclick="viewChart('${data.symbol}')">${data.symbol}</button></td>
             <td>${data.shares}</td>
             <td id="avg-${data.symbol}">${avgPriceText}</td>
             <td id="price-${data.symbol}">${priceText}</td>
@@ -131,3 +131,44 @@ function updateStockRow(data) {
         profitCell.className = profitClass;
     }
 }
+
+function viewChart(symbol) {
+    const modal = document.getElementById("chart-modal");
+    const canvas = document.getElementById("stock-chart");
+    const ctx = canvas.getContext("2d");
+
+    fetch(`/api/stocks/history/${symbol}`)
+        .then(res => res.json())
+        .then(data => {
+            const labels = data.map(p => p.date);
+            const prices = data.map(p => p.price);
+
+            if (window.myChart) window.myChart.destroy();
+            window.myChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels,
+                    datasets: [{
+                        label: `${symbol} 股價趨勢`,
+                        data: prices,
+                        fill: false,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: "日期" } },
+                        y: { title: { display: true, text: "價格" } }
+                    }
+                }
+            });
+            modal.style.display = "block";
+        });
+}
+
+// 點擊外部區域或關閉按鈕關掉 modal
+window.addEventListener("click", (e) => {
+    const modal = document.getElementById("chart-modal");
+    if (e.target === modal) modal.style.display = "none";
+});
