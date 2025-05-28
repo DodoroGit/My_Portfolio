@@ -115,3 +115,19 @@ function updateStockRow(data) {
         profitCell.className = profitClass;
     }
 }
+
+document.getElementById("export-btn").addEventListener("click", () => {
+    const token = localStorage.getItem("jwt");
+    fetch("/api/stocks/export", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "stocks.xlsx";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+});

@@ -11,9 +11,10 @@ func StockRoutes(r *gin.Engine) {
 	stock := r.Group("/api/stocks")
 	stock.Use(middlewares.AuthMiddleware())
 	{
-		stock.GET("/", handlers.GetStocks)         // 取得所有持股資料
-		stock.POST("/", handlers.CreateStock)      // 新增或更新持股資料
-		stock.DELETE("/:id", handlers.DeleteStock) // 刪除持股資料
+		stock.GET("/", handlers.GetStocks)              // 取得所有持股資料
+		stock.POST("/", handlers.CreateStock)           // 新增或更新持股資料
+		stock.DELETE("/:id", handlers.DeleteStock)      // 刪除持股資料
+		stock.GET("/export", handlers.ExportStockExcel) // 匯出持股資料為 Excel 檔案
 	}
 
 	// ⭐️ 加入 WebSocket 路由

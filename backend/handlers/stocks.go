@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -10,6 +11,7 @@ import (
 	"github.com/DodoroGit/My_Portfolio/backend/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"github.com/xuri/excelize/v2"
 )
 
 type Stock struct {
@@ -189,4 +191,55 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 			break
 		}
 	}
+}
+
+func ExportStockExcel(c *gin.Context) {
+	userID := c.GetInt("user_id")
+
+	rows, err := database.DB.Query("SELECT symbol, shares, avg_price FROM stocks WHERE user_id = $1", userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "資料讀取失敗"})
+		return
+	}
+	defer rows.Close()
+
+	f := excelize.NewFile()
+	sheet := "持股資料"
+	f.SetSheetName("Sheet1", sheet)
+
+	headers := []string{"股票代碼", "持股數量", "購入均價", "即時價格", "損益"}
+	for i, h := range headers {
+		col := string(rune('A'+i)) + "1"
+		f.SetCellValue(sheet, col, h)
+	}
+
+	rowIndex := 2
+	for rows.Next() {
+		var symbol string
+		var shares int
+		var avgPrice float64
+		if err := rows.Scan(&symbol, &shares, &avgPrice); err != nil {
+			continue
+		}
+
+		price, err := utils.FetchTWSEPrice(symbol)
+		if err != nil {
+			price = 0.0
+		}
+		profit := float64(shares) * (price - avgPrice)
+
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", rowIndex), symbol)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", rowIndex), shares)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", rowIndex), avgPrice)
+		f.SetCellValue(sheet, fmt.Sprintf("D%d", rowIndex), price)
+		f.SetCellValue(sheet, fmt.Sprintf("E%d", rowIndex), profit)
+		rowIndex++
+	}
+
+	filename := fmt.Sprintf("stocks_%d.xlsx", time.Now().Unix())
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.Header("Content-Disposition", "attachment; filename="+filename)
+	c.Header("File-Name", filename)
+	c.Header("Content-Transfer-Encoding", "binary")
+	_ = f.Write(c.Writer)
 }
