@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 提交表單
+    // 提交新增/更新股票表單
     document.getElementById("stock-form").addEventListener("submit", (e) => {
         e.preventDefault();
         const symbol = document.getElementById("symbol").value.trim();
@@ -49,7 +49,34 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 匯出 Excel 按鈕行為
+    // 提交賣出股票表單
+    document.getElementById("sell-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const symbol = document.getElementById("sell-symbol").value.trim();
+        const shares = parseInt(document.getElementById("sell-shares").value);
+        const sell_price = parseFloat(document.getElementById("sell-price").value);
+        const note = document.getElementById("sell-note").value.trim();
+
+        if (!symbol || shares <= 0 || sell_price <= 0) {
+            return alert("請填寫完整賣出資料");
+        }
+
+        fetch("/api/stocks/sell", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ symbol, shares, sell_price, note })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message + (data.realized_profit ? `\n本次損益：${data.realized_profit}` : ""));
+            location.reload();
+        });
+    });
+
+    // 匯出 Excel
     document.getElementById("export-btn").addEventListener("click", () => {
         fetch("/api/stocks/export", {
             headers: { "Authorization": `Bearer ${token}` }
@@ -65,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 連線 WebSocket
+    // WebSocket 連線
     connectWebSocket();
 });
 
@@ -159,33 +186,33 @@ function viewChart(symbol) {
     fetch(`/api/stocks/history/${symbol}`, {
         headers: { "Authorization": `Bearer ${token}` }
     })
-        .then(res => res.json())
-        .then(data => {
-            const labels = data.map(p => p.date);
-            const prices = data.map(p => p.price);
+    .then(res => res.json())
+    .then(data => {
+        const labels = data.map(p => p.date);
+        const prices = data.map(p => p.price);
 
-            if (window.myChart) window.myChart.destroy();
-            window.myChart = new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels,
-                    datasets: [{
-                        label: `${symbol} 股價趨勢`,
-                        data: prices,
-                        fill: false,
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: { title: { display: true, text: "日期" } },
-                        y: { title: { display: true, text: "價格" } }
-                    }
+        if (window.myChart) window.myChart.destroy();
+        window.myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels,
+                datasets: [{
+                    label: `${symbol} 股價趨勢`,
+                    data: prices,
+                    fill: false,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: "日期" } },
+                    y: { title: { display: true, text: "價格" } }
                 }
-            });
-            modal.style.display = "block";
+            }
         });
+        modal.style.display = "block";
+    });
 }
 
 window.addEventListener("click", (e) => {

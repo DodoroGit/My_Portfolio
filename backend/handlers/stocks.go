@@ -303,3 +303,57 @@ func GetPortfolioSummary(c *gin.Context) {
 		"unrealized_pnl": fmt.Sprintf("%.2f", totalValue-totalCost),
 	})
 }
+
+func SellStock(c *gin.Context) {
+	userID := c.GetInt("user_id")
+
+	var input struct {
+		Symbol    string  `json:"symbol"`
+		Shares    int     `json:"shares"`
+		SellPrice float64 `json:"sell_price"`
+		Note      string  `json:"note"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil || input.Shares <= 0 || input.SellPrice <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "請輸入正確資料"})
+		return
+	}
+
+	var currentShares int
+	var avgPrice float64
+	err := database.DB.QueryRow(`
+		SELECT shares, avg_price FROM stocks
+		WHERE user_id = $1 AND symbol = $2
+	`, userID, input.Symbol).Scan(&currentShares, &avgPrice)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "找不到持股"})
+		return
+	}
+	if input.Shares > currentShares {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "賣出數量大於持股"})
+		return
+	}
+
+	buyCost := float64(input.Shares) * avgPrice * 1.001425
+	sellRevenue := float64(input.Shares) * input.SellPrice * (1 - 0.001425 - 0.003)
+	profit := sellRevenue - buyCost
+
+	// 寫入交易紀錄
+	_, err = database.DB.Exec(`
+		INSERT INTO stock_transactions (user_id, symbol, shares, sell_price, avg_price, realized_profit, note)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+	`, userID, input.Symbol, input.Shares, input.SellPrice, avgPrice, profit, input.Note)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "寫入交易紀錄失敗"})
+		return
+	}
+
+	// 更新 stocks 表
+	newShares := currentShares - input.Shares
+	if newShares == 0 {
+		_, _ = database.DB.Exec(`DELETE FROM stocks WHERE user_id = $1 AND symbol = $2`, userID, input.Symbol)
+	} else {
+		_, _ = database.DB.Exec(`UPDATE stocks SET shares = $1 WHERE user_id = $2 AND symbol = $3`, newShares, userID, input.Symbol)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "賣出成功", "realized_profit": fmt.Sprintf("%.2f", profit)})
+}

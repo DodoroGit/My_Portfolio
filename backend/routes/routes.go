@@ -50,6 +50,7 @@ func RegisterRoutes(r *gin.Engine) {
 		stock.GET("/export", handlers.ExportStockExcel)
 		stock.GET("/history/:symbol", handlers.GetStockHistory)
 		stock.GET("/summary", handlers.GetPortfolioSummary)
+		stock.POST("/sell", handlers.SellStock)
 	}
 
 	wsStocks := r.Group("/ws/stocks")
