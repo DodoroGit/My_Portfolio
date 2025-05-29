@@ -8,6 +8,24 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => renderTable(data.stocks));
 
+    // 顯示總資產概覽
+    fetch("/api/stocks/summary", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(summary => {
+        const totalBox = document.getElementById("summary-box");
+        if (summary.total_cost !== undefined) {
+            totalBox.innerHTML = `
+                <p>💰 持股成本總額：${summary.total_cost}</p>
+                <p>📈 現值總額：${summary.total_value}</p>
+                <p>📊 未實現損益：<strong style="color:${parseFloat(summary.unrealized_pnl) >= 0 ? 'red' : 'green'}">${summary.unrealized_pnl}</strong></p>
+            `;
+        } else {
+            totalBox.innerHTML = `<p>無法取得總資產資料</p>`;
+        }
+    });
+
     // 提交表單
     document.getElementById("stock-form").addEventListener("submit", (e) => {
         e.preventDefault();
@@ -51,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
     connectWebSocket();
 });
 
-// 渲染股票表格（初始用）
 function renderTable(stocks) {
     const tbody = document.getElementById("stock-table-body");
     tbody.innerHTML = "";
@@ -64,6 +81,7 @@ function renderTable(stocks) {
             <td id="avg-${stock.symbol}">${stock.avg_price !== undefined ? stock.avg_price.toFixed(2) : '-'}</td>
             <td id="price-${stock.symbol}">-</td>
             <td id="profit-${stock.symbol}">-</td>
+            <td><button onclick="deleteStock('${stock.id}')">刪除</button></td>
         `;
         tbody.appendChild(row);
     });
@@ -170,8 +188,6 @@ function viewChart(symbol) {
         });
 }
 
-
-// 點擊外部區域或關閉按鈕關掉 modal
 window.addEventListener("click", (e) => {
     const modal = document.getElementById("chart-modal");
     if (e.target === modal) modal.style.display = "none";

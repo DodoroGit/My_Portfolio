@@ -23,7 +23,6 @@ type Stock struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// 取得用戶所有股票
 func GetStocks(c *gin.Context) {
 	userID := c.GetInt("user_id")
 	rows, err := database.DB.Query(`SELECT id, symbol, shares, avg_price, created_at FROM stocks WHERE user_id = $1`, userID)
@@ -44,7 +43,6 @@ func GetStocks(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"stocks": stocks})
 }
 
-// 新增或更新股票
 func CreateStock(c *gin.Context) {
 	userID := c.GetInt("user_id")
 	var input struct {
@@ -72,7 +70,6 @@ func CreateStock(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "儲存成功"})
 }
 
-// 刪除股票
 func DeleteStock(c *gin.Context) {
 	userID := c.GetInt("user_id")
 	id := c.Param("id")
@@ -85,12 +82,8 @@ func DeleteStock(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "已刪除"})
 }
 
-// ============================
-// 📱 WebSocket 即時股價推播
-// ============================
-
 var (
-	stockClients      = make(map[*websocket.Conn]int) // conn => userID
+	stockClients      = make(map[*websocket.Conn]int)
 	stockClientsMutex sync.Mutex
 	stockUpgrader     = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool { return true },
@@ -116,7 +109,7 @@ func StockSocketHandler(c *gin.Context) {
 	for {
 		_, _, err := conn.ReadMessage()
 		if err != nil {
-			break // 關閉連線
+			break
 		}
 	}
 
@@ -125,7 +118,6 @@ func StockSocketHandler(c *gin.Context) {
 	stockClientsMutex.Unlock()
 }
 
-// 🧠 每 10 秒抓即時股價並推播
 func StartStockPriceBroadcast() {
 	go func() {
 		for {
@@ -145,7 +137,6 @@ func StartStockPriceBroadcast() {
 	}()
 }
 
-// 傳送使用者持股資訊（包含即時價格與損益）
 func pushUserStocks(conn *websocket.Conn, userID int) {
 	rows, err := database.DB.Query("SELECT symbol, shares, avg_price FROM stocks WHERE user_id = $1", userID)
 	if err != nil {
@@ -174,12 +165,16 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 			continue
 		}
 
+		buyCost := float64(shares) * avgPrice * 1.001425
+		sellRevenue := float64(shares) * price * (1 - 0.001425 - 0.003)
+		profit := sellRevenue - buyCost
+
 		payload := StockPayload{
 			Symbol:   symbol,
 			Price:    price,
 			Shares:   shares,
 			AvgPrice: avgPrice,
-			Profit:   float64(shares) * (price - avgPrice),
+			Profit:   profit,
 		}
 
 		if err := conn.WriteJSON(payload); err != nil {
@@ -226,7 +221,10 @@ func ExportStockExcel(c *gin.Context) {
 		if err != nil {
 			price = 0.0
 		}
-		profit := float64(shares) * (price - avgPrice)
+
+		buyCost := float64(shares) * avgPrice * 1.001425
+		sellRevenue := float64(shares) * price * (1 - 0.001425 - 0.003)
+		profit := sellRevenue - buyCost
 
 		f.SetCellValue(sheet, fmt.Sprintf("A%d", rowIndex), symbol)
 		f.SetCellValue(sheet, fmt.Sprintf("B%d", rowIndex), shares)
@@ -258,4 +256,44 @@ func GetStockHistory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, history)
+}
+
+func GetPortfolioSummary(c *gin.Context) {
+	userID := c.GetInt("user_id")
+
+	rows, err := database.DB.Query("SELECT symbol, shares, avg_price FROM stocks WHERE user_id = $1", userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "資料讀取失敗"})
+		return
+	}
+	defer rows.Close()
+
+	var totalCost float64 = 0
+	var totalValue float64 = 0
+
+	for rows.Next() {
+		var symbol string
+		var shares int
+		var avgPrice float64
+		if err := rows.Scan(&symbol, &shares, &avgPrice); err != nil {
+			continue
+		}
+
+		price, err := utils.FetchTWSEPrice(symbol)
+		if err != nil {
+			continue
+		}
+
+		cost := float64(shares) * avgPrice * 1.001425
+		value := float64(shares) * price * (1 - 0.001425 - 0.003)
+
+		totalCost += cost
+		totalValue += value
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"total_cost":     fmt.Sprintf("%.2f", totalCost),
+		"total_value":    fmt.Sprintf("%.2f", totalValue),
+		"unrealized_pnl": fmt.Sprintf("%.2f", totalValue-totalCost),
+	})
 }

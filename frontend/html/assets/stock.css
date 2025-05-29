@@ -52,3 +52,14 @@ button:hover {
   max-width: 600px;
   border-radius: 10px;
 }
+
+.summary-box {
+    background-color: #fff8dc;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px auto;
+    max-width: 500px;
+    font-size: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
