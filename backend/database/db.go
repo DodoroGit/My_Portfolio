@@ -76,7 +76,7 @@ CREATE TABLE stock_transactions (
     note TEXT,
     created_at TIMESTAMP DEFAULT now()
 );
-	`
+`
 
 	_, err = DB.Exec(createTableQuery)
 	if err != nil {
