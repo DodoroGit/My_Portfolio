@@ -14,6 +14,12 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
+const (
+	commissionRate     = 0.001425
+	commissionDiscount = 0.35
+	taxRate            = 0.003
+)
+
 type Stock struct {
 	ID        int       `json:"id"`
 	Symbol    string    `json:"symbol"`
@@ -165,8 +171,8 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 			continue
 		}
 
-		buyCost := float64(shares) * avgPrice * 1.001425
-		sellRevenue := float64(shares) * price * (1 - 0.001425 - 0.003)
+		buyCost := float64(shares) * avgPrice * (1 + commissionRate*commissionDiscount)
+		sellRevenue := float64(shares) * price * (1 - commissionRate*commissionDiscount - taxRate)
 		profit := sellRevenue - buyCost
 
 		payload := StockPayload{
@@ -222,8 +228,8 @@ func ExportStockExcel(c *gin.Context) {
 			price = 0.0
 		}
 
-		buyCost := float64(shares) * avgPrice * 1.001425
-		sellRevenue := float64(shares) * price * (1 - 0.001425 - 0.003)
+		buyCost := float64(shares) * avgPrice * (1 + commissionRate*commissionDiscount)
+		sellRevenue := float64(shares) * price * (1 - commissionRate*commissionDiscount - taxRate)
 		profit := sellRevenue - buyCost
 
 		f.SetCellValue(sheet, fmt.Sprintf("A%d", rowIndex), symbol)
@@ -284,8 +290,8 @@ func GetPortfolioSummary(c *gin.Context) {
 			continue
 		}
 
-		cost := float64(shares) * avgPrice * 1.001425
-		value := float64(shares) * price * (1 - 0.001425 - 0.003)
+		cost := float64(shares) * avgPrice * (1 + commissionRate*commissionDiscount)
+		value := float64(shares) * price * (1 - commissionRate*commissionDiscount - taxRate)
 
 		totalCost += cost
 		totalValue += value
