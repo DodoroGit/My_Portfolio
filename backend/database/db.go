@@ -64,7 +64,20 @@ CREATE TABLE IF NOT EXISTS stock_prices (
     price NUMERIC(10, 2) NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-	`
+
+CREATE TABLE IF NOT EXISTS stock_transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    symbol VARCHAR(10) NOT NULL,
+    shares INT NOT NULL,
+    sell_price NUMERIC(10,2) NOT NULL,
+    avg_price NUMERIC(10,2) NOT NULL,
+    realized_profit NUMERIC(10,2) NOT NULL,
+    note TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+`
 
 	_, err = DB.Exec(createTableQuery)
 	if err != nil {
