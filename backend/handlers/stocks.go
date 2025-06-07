@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"sync"
 	"time"
@@ -145,6 +146,10 @@ func StartStockPriceBroadcast() {
 	}()
 }
 
+func round(val float64) float64 {
+	return math.Round(val*100) / 100
+}
+
 // 傳送使用者持股資訊（包含即時價格與損益）
 func pushUserStocks(conn *websocket.Conn, userID int) {
 	rows, err := database.DB.Query("SELECT symbol, shares, avg_price FROM stocks WHERE user_id = $1", userID)
@@ -174,12 +179,24 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 			continue
 		}
 
+		// 台銀計算邏輯
+		buyAmount := float64(shares) * avgPrice
+		buyFee := round(buyAmount * 0.001425 * 0.35)
+
+		sellAmount := float64(shares) * price
+		sellFee := round(sellAmount * 0.001425 * 0.35)
+		tax := round(sellAmount * 0.003)
+
+		cost := buyAmount + buyFee
+		netSell := sellAmount - sellFee - tax
+		profit := round(netSell - cost)
+
 		payload := StockPayload{
 			Symbol:   symbol,
 			Price:    price,
 			Shares:   shares,
 			AvgPrice: avgPrice,
-			Profit:   float64(shares) * (price - avgPrice),
+			Profit:   profit,
 		}
 
 		if err := conn.WriteJSON(payload); err != nil {
