@@ -49,6 +49,9 @@ func RegisterRoutes(r *gin.Engine) {
 		stock.DELETE("/:id", handlers.DeleteStock)
 		stock.GET("/export", handlers.ExportStockExcel)
 		stock.GET("/history/:symbol", handlers.GetStockHistory)
+		stock.POST("/sell", handlers.SellStock)
+		stock.GET("/transactions", handlers.GetTransactions)
+		stock.GET("/summary", handlers.GetStockSummary)
 	}
 
 	wsStocks := r.Group("/ws/stocks")

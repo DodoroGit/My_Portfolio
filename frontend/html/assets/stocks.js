@@ -47,8 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 連線 WebSocket
-    connectWebSocket();
+    
+    connectWebSocket();// 連線 WebSocket
+    loadTransactions(); // 加這行載入交易紀錄
+    loadProfitSummary(); // 取得總損益
 });
 
 // 渲染股票表格（初始用）
@@ -64,6 +66,7 @@ function renderTable(stocks) {
             <td id="avg-${stock.symbol}">${stock.avg_price !== undefined ? stock.avg_price.toFixed(2) : '-'}</td>
             <td id="price-${stock.symbol}">-</td>
             <td id="profit-${stock.symbol}">-</td>
+            <td><button onclick="sellStockPrompt('${stock.symbol}', ${stock.shares})">賣出</button></td>
         `;
         tbody.appendChild(row);
     });
@@ -170,9 +173,113 @@ function viewChart(symbol) {
         });
 }
 
+function sellStockPrompt(symbol, currentShares) {
+    const sellShares = prompt(`請輸入要賣出的股數（最多 ${currentShares} 股）：`);
+    const sellPrice = prompt(`請輸入每股賣出價格：`);
+    const note = prompt("備註（可留空）：");
+
+    if (!sellShares || !sellPrice) return alert("請輸入完整資訊");
+
+    const token = localStorage.getItem("jwt");
+    fetch("/api/stocks/sell", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            symbol,
+            shares: parseInt(sellShares),
+            sell_price: parseFloat(sellPrice),
+            note: note || ""
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) return alert(data.error);
+        alert(`賣出成功，損益：${data.realized_profit}`);
+        location.reload();
+    });
+}
+
+function loadTransactions() {
+    const token = localStorage.getItem("jwt");
+    fetch("/api/stocks/transactions", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => renderTransactions(data.transactions));
+}
+
+function renderTransactions(transactions) {
+    const container = document.getElementById("tx-records");
+    container.innerHTML = "<h2>交易紀錄</h2>";
+    const table = document.createElement("table");
+    table.border = "1";
+    table.width = "100%";
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>代碼</th><th>股數</th><th>均價</th><th>賣價</th><th>損益</th><th>備註</th><th>時間</th>
+            </tr>
+        </thead>
+        <tbody>` +
+        transactions.map(tx => `
+            <tr>
+                <td>${tx.symbol}</td>
+                <td>${tx.shares}</td>
+                <td>${tx.avg_price}</td>
+                <td>${tx.sell_price}</td>
+                <td class="${tx.realized_profit >= 0 ? 'profit-positive' : 'profit-negative'}">${tx.realized_profit}</td>
+                <td>${tx.note || ""}</td>
+                <td>${new Date(tx.created_at).toLocaleString()}</td>
+            </tr>`).join("") +
+        "</tbody>";
+    container.appendChild(table);
+}
+
 
 // 點擊外部區域或關閉按鈕關掉 modal
 window.addEventListener("click", (e) => {
     const modal = document.getElementById("chart-modal");
     if (e.target === modal) modal.style.display = "none";
 });
+
+function loadProfitSummary() {
+    const token = localStorage.getItem("jwt");
+    fetch("/api/stocks/summary", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const div = document.getElementById("profit-summary");
+        const unrealized = data.unrealized_profit.toFixed(2);
+        const realized = data.realized_profit.toFixed(2);
+        const total = data.total_profit.toFixed(2);
+        const totalClass = data.total_profit >= 0 ? "profit-positive" : "profit-negative";
+
+        div.innerHTML = `
+            🧾 總損益：<span class="${totalClass}">${total}</span>　
+            （未實現：${unrealized}，已實現：${realized}）
+        `;
+    });
+}
+function loadProfitSummary() {
+    const token = localStorage.getItem("jwt");
+    fetch("/api/stocks/summary", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const div = document.getElementById("profit-summary");
+        const unrealized = data.unrealized_profit.toFixed(2);
+        const realized = data.realized_profit.toFixed(2);
+        const total = data.total_profit.toFixed(2);
+        const totalClass = data.total_profit >= 0 ? "profit-positive" : "profit-negative";
+
+        div.innerHTML = `
+            🧾 總損益：<span class="${totalClass}">${total}</span>　
+            （未實現：${unrealized}，已實現：${realized}）
+        `;
+    });
+}

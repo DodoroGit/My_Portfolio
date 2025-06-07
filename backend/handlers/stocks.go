@@ -276,3 +276,142 @@ func GetStockHistory(c *gin.Context) {
 
 	c.JSON(http.StatusOK, history)
 }
+
+// 賣出股票處理
+func SellStock(c *gin.Context) {
+	userID := c.GetInt("user_id")
+	var input struct {
+		Symbol    string  `json:"symbol"`
+		Shares    int     `json:"shares"`
+		SellPrice float64 `json:"sell_price"`
+		Note      string  `json:"note"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "格式錯誤"})
+		return
+	}
+
+	// 查詢現有持股
+	var currentShares int
+	var avgPrice float64
+	err := database.DB.QueryRow("SELECT shares, avg_price FROM stocks WHERE user_id = $1 AND symbol = $2",
+		userID, input.Symbol).Scan(&currentShares, &avgPrice)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "查無持股"})
+		return
+	}
+	if input.Shares <= 0 || input.Shares > currentShares {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "賣出股數錯誤"})
+		return
+	}
+
+	// 損益計算
+	buyAmount := float64(input.Shares) * avgPrice
+	buyFee := round(buyAmount * 0.001425 * 0.35)
+
+	sellAmount := float64(input.Shares) * input.SellPrice
+	sellFee := round(sellAmount * 0.001425 * 0.35)
+	tax := round(sellAmount * 0.003)
+
+	cost := buyAmount + buyFee
+	netSell := sellAmount - sellFee - tax
+	profit := round(netSell - cost)
+
+	// 新增交易紀錄
+	_, err = database.DB.Exec(`
+		INSERT INTO stock_transactions (user_id, symbol, shares, sell_price, avg_price, realized_profit, note)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+		userID, input.Symbol, input.Shares, input.SellPrice, avgPrice, profit, input.Note)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "交易紀錄儲存失敗"})
+		return
+	}
+
+	// 更新持股表
+	newShares := currentShares - input.Shares
+	if newShares == 0 {
+		_, _ = database.DB.Exec("DELETE FROM stocks WHERE user_id = $1 AND symbol = $2", userID, input.Symbol)
+	} else {
+		_, _ = database.DB.Exec("UPDATE stocks SET shares = $1 WHERE user_id = $2 AND symbol = $3",
+			newShares, userID, input.Symbol)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "賣出成功", "realized_profit": profit})
+}
+
+// 取得交易紀錄
+func GetTransactions(c *gin.Context) {
+	userID := c.GetInt("user_id")
+	rows, err := database.DB.Query(`
+		SELECT symbol, shares, avg_price, sell_price, realized_profit, note, created_at
+		FROM stock_transactions WHERE user_id = $1 ORDER BY created_at DESC`, userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "讀取交易紀錄失敗"})
+		return
+	}
+	defer rows.Close()
+
+	type Tx struct {
+		Symbol    string  `json:"symbol"`
+		Shares    int     `json:"shares"`
+		AvgPrice  float64 `json:"avg_price"`
+		SellPrice float64 `json:"sell_price"`
+		Profit    float64 `json:"realized_profit"`
+		Note      string  `json:"note"`
+		Time      string  `json:"created_at"`
+	}
+	var txs []Tx
+	for rows.Next() {
+		var t Tx
+		if err := rows.Scan(&t.Symbol, &t.Shares, &t.AvgPrice, &t.SellPrice, &t.Profit, &t.Note, &t.Time); err == nil {
+			txs = append(txs, t)
+		}
+	}
+	c.JSON(http.StatusOK, gin.H{"transactions": txs})
+}
+
+// 總損益摘要 API
+func GetStockSummary(c *gin.Context) {
+	userID := c.GetInt("user_id")
+
+	var unrealized float64 = 0
+
+	rows, err := database.DB.Query("SELECT symbol, shares, avg_price FROM stocks WHERE user_id = $1", userID)
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var symbol string
+			var shares int
+			var avgPrice float64
+			if err := rows.Scan(&symbol, &shares, &avgPrice); err == nil {
+				price, err := utils.FetchTWSEPrice(symbol)
+				if err != nil {
+					continue
+				}
+
+				// 台銀手續費與交易稅
+				buyAmount := float64(shares) * avgPrice
+				buyFee := round(buyAmount * 0.001425 * 0.35)
+				sellAmount := float64(shares) * price
+				sellFee := round(sellAmount * 0.001425 * 0.35)
+				tax := round(sellAmount * 0.003)
+				cost := buyAmount + buyFee
+				netSell := sellAmount - sellFee - tax
+				unrealized += round(netSell - cost)
+			}
+		}
+	}
+
+	var realized float64 = 0
+	err = database.DB.QueryRow("SELECT COALESCE(SUM(realized_profit),0) FROM stock_transactions WHERE user_id = $1", userID).
+		Scan(&realized)
+	if err != nil {
+		realized = 0
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"unrealized_profit": unrealized,
+		"realized_profit":   realized,
+		"total_profit":      round(unrealized + realized),
+	})
+}
