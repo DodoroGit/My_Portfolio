@@ -147,7 +147,7 @@ func StartStockPriceBroadcast() {
 }
 
 func round(val float64) float64 {
-	return math.Round(val*100) / 100
+	return math.Round(val)
 }
 
 // 傳送使用者持股資訊（包含即時價格與損益）
