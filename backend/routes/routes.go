@@ -50,6 +50,7 @@ func RegisterRoutes(r *gin.Engine) {
 		stock.GET("/export", handlers.ExportStockExcel)
 		stock.GET("/history/:symbol", handlers.GetStockHistory)
 		stock.POST("/sell", handlers.SellStock)
+		stock.POST("/dividend", handlers.ReceiveDividend) // 👉 加這行
 		stock.GET("/transactions", handlers.GetTransactions)
 		stock.GET("/summary", handlers.GetStockSummary)
 	}

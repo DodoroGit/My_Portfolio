@@ -67,6 +67,7 @@ function renderTable(stocks) {
             <td id="price-${stock.symbol}">-</td>
             <td id="profit-${stock.symbol}">-</td>
             <td><button onclick="sellStockPrompt('${stock.symbol}', ${stock.shares})">賣出</button></td>
+            <button onclick="receiveDividendPrompt('${stock.symbol}')">💰領股息</button>
         `;
         tbody.appendChild(row);
     });
@@ -231,7 +232,7 @@ function renderTransactions(transactions) {
                 <td>${tx.avg_price}</td>
                 <td>${tx.sell_price}</td>
                 <td class="${tx.realized_profit >= 0 ? 'profit-positive' : 'profit-negative'}">${tx.realized_profit}</td>
-                <td>${tx.note || ""}</td>
+                <td class="${tx.note.includes('股息') ? 'profit-dividend' : ''}">${tx.note || ""}</td>
                 <td>${new Date(tx.created_at).toLocaleString()}</td>
             </tr>`).join("") +
         "</tbody>";
@@ -281,5 +282,32 @@ function loadProfitSummary() {
             🧾 總損益：<span class="${totalClass}">${total}</span>　
             （未實現：${unrealized}，已實現：${realized}）
         `;
+    });
+}
+
+function receiveDividendPrompt(symbol) {
+    const amount = prompt(`請輸入「${symbol}」股息金額：`);
+    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) return alert("請輸入有效金額");
+
+    const note = prompt("備註（可選）：") || "";
+    const token = localStorage.getItem("jwt");
+
+    fetch("/api/stocks/dividend", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            symbol,
+            amount: parseFloat(amount),
+            note
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) return alert(data.error);
+        alert("股息已記錄！");
+        location.reload();
     });
 }

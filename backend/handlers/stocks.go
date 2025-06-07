@@ -415,3 +415,29 @@ func GetStockSummary(c *gin.Context) {
 		"total_profit":      round(unrealized + realized),
 	})
 }
+
+// 💰 領取股息 API
+func ReceiveDividend(c *gin.Context) {
+	userID := c.GetInt("user_id")
+	var input struct {
+		Symbol string  `json:"symbol"`
+		Amount float64 `json:"amount"`
+		Note   string  `json:"note"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil || input.Amount <= 0 || input.Symbol == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "格式錯誤"})
+		return
+	}
+
+	note := input.Note + "（股息）"
+	_, err := database.DB.Exec(`
+		INSERT INTO stock_transactions (user_id, symbol, shares, sell_price, avg_price, realized_profit, note)
+		VALUES ($1, $2, 0, 0, 0, $3, $4)`,
+		userID, input.Symbol, input.Amount, note)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "紀錄股息失敗"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "股息記錄成功"})
+}
