@@ -223,7 +223,7 @@ function renderTransactions(transactions) {
     table.innerHTML = `
         <thead>
             <tr>
-                <th>代碼</th><th>股數</th><th>均價</th><th>賣價</th><th>損益</th><th>備註</th><th>時間</th>
+                <th>代碼</th><th>股數</th><th>均價</th><th>賣價</th><th>損益</th><th>備註</th><th>時間</th><th>操作</th>
             </tr>
         </thead>
         <tbody>` +
@@ -233,15 +233,16 @@ function renderTransactions(transactions) {
                 <td>${tx.shares}</td>
                 <td>${tx.avg_price}</td>
                 <td>${tx.sell_price}</td>
-                <td class="${tx.realized_profit >= 0 ? 'profit-positive' : 'profit-negative'}">${tx.realized_profit}</td>
+                <td class="${tx.profit >= 0 ? 'profit-positive' : 'profit-negative'}">${tx.profit}</td>
                 <td class="${tx.note.includes('股息') ? 'profit-dividend' : ''}">${tx.note || ""}</td>
-                <td>${new Date(tx.created_at).toLocaleString()}</td>
+                <td>${new Date(tx.time).toLocaleString()}</td>
                 <td><button onclick="deleteTransaction(${tx.id})">🗑️</button></td>
             </tr>
-            `).join("") +
+        `).join("") +
         "</tbody>";
     container.appendChild(table);
 }
+
 
 
 // 點擊外部區域或關閉按鈕關掉 modal
