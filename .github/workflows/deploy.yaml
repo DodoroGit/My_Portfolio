@@ -22,5 +22,13 @@ jobs:
           script: |
             cd /home/ec2-user/My_Portfolio   # 你的專案路徑，請根據你的情況改
             git pull origin main
+
+            # === 釋放磁碟空間 ===
+            echo "🚀 Cleaning Docker and Go build cache to free up space..."
+            docker system prune -a -f --volumes
+            rm -rf /root/.cache/go-build || true
+            df -h
+
+            # === 部署 ===
             docker-compose down
             docker-compose up -d --build
