@@ -364,7 +364,7 @@ func GetTransactions(c *gin.Context) {
 	var txs []Tx
 	for rows.Next() {
 		var t Tx
-		if err := rows.Scan(&t.Symbol, &t.Shares, &t.AvgPrice, &t.SellPrice, &t.Profit, &t.Note, &t.Time); err == nil {
+		if err := rows.Scan(&t.ID, &t.Symbol, &t.Shares, &t.AvgPrice, &t.SellPrice, &t.Profit, &t.Note, &t.Time); err == nil {
 			txs = append(txs, t)
 		}
 	}
