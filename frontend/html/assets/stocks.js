@@ -317,7 +317,7 @@ function receiveDividendPrompt(symbol) {
     });
 }
 
-document.getElementById("export-btn").addEventListener("click", () => {
+document.getElementById("export-tx-btn").addEventListener("click", () => {
     fetch("/api/stocks/transactions/export", {
         headers: { "Authorization": `Bearer ${token}` }
     })

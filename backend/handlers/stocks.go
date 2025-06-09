@@ -352,6 +352,7 @@ func GetTransactions(c *gin.Context) {
 	defer rows.Close()
 
 	type Tx struct {
+		ID        int     `json:"id"`
 		Symbol    string  `json:"symbol"`
 		Shares    int     `json:"shares"`
 		AvgPrice  float64 `json:"avg_price"`
