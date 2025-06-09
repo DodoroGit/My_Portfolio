@@ -31,9 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 匯出 Excel 按鈕行為
-    document.getElementById("export-btn").addEventListener("click", () => {
-        fetch("/api/stocks/export", {
+    document.getElementById("export-tx-btn").addEventListener("click", () => {
+        fetch("/api/stocks/transactions/export", {
             headers: { "Authorization": `Bearer ${token}` }
         })
         .then(res => res.blob())
@@ -41,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "stocks.xlsx";
+            a.download = "transactions.xlsx";
             a.click();
             window.URL.revokeObjectURL(url);
         });
@@ -316,21 +315,6 @@ function receiveDividendPrompt(symbol) {
         location.reload();
     });
 }
-
-document.getElementById("export-tx-btn").addEventListener("click", () => {
-    fetch("/api/stocks/transactions/export", {
-        headers: { "Authorization": `Bearer ${token}` }
-    })
-    .then(res => res.blob())
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "transactions.xlsx";
-        a.click();
-        window.URL.revokeObjectURL(url);
-    });
-});
 
 function deleteTransaction(id) {
     if (!confirm("確定要刪除這筆交易紀錄？")) return;

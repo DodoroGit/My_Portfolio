@@ -343,7 +343,7 @@ func SellStock(c *gin.Context) {
 func GetTransactions(c *gin.Context) {
 	userID := c.GetInt("user_id")
 	rows, err := database.DB.Query(`
-		SELECT symbol, shares, avg_price, sell_price, realized_profit, note, created_at
+		SELECT id, symbol, shares, avg_price, sell_price, realized_profit, note, created_at
 		FROM stock_transactions WHERE user_id = $1 ORDER BY created_at DESC`, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "讀取交易紀錄失敗"})
