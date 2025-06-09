@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"sort"
 	"strconv"
@@ -105,4 +106,13 @@ func FetchTWSEPrice(code string) (float64, error) {
 	}
 
 	return 0, fmt.Errorf("找不到股價資料")
+}
+
+func TaiwanFee(amount float64) float64 {
+	raw := amount * 0.001425 * 0.35
+	rounded := math.Floor(raw/5) * 5
+	if rounded < 1 {
+		return 1
+	}
+	return rounded
 }

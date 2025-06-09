@@ -181,7 +181,7 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 
 		// 台銀計算邏輯
 		buyAmount := float64(shares) * avgPrice
-		buyFee := math.Max(round(buyAmount*0.001425*0.35), 1)
+		buyFee := utils.TaiwanFee(buyAmount)
 
 		sellAmount := float64(shares) * price
 		sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
@@ -245,7 +245,7 @@ func ExportStockExcel(c *gin.Context) {
 
 		// 正確計算損益（含手續費與交易稅）
 		buyAmount := float64(shares) * avgPrice
-		buyFee := math.Max(round(buyAmount*0.001425*0.35), 1)
+		buyFee := utils.TaiwanFee(buyAmount)
 
 		sellAmount := float64(shares) * price
 		sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
@@ -317,7 +317,7 @@ func SellStock(c *gin.Context) {
 
 	// 損益計算
 	buyAmount := float64(input.Shares) * avgPrice
-	buyFee := math.Max(round(buyAmount*0.001425*0.35), 1)
+	buyFee := utils.TaiwanFee(buyAmount)
 
 	sellAmount := float64(input.Shares) * input.SellPrice
 	sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
@@ -404,7 +404,7 @@ func GetStockSummary(c *gin.Context) {
 				}
 				// 台銀手續費與交易稅
 				buyAmount := float64(shares) * avgPrice
-				buyFee := math.Max(round(buyAmount*0.001425*0.35), 1)
+				buyFee := utils.TaiwanFee(buyAmount)
 				sellAmount := float64(shares) * price
 				sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
 				tax := round(sellAmount * 0.003)
