@@ -190,7 +190,7 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 
 		cost := buyAmount + buyFee
 		netSell := sellAmount - sellFee - tax
-		profit := round(netSell - cost)
+		profit := math.Floor(netSell - cost)
 
 		payload := StockPayload{
 			Symbol:   symbol,
@@ -255,7 +255,7 @@ func ExportStockExcel(c *gin.Context) {
 
 		cost := buyAmount + buyFee
 		netSell := sellAmount - sellFee - tax
-		profit := round(netSell - cost)
+		profit := math.Floor(netSell - cost)
 
 		f.SetCellValue(sheet, fmt.Sprintf("A%d", rowIndex), symbol)
 		f.SetCellValue(sheet, fmt.Sprintf("B%d", rowIndex), shares)
@@ -327,7 +327,7 @@ func SellStock(c *gin.Context) {
 
 	cost := buyAmount + buyFee
 	netSell := sellAmount - sellFee - tax
-	profit := round(netSell - cost)
+	profit := math.Floor(netSell - cost)
 
 	// 新增交易紀錄
 	_, err = database.DB.Exec(`
@@ -412,7 +412,7 @@ func GetStockSummary(c *gin.Context) {
 				tax := utils.TaiwanTax(sellAmount)
 				cost := buyAmount + buyFee
 				netSell := sellAmount - sellFee - tax
-				unrealized += round(netSell - cost)
+				unrealized += math.Floor(netSell - cost)
 			}
 		}
 	}
