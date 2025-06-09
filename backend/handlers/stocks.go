@@ -408,7 +408,7 @@ func GetStockSummary(c *gin.Context) {
 				buyAmount := float64(shares) * avgPrice
 				buyFee := utils.TaiwanFee(buyAmount)
 				sellAmount := float64(shares) * price
-				sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
+				sellFee := utils.TaiwanFee(sellAmount)
 				tax := utils.TaiwanTax(sellAmount)
 				cost := buyAmount + buyFee
 				netSell := sellAmount - sellFee - tax
