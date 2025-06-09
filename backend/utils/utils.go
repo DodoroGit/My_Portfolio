@@ -109,10 +109,14 @@ func FetchTWSEPrice(code string) (float64, error) {
 }
 
 func TaiwanFee(amount float64) float64 {
-	raw := amount * 0.001425 * 0.35
-	rounded := math.Floor(raw/5) * 5
+	fee := amount * 0.001425 * 0.35
+	rounded := math.Round(fee) // 四捨五入到整數元
 	if rounded < 1 {
 		return 1
 	}
 	return rounded
+}
+
+func TaiwanTax(amount float64) float64 {
+	return math.Floor(amount * 0.003) // 台銀是捨去（不是四捨五入）
 }

@@ -184,8 +184,9 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 		buyFee := utils.TaiwanFee(buyAmount)
 
 		sellAmount := float64(shares) * price
-		sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
-		tax := round(sellAmount * 0.003)
+		sellFee := utils.TaiwanFee(sellAmount)
+
+		tax := utils.TaiwanTax(sellAmount)
 
 		cost := buyAmount + buyFee
 		netSell := sellAmount - sellFee - tax
@@ -248,8 +249,9 @@ func ExportStockExcel(c *gin.Context) {
 		buyFee := utils.TaiwanFee(buyAmount)
 
 		sellAmount := float64(shares) * price
-		sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
-		tax := round(sellAmount * 0.003)
+		sellFee := utils.TaiwanFee(sellAmount)
+
+		tax := utils.TaiwanTax(sellAmount)
 
 		cost := buyAmount + buyFee
 		netSell := sellAmount - sellFee - tax
@@ -320,8 +322,8 @@ func SellStock(c *gin.Context) {
 	buyFee := utils.TaiwanFee(buyAmount)
 
 	sellAmount := float64(input.Shares) * input.SellPrice
-	sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
-	tax := round(sellAmount * 0.003)
+	sellFee := utils.TaiwanFee(sellAmount)
+	tax := utils.TaiwanTax(sellAmount)
 
 	cost := buyAmount + buyFee
 	netSell := sellAmount - sellFee - tax
@@ -407,7 +409,7 @@ func GetStockSummary(c *gin.Context) {
 				buyFee := utils.TaiwanFee(buyAmount)
 				sellAmount := float64(shares) * price
 				sellFee := math.Max(round(sellAmount*0.001425*0.35), 1)
-				tax := round(sellAmount * 0.003)
+				tax := utils.TaiwanTax(sellAmount)
 				cost := buyAmount + buyFee
 				netSell := sellAmount - sellFee - tax
 				unrealized += round(netSell - cost)
