@@ -352,20 +352,22 @@ func GetTransactions(c *gin.Context) {
 	defer rows.Close()
 
 	type Tx struct {
-		ID        int       `json:"id"`
-		Symbol    string    `json:"symbol"`
-		Shares    int       `json:"shares"`
-		AvgPrice  float64   `json:"avg_price"`
-		SellPrice float64   `json:"sell_price"`
-		Profit    float64   `json:"profit"`
-		Note      string    `json:"note"`
-		Time      time.Time `json:"created_at"`
+		ID        int     `json:"id"`
+		Symbol    string  `json:"symbol"`
+		Shares    int     `json:"shares"`
+		AvgPrice  float64 `json:"avg_price"`
+		SellPrice float64 `json:"sell_price"`
+		Profit    float64 `json:"profit"`
+		Note      string  `json:"note"`
+		Time      string  `json:"created_at"`
 	}
 
 	var txs []Tx
 	for rows.Next() {
 		var t Tx
+		var created time.Time // ⭐ 先宣告 created，對應資料庫的 created_at 欄位
 		if err := rows.Scan(&t.ID, &t.Symbol, &t.Shares, &t.AvgPrice, &t.SellPrice, &t.Profit, &t.Note, &t.Time); err == nil {
+			t.Time = created.Format("2006-01-02 15:04:05") // ⭐轉成字串
 			txs = append(txs, t)
 		}
 	}
