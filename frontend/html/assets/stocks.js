@@ -66,8 +66,11 @@ function renderTable(stocks) {
             <td id="avg-${stock.symbol}">${stock.avg_price !== undefined ? stock.avg_price.toFixed(2) : '-'}</td>
             <td id="price-${stock.symbol}">-</td>
             <td id="profit-${stock.symbol}">-</td>
-            <td><button onclick="sellStockPrompt('${stock.symbol}', ${stock.shares})">賣出</button></td>
-            <button onclick="receiveDividendPrompt('${stock.symbol}')">💰領股息</button>
+            <td>
+                <button onclick="sellStockPrompt('${stock.symbol}', ${stock.shares})">賣出</button>
+                <button onclick="receiveDividendPrompt('${stock.symbol}')">💰領股息</button>
+                <button onclick="deleteStock(${stock.id})">🗑️刪除</button>
+            </td>
         `;
         tbody.appendChild(row);
     });
@@ -234,7 +237,9 @@ function renderTransactions(transactions) {
                 <td class="${tx.realized_profit >= 0 ? 'profit-positive' : 'profit-negative'}">${tx.realized_profit}</td>
                 <td class="${tx.note.includes('股息') ? 'profit-dividend' : ''}">${tx.note || ""}</td>
                 <td>${new Date(tx.created_at).toLocaleString()}</td>
-            </tr>`).join("") +
+                <td><button onclick="deleteTransaction(${tx.id})">🗑️</button></td>
+            </tr>
+            `).join("") +
         "</tbody>";
     container.appendChild(table);
 }
@@ -308,6 +313,34 @@ function receiveDividendPrompt(symbol) {
     .then(data => {
         if (data.error) return alert(data.error);
         alert("股息已記錄！");
+        location.reload();
+    });
+}
+
+document.getElementById("export-btn").addEventListener("click", () => {
+    fetch("/api/stocks/transactions/export", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "transactions.xlsx";
+        a.click();
+        window.URL.revokeObjectURL(url);
+    });
+});
+
+function deleteTransaction(id) {
+    if (!confirm("確定要刪除這筆交易紀錄？")) return;
+    fetch(`/api/stocks/transactions/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("jwt")}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message || "已刪除");
         location.reload();
     });
 }

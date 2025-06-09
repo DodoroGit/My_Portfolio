@@ -441,3 +441,57 @@ func ReceiveDividend(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "股息記錄成功"})
 }
+
+func ExportTransactionExcel(c *gin.Context) {
+	userID := c.GetInt("user_id")
+
+	rows, err := database.DB.Query(`SELECT symbol, shares, avg_price, sell_price, realized_profit, note, created_at
+		FROM stock_transactions WHERE user_id = $1 ORDER BY created_at DESC`, userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "資料讀取失敗"})
+		return
+	}
+	defer rows.Close()
+
+	f := excelize.NewFile()
+	sheet := "交易紀錄"
+	f.SetSheetName("Sheet1", sheet)
+	headers := []string{"代碼", "股數", "均價", "賣價", "損益", "備註", "時間"}
+	for i, h := range headers {
+		f.SetCellValue(sheet, fmt.Sprintf("%s1", string(rune('A'+i))), h)
+	}
+
+	rowIdx := 2
+	for rows.Next() {
+		var symbol, note, createdAt string
+		var shares int
+		var avg, sell, profit float64
+		_ = rows.Scan(&symbol, &shares, &avg, &sell, &profit, &note, &createdAt)
+
+		f.SetCellValue(sheet, fmt.Sprintf("A%d", rowIdx), symbol)
+		f.SetCellValue(sheet, fmt.Sprintf("B%d", rowIdx), shares)
+		f.SetCellValue(sheet, fmt.Sprintf("C%d", rowIdx), avg)
+		f.SetCellValue(sheet, fmt.Sprintf("D%d", rowIdx), sell)
+		f.SetCellValue(sheet, fmt.Sprintf("E%d", rowIdx), profit)
+		f.SetCellValue(sheet, fmt.Sprintf("F%d", rowIdx), note)
+		f.SetCellValue(sheet, fmt.Sprintf("G%d", rowIdx), createdAt)
+		rowIdx++
+	}
+
+	filename := fmt.Sprintf("transactions_%d.xlsx", time.Now().Unix())
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.Header("Content-Disposition", "attachment; filename="+filename)
+	_ = f.Write(c.Writer)
+}
+
+func DeleteTransaction(c *gin.Context) {
+	userID := c.GetInt("user_id")
+	id := c.Param("id")
+
+	_, err := database.DB.Exec("DELETE FROM stock_transactions WHERE id = $1 AND user_id = $2", id, userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "刪除失敗"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "紀錄已刪除"})
+}

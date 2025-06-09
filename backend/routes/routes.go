@@ -53,6 +53,8 @@ func RegisterRoutes(r *gin.Engine) {
 		stock.POST("/dividend", handlers.ReceiveDividend) // 👉 加這行
 		stock.GET("/transactions", handlers.GetTransactions)
 		stock.GET("/summary", handlers.GetStockSummary)
+		stock.GET("/transactions/export", handlers.ExportTransactionExcel) // ➕ 新增匯出交易紀錄
+		stock.DELETE("/transactions/:id", handlers.DeleteTransaction)
 	}
 
 	wsStocks := r.Group("/ws/stocks")
