@@ -365,9 +365,9 @@ func GetTransactions(c *gin.Context) {
 	var txs []Tx
 	for rows.Next() {
 		var t Tx
-		var created time.Time // ⭐ 先宣告 created，對應資料庫的 created_at 欄位
-		if err := rows.Scan(&t.ID, &t.Symbol, &t.Shares, &t.AvgPrice, &t.SellPrice, &t.Profit, &t.Note, &t.Time); err == nil {
-			t.Time = created.Format("2006-01-02 15:04:05") // ⭐轉成字串
+		var created time.Time
+		if err := rows.Scan(&t.ID, &t.Symbol, &t.Shares, &t.AvgPrice, &t.SellPrice, &t.Profit, &t.Note, &created); err == nil {
+			t.Time = created.Format("2006-01-02 15:04:05")
 			txs = append(txs, t)
 		}
 	}
