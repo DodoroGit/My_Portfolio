@@ -235,7 +235,7 @@ function renderTransactions(transactions) {
                 <td>${tx.sell_price}</td>
                 <td class="${tx.profit >= 0 ? 'profit-positive' : 'profit-negative'}">${tx.profit}</td>
                 <td class="${tx.note.includes('股息') ? 'profit-dividend' : ''}">${tx.note || ""}</td>
-                <td>${new Date(tx.time).toLocaleString()}</td>
+                <td>${new Date(tx.created_at).toLocaleString()}</td>
                 <td><button onclick="deleteTransaction(${tx.id})">🗑️</button></td>
             </tr>
         `).join("") +
