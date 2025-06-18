@@ -265,30 +265,24 @@ function loadProfitSummary() {
         const totalClass = data.total_profit >= 0 ? "profit-positive" : "profit-negative";
 
         div.innerHTML = `
-            🧾 總損益：<span class="${totalClass}">${total}</span>　
-            （未實現：${unrealized}，已實現：${realized}）
+            <div>
+                🧾 總損益：<span class="${totalClass}">${total}</span>　
+                （未實現：${unrealized}，已實現：${realized}）
+            </div>
+            <div style="margin-top: 12px; font-size: 14px; color: #666;">
+                💡 <b>計算公式說明：</b><br>
+                每筆損益計算方式如下：<br>
+                <code>(持股數 × 即時價格 - 手續費 - 證交稅) - (持股數 × 均價 + 手續費)</code><br>
+                手續費依據 <code>0.001425 × 0.35</code> 計算（四捨五入，最低為 1 元），<br>
+                證交稅為 <code>0.3%</code> 且無條件捨去。
+            </div>
+            <div style="margin-top: 8px; font-size: 13px; color: red;">
+                ⚠️ 最終數字可能與券商 App 有落差，僅供參考，請以官方資訊為準。
+            </div>
         `;
     });
 }
-function loadProfitSummary() {
-    const token = localStorage.getItem("jwt");
-    fetch("/api/stocks/summary", {
-        headers: { "Authorization": `Bearer ${token}` }
-    })
-    .then(res => res.json())
-    .then(data => {
-        const div = document.getElementById("profit-summary");
-        const unrealized = data.unrealized_profit.toFixed(2);
-        const realized = data.realized_profit.toFixed(2);
-        const total = data.total_profit.toFixed(2);
-        const totalClass = data.total_profit >= 0 ? "profit-positive" : "profit-negative";
 
-        div.innerHTML = `
-            🧾 總損益：<span class="${totalClass}">${total}</span>　
-            （未實現：${unrealized}，已實現：${realized}）
-        `;
-    });
-}
 
 function receiveDividendPrompt(symbol) {
     const amount = prompt(`請輸入「${symbol}」股息金額：`);
