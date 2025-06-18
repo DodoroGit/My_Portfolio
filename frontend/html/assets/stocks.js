@@ -267,10 +267,9 @@ function loadProfitSummary() {
         div.innerHTML = `
             <div>
                 🧾 <strong>總損益：</strong>
-                <span class="profit-negative" style="font-size: 1.4rem;">-10796.00</span>
-                <br>
+                <span class="${totalClass}" style="font-size: 1.4rem;">${total}</span><br>
                 <span style="font-size: 14px; color: #555;">
-                    （未實現：<strong>5036.00</strong>，已實現：<strong>5760.00</strong>）
+                    （未實現：<strong>${unrealized}</strong>，已實現：<strong>${realized}</strong>）
                 </span>
             </div>
 
@@ -292,6 +291,7 @@ function loadProfitSummary() {
         `;
     });
 }
+
 
 
 function receiveDividendPrompt(symbol) {
