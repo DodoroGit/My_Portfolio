@@ -38,8 +38,27 @@ document.addEventListener("DOMContentLoaded", async function() {
             systemDiv.textContent = `[系統訊息] ${msg.content}`;
             chatBox.appendChild(systemDiv);
         } else if (msg.type === "message") {
+            const wrapperDiv = document.createElement("div");
+            wrapperDiv.classList.add("message-wrapper", msg.user_id === currentUserId ? "right" : "left");
+
+            const avatarDiv = document.createElement("div");
+            avatarDiv.classList.add("message-avatar");
+            avatarDiv.textContent = (msg.user_name || "？").charAt(0).toUpperCase();
+
             const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message");
+            messageDiv.classList.add("message-bubble");
+
+            const timeStr2 = new Date(msg.timestamp).toLocaleTimeString();
+            messageDiv.innerHTML = `
+                <div class="message-author">${msg.user_name || '未知使用者'}</div>
+                <div class="message-content">${msg.content}</div>
+                <div class="message-time">${timeStr2}</div>
+            `;
+
+            wrapperDiv.appendChild(avatarDiv);
+            wrapperDiv.appendChild(messageDiv);
+            chatBox.appendChild(wrapperDiv);
+
 
             if (msg.user_id === currentUserId) {
                 messageDiv.classList.add("right");

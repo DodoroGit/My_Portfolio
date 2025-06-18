@@ -149,6 +149,61 @@
     transform: scale(1.05);
 }
 
+.message-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 70%;
+    animation: fadeIn-message 0.3s ease-in-out;
+}
+
+.message-wrapper.left {
+    flex-direction: row;
+    align-self: flex-start;
+}
+
+.message-wrapper.right {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+}
+
+.message-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: #6c63ff;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.message-bubble {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.message-wrapper.right .message-bubble {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    text-align: right;
+}
+
+.message-wrapper.left .message-bubble {
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    color: #333;
+    text-align: left;
+}
+
+
 
 @keyframes fadeIn-message {
     from {
