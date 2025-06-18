@@ -280,7 +280,7 @@ function loadProfitSummary() {
                     <li>
                         <code>(持股數 × 即時價格 − 手續費 − 證交稅) − (持股數 × 均價 + 手續費)</code>
                     </li>
-                    <li>手續費依據 <code>0.001425 × 0.35</code> 計算（四捨五入，<strong>最低為 20 元</strong>）</li>
+                    <li>手續費依據 <code>0.001425 × 0.35</code> 計算（四捨五入，<strong>最低為 1 元</strong>）</li>
                     <li>證交稅為 <code>0.3%</code>，且 <strong>無條件捨去</strong></li>
                 </ul>
             </div>
