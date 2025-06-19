@@ -104,14 +104,3 @@ h2 {
     color: #10b981;
     font-weight: bold;
 }
-
-/* 指定交易紀錄區塊的字體風格 */
-#tx-records, .styled-table {
-    font-family: "標楷體", "Cambria", serif;
-    font-weight: normal;
-}
-
-.card {
-    font-family: "標楷體", "Cambria", serif;
-    font-weight: normal;
-}
