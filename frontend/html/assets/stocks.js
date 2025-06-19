@@ -265,7 +265,7 @@ function loadProfitSummary() {
         const totalClass = data.total_profit >= 0 ? "profit-positive" : "profit-negative";
 
         div.innerHTML = `
-            <div style="font-family: '標楷體', Cambria, serif; font-weight: normal;">
+            <div style="font-family: '標楷體', Cambria; font-weight: normal;">
                 🧾 <span style="font-weight: normal;">總損益：</span>
                 <span class="${totalClass}" style="font-size: 1.4rem; font-weight: normal;">${total}</span><br>
                 <span style="font-size: 14px; color: #555; font-weight: normal;">
@@ -273,19 +273,17 @@ function loadProfitSummary() {
                 </span>
             </div>
 
-            <div style="margin-top: 1rem; text-align: left; font-size: 14px; background: #f8f9fa; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); line-height: 1.6; font-family: '標楷體', Cambria, serif; font-weight: normal;">
+            <div style="margin-top: 1rem; text-align: left; font-size: 14px; background: #f8f9fa; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); line-height: 1.8; font-family: '標楷體', Cambria; font-weight: normal;">
                 <h3 style="font-size: 16px; margin: 0 0 0.5rem 0; font-weight: normal;">💡 計算公式說明：</h3>
                 <ul style="padding-left: 1rem; margin: 0;">
                     <li>每筆損益計算方式如下：</li>
-                    <li>
-                        <code>(持股數 × 即時價格 − 手續費 − 證交稅) − (持股數 × 均價 + 手續費)</code>
-                    </li>
-                    <li>手續費依據 <code>0.001425 × 0.35</code> 計算（四捨五入，最低為 1 元）</li>
-                    <li>證交稅為 <code>0.3%</code>，且 無條件捨去</li>
+                    <li>(持股數 × 即時價格 − 手續費 − 證交稅) − (持股數 × 均價 + 手續費)</li>
+                    <li>手續費依據 0.001425 × 0.35 計算（四捨五入，最低為 1 元）</li>
+                    <li>證交稅為 0.3%，且 無條件捨去</li>
                 </ul>
             </div>
 
-            <p style="color: red; font-size: 13px; margin-top: 8px; font-family: '標楷體', Cambria, serif; font-weight: normal;">
+            <p style="color: red; font-size: 13px; margin-top: 8px; font-family: '標楷體', Cambria; font-weight: normal;">
                 ⚠️ 最終數字可能與券商 App 有誤差，僅供參考，請以官方資訊為準。
             </p>
         `;
