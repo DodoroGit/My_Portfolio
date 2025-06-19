@@ -265,11 +265,13 @@ function loadProfitSummary() {
         const totalClass = data.total_profit >= 0 ? "profit-positive" : "profit-negative";
 
         div.innerHTML = `
-            🧾 <span style="font-weight: normal;">總損益：</span>
-            <span class="${totalClass}" style="font-size: 1.4rem; font-weight: normal;">${total}</span><br>
-            <span style="font-size: 14px; color: #555; font-weight: normal;">
-                未實現：${unrealized}，已實現：${realized}）
-            </span>
+            <div>
+                🧾 <strong>總損益：</strong>
+                <span class="${totalClass}" style="font-size: 1.4rem;">${total}</span><br>
+                <span style="font-size: 14px; color: #555;">
+                    （未實現：<strong>${unrealized}</strong>，已實現：<strong>${realized}</strong>）
+                </span>
+            </div>
 
             <div style="margin-top: 1rem; text-align: left; font-size: 16px; background: #f8f9fa; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); line-height: 1.8; font-family: '標楷體', Cambria; font-weight: normal;">
                 <h3 style="font-size: 16px; margin: 0 0 0.5rem 0; font-weight: normal;">💡 計算公式說明：</h3>
