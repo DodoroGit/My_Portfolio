@@ -274,11 +274,11 @@ function loadProfitSummary() {
             </div>
 
             <div style="margin-top: 1rem; text-align: left; font-size: 16px; background: #f8f9fa; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); line-height: 1.8; font-family: '標楷體', Cambria; font-weight: normal;">
-                <h3 style="font-size: 16px; margin: 0 0 0.5rem 0; font-weight: normal;">💡 計算公式說明：</h3>
+                <h3 style="font-size: 15px; margin: 0 0 0.5rem 0; font-weight: normal;">💡 計算公式說明：</h3>
                 <ul style="padding-left: 1rem; margin: 0;">
                     <li>每筆損益計算方式如下：</li>
-                    <li>( 持股數 * 即時價格 - 手續費 - 證交稅 ) - ( 持股數 * 均價 + 手續費 )</li>
-                    <li>手續費依據 0.001425 * 0.35 計算（四捨五入，最低為1元）</li>
+                    <li>(持股數*即時價格-手續費-證交稅)-(持股數*均價+手續費)</li>
+                    <li>手續費依據 0.001425 * 0.35 計算(四捨五入,最低為1元)</li>
                     <li>證交稅為 0.3%，且無條件捨去</li>
                 </ul>
             </div>
