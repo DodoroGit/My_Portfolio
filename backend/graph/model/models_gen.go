@@ -3,7 +3,7 @@
 package model
 
 type FoodLog struct {
-	ID       string   `json:"id"`
+	ID       int      `json:"id"`
 	Name     string   `json:"name"`
 	Calories *float64 `json:"calories,omitempty"`
 	Protein  *float64 `json:"protein,omitempty"`

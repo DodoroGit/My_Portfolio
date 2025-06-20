@@ -1,5 +1,5 @@
 type FoodLog {
-  id: ID!
+  id: Int!
   name: String!
   calories: Float
   protein: Float
