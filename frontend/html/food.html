@@ -4,70 +4,72 @@
   <meta charset="UTF-8" />
   <title>飲食紀錄系統</title>
   <link rel="stylesheet" href="/assets/styles.css" />
-  <link rel="stylesheet" href="/assets/stock.css" />
+  <link rel="stylesheet" href="/assets/food.css" />
   <script src="/assets/auth.js" defer></script>
   <script src="/assets/food.js" defer></script>
   <script src="/assets/login_button.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>🥗 飲食紀錄系統</h1>
-    <nav>
-      <ul>
-        <li><a href="/index.html">首頁</a></li>
-        <li><a href="/about.html">關於我</a></li>
-        <li><a href="/projects.html">功能展示</a></li>
-        <li><a href="/skills.html">技能介紹</a></li>
-        <li><a href="/contact.html">聯絡方式</a></li>
-      </ul>
-    </nav>
-    <div class="auth-buttons">
-      <button id="profile-btn" onclick="goToProfile()" style="display:none;">個人資料</button>
-      <button id="login-btn" onclick="goToLogin()">登入</button>
-      <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
-    </div>
-  </header>
+  <div class="food-page">
+    <header>
+      <h1>🥗 飲食紀錄系統</h1>
+      <nav>
+        <ul>
+          <li><a href="/index.html">首頁</a></li>
+          <li><a href="/about.html">關於我</a></li>
+          <li><a href="/projects.html">功能展示</a></li>
+          <li><a href="/skills.html">技能介紹</a></li>
+          <li><a href="/contact.html">聯絡方式</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <button id="profile-btn" onclick="goToProfile()" style="display:none;">個人資料</button>
+        <button id="login-btn" onclick="goToLogin()">登入</button>
+        <button id="logout-btn" onclick="logout()" style="display:none;">登出</button>
+      </div>
+    </header>
 
-  <main class="stock-container">
-    <!-- 輸入區 -->
-    <section class="card">
-      <h2>🍱 新增飲食紀錄</h2>
-      <form id="food-form" class="form-inline">
-        <input type="text" id="name" placeholder="食物名稱" required />
-        <input type="number" id="calories" placeholder="熱量 (kcal)" step="0.1" />
-        <input type="number" id="protein" placeholder="蛋白質 (g)" step="0.1" />
-        <input type="number" id="fat" placeholder="脂肪 (g)" step="0.1" />
-        <input type="number" id="carbs" placeholder="碳水 (g)" step="0.1" />
-        <input type="text" id="quantity" placeholder="份量描述" />
-        <input type="date" id="loggedAt" required />
-        <button type="submit">新增紀錄</button>
-      </form>
-    </section>
+    <main class="food-container">
+      <!-- 輸入區 -->
+      <section class="food-card">
+        <h2>🍱 新增飲食紀錄</h2>
+        <form id="food-form" class="food-form-inline">
+          <input type="text" id="name" placeholder="食物名稱" required />
+          <input type="number" id="calories" placeholder="熱量 (kcal)" step="0.1" />
+          <input type="number" id="protein" placeholder="蛋白質 (g)" step="0.1" />
+          <input type="number" id="fat" placeholder="脂肪 (g)" step="0.1" />
+          <input type="number" id="carbs" placeholder="碳水 (g)" step="0.1" />
+          <input type="text" id="quantity" placeholder="份量描述" />
+          <input type="date" id="loggedAt" required />
+          <button type="submit">新增紀錄</button>
+        </form>
+      </section>
 
-    <!-- 顯示區 -->
-    <section class="card">
-      <h2>📋 飲食紀錄表</h2>
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>日期</th>
-            <th>食物</th>
-            <th>熱量</th>
-            <th>蛋白質</th>
-            <th>脂肪</th>
-            <th>碳水</th>
-            <th>份量</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="food-table-body">
-          <!-- JS 會插入資料列 -->
-        </tbody>
-      </table>
-    </section>
+      <!-- 顯示區 -->
+      <section class="food-card">
+        <h2>📋 飲食紀錄表</h2>
+        <table class="food-table">
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>食物</th>
+              <th>熱量</th>
+              <th>蛋白質</th>
+              <th>脂肪</th>
+              <th>碳水</th>
+              <th>份量</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="food-table-body">
+            <!-- JS 插入 -->
+          </tbody>
+        </table>
+      </section>
 
-    <!-- 匯出 -->
-    <button type="button" id="export-food-btn">📤 匯出飲食紀錄</button>
-  </main>
+      <!-- 匯出 -->
+      <button type="button" id="export-food-btn">📤 匯出飲食紀錄</button>
+    </main>
+  </div>
 </body>
 </html>
