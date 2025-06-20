@@ -7,9 +7,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # 複製前端靜態檔案
 COPY html/ /usr/share/nginx/html/
 
-# 確保 mime.types 存在（理論上 nginx image 已有，但可保險處理）
-COPY mime.types /etc/nginx/mime.types
-
 # 開放 port 80
 EXPOSE 80
 
