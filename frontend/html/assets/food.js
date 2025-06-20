@@ -48,6 +48,11 @@ function fetchFoodLogs() {
   })
     .then(res => res.json())
     .then(data => {
+      if (data.errors) {
+        console.error("GraphQL 查詢錯誤", data.errors);
+        alert("資料查詢失敗：" + data.errors[0].message);
+        return;
+      }
       renderTable(data.data.myFoodLogs);
     })
     .catch(err => {
@@ -90,6 +95,11 @@ function addFoodLog() {
   })
     .then(res => res.json())
     .then(data => {
+      if (data.errors) {
+        console.error("GraphQL 新增錯誤", data.errors);
+        alert("新增失敗：" + data.errors[0].message);
+        return;
+      }
       alert("新增成功！");
       document.getElementById("food-form").reset();
       fetchFoodLogs(); // 重新載入
