@@ -33,7 +33,7 @@ function fetchFoodLogs() {
         fat
         carbs
         quantity
-        logged_at
+        loggedAt
       }
     }
   `;
