@@ -1,10 +1,10 @@
 package routes
 
 import (
-	"github.com/99designs/gqlgen/codegen/testserver/nullabledirectives/generated"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/DodoroGit/My_Portfolio/backend/graph"
+	"github.com/DodoroGit/My_Portfolio/backend/graph/generated"
 	"github.com/DodoroGit/My_Portfolio/backend/handlers"
 	"github.com/DodoroGit/My_Portfolio/backend/middlewares"
 	"github.com/gin-gonic/gin"
