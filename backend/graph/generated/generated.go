@@ -120,7 +120,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.FoodLog.ID(childComplexity), true
 
-	case "FoodLog.logged_at":
+	case "FoodLog.loggedAt":
 		if e.complexity.FoodLog.LoggedAt == nil {
 			break
 		}
@@ -281,7 +281,7 @@ var sources = []*ast.Source{
   fat: Float
   carbs: Float
   quantity: String
-  logged_at: String
+  loggedAt: String
 }
 
 input FoodLogInput {
@@ -291,7 +291,7 @@ input FoodLogInput {
   fat: Float
   carbs: Float
   quantity: String
-  logged_at: String
+  loggedAt: String
 }
 
 type Query {
@@ -778,8 +778,8 @@ func (ec *executionContext) fieldContext_FoodLog_quantity(_ context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _FoodLog_logged_at(ctx context.Context, field graphql.CollectedField, obj *model.FoodLog) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_FoodLog_logged_at(ctx, field)
+func (ec *executionContext) _FoodLog_loggedAt(ctx context.Context, field graphql.CollectedField, obj *model.FoodLog) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FoodLog_loggedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -806,7 +806,7 @@ func (ec *executionContext) _FoodLog_logged_at(ctx context.Context, field graphq
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_FoodLog_logged_at(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_FoodLog_loggedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "FoodLog",
 		Field:      field,
@@ -872,8 +872,8 @@ func (ec *executionContext) fieldContext_Mutation_addFoodLog(ctx context.Context
 				return ec.fieldContext_FoodLog_carbs(ctx, field)
 			case "quantity":
 				return ec.fieldContext_FoodLog_quantity(ctx, field)
-			case "logged_at":
-				return ec.fieldContext_FoodLog_logged_at(ctx, field)
+			case "loggedAt":
+				return ec.fieldContext_FoodLog_loggedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type FoodLog", field.Name)
 		},
@@ -945,8 +945,8 @@ func (ec *executionContext) fieldContext_Query_myFoodLogs(_ context.Context, fie
 				return ec.fieldContext_FoodLog_carbs(ctx, field)
 			case "quantity":
 				return ec.fieldContext_FoodLog_quantity(ctx, field)
-			case "logged_at":
-				return ec.fieldContext_FoodLog_logged_at(ctx, field)
+			case "loggedAt":
+				return ec.fieldContext_FoodLog_loggedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type FoodLog", field.Name)
 		},
@@ -3043,7 +3043,7 @@ func (ec *executionContext) unmarshalInputFoodLogInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "calories", "protein", "fat", "carbs", "quantity", "logged_at"}
+	fieldsInOrder := [...]string{"name", "calories", "protein", "fat", "carbs", "quantity", "loggedAt"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -3092,8 +3092,8 @@ func (ec *executionContext) unmarshalInputFoodLogInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.Quantity = data
-		case "logged_at":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logged_at"))
+		case "loggedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("loggedAt"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -3144,8 +3144,8 @@ func (ec *executionContext) _FoodLog(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._FoodLog_carbs(ctx, field, obj)
 		case "quantity":
 			out.Values[i] = ec._FoodLog_quantity(ctx, field, obj)
-		case "logged_at":
-			out.Values[i] = ec._FoodLog_logged_at(ctx, field, obj)
+		case "loggedAt":
+			out.Values[i] = ec._FoodLog_loggedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

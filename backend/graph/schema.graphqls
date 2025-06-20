@@ -6,7 +6,7 @@ type FoodLog {
   fat: Float
   carbs: Float
   quantity: String
-  logged_at: String
+  loggedAt: String
 }
 
 input FoodLogInput {
@@ -16,7 +16,7 @@ input FoodLogInput {
   fat: Float
   carbs: Float
   quantity: String
-  logged_at: String
+  loggedAt: String
 }
 
 type Query {

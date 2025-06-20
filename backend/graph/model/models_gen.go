@@ -10,7 +10,7 @@ type FoodLog struct {
 	Fat      *float64 `json:"fat,omitempty"`
 	Carbs    *float64 `json:"carbs,omitempty"`
 	Quantity *string  `json:"quantity,omitempty"`
-	LoggedAt *string  `json:"logged_at,omitempty"`
+	LoggedAt *string  `json:"loggedAt,omitempty"`
 }
 
 type FoodLogInput struct {
@@ -20,7 +20,7 @@ type FoodLogInput struct {
 	Fat      *float64 `json:"fat,omitempty"`
 	Carbs    *float64 `json:"carbs,omitempty"`
 	Quantity *string  `json:"quantity,omitempty"`
-	LoggedAt *string  `json:"logged_at,omitempty"`
+	LoggedAt *string  `json:"loggedAt,omitempty"`
 }
 
 type Mutation struct {
