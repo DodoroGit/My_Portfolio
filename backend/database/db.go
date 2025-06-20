@@ -77,6 +77,21 @@ CREATE TABLE IF NOT EXISTS stock_transactions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE IF NOT EXISTS food_logs (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    name TEXT NOT NULL,
+    calories NUMERIC(6,2),
+    protein NUMERIC(6,2),
+    fat NUMERIC(6,2),
+    carbs NUMERIC(6,2),
+    quantity TEXT,
+    logged_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 `
 
 	_, err = DB.Exec(createTableQuery)

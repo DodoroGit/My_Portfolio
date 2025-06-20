@@ -1,0 +1,28 @@
+type FoodLog {
+  id: ID!
+  name: String!
+  calories: Float
+  protein: Float
+  fat: Float
+  carbs: Float
+  quantity: String
+  logged_at: String
+}
+
+input FoodLogInput {
+  name: String!
+  calories: Float
+  protein: Float
+  fat: Float
+  carbs: Float
+  quantity: String
+  logged_at: String
+}
+
+type Query {
+  myFoodLogs: [FoodLog!]!
+}
+
+type Mutation {
+  addFoodLog(input: FoodLogInput!): FoodLog!
+}

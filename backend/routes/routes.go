@@ -1,6 +1,10 @@
 package routes
 
 import (
+	"github.com/99designs/gqlgen/codegen/testserver/nullabledirectives/generated"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/DodoroGit/My_Portfolio/backend/graph"
 	"github.com/DodoroGit/My_Portfolio/backend/handlers"
 	"github.com/DodoroGit/My_Portfolio/backend/middlewares"
 	"github.com/gin-gonic/gin"
@@ -75,4 +79,13 @@ func RegisterRoutes(r *gin.Engine) {
 	{
 		apiChat.POST("/clear", handlers.ClearChatHandler)
 	}
+
+	r.POST("/graphql", func(c *gin.Context) {
+		h := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+		h.ServeHTTP(c.Writer, c.Request)
+	})
+
+	r.GET("/graphql", func(c *gin.Context) {
+		playground.Handler("GraphQL", "/graphql").ServeHTTP(c.Writer, c.Request)
+	})
 }
