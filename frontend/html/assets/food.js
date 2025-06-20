@@ -70,7 +70,7 @@ function addFoodLog() {
     fat: parseFloat(document.getElementById("fat").value || 0),
     carbs: parseFloat(document.getElementById("carbs").value || 0),
     quantity: document.getElementById("quantity").value.trim(),
-    logged_at: document.getElementById("loggedAt").value
+    loggedAt: document.getElementById("loggedAt").value
   };
 
   const mutation = `
