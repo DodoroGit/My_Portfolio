@@ -7,40 +7,63 @@ package graph
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/DodoroGit/My_Portfolio/backend/database"
 	"github.com/DodoroGit/My_Portfolio/backend/graph/generated"
 	"github.com/DodoroGit/My_Portfolio/backend/graph/model"
 )
 
-// AddFoodLog is the resolver for the addFoodLog field.
+// 新增食物紀錄
 func (r *mutationResolver) AddFoodLog(ctx context.Context, input model.FoodLogInput) (*model.FoodLog, error) {
-	panic(fmt.Errorf("not implemented: AddFoodLog - addFoodLog"))
+	userID, ok := ctx.Value("user_id").(int)
+	if !ok {
+		return nil, fmt.Errorf("找不到登入使用者資訊")
+	}
+
+	if input.LoggedAt == nil {
+		return nil, fmt.Errorf("請提供 loggedAt 日期")
+	}
+
+	t, err := time.Parse("2006-01-02", *input.LoggedAt)
+	if err != nil {
+		return nil, fmt.Errorf("日期格式錯誤：%v", err)
+	}
+
+	var insertedID int
+	err = database.DB.QueryRow(`
+		INSERT INTO food_logs (user_id, name, calories, protein, fat, carbs, quantity, logged_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		RETURNING id`,
+		userID, input.Name, input.Calories, input.Protein, input.Fat, input.Carbs, input.Quantity, t,
+	).Scan(&insertedID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.FoodLog{
+		ID:       insertedID,
+		Name:     input.Name,
+		Calories: input.Calories,
+		Protein:  input.Protein,
+		Fat:      input.Fat,
+		Carbs:    input.Carbs,
+		Quantity: input.Quantity,
+		LoggedAt: input.LoggedAt,
+	}, nil
 }
 
-// MyFoodLogs is the resolver for the myFoodLogs field.
+// 查詢食物紀錄
 func (r *queryResolver) MyFoodLogs(ctx context.Context) ([]*model.FoodLog, error) {
-	panic(fmt.Errorf("not implemented: MyFoodLogs - myFoodLogs"))
-}
+	userID, ok := ctx.Value("user_id").(int)
+	if !ok {
+		return nil, fmt.Errorf("找不到登入使用者資訊")
+	}
 
-// Mutation returns generated.MutationResolver implementation.
-func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
-
-// Query returns generated.QueryResolver implementation.
-func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
-
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-/*
-	func (r *Resolver) MyFoodLogs(ctx context.Context) ([]*model.FoodLog, error) {
-	userID := ctx.Value("user_id").(int) // 你需要從 middleware 帶進來
-	rows, err := database.DB.Query(`SELECT id, name, calories, protein, fat, carbs, quantity, logged_at FROM food_logs WHERE user_id = $1`, userID)
+	rows, err := database.DB.Query(`
+		SELECT id, name, calories, protein, fat, carbs, quantity, logged_at
+		FROM food_logs WHERE user_id = $1`, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -55,48 +78,16 @@ type queryResolver struct{ *Resolver }
 		}
 		formatted := t.Format("2006-01-02")
 		f.LoggedAt = &formatted
-
 		logs = append(logs, &f)
 	}
 	return logs, nil
 }
-func (r *Resolver) AddFoodLog(ctx context.Context, input model.FoodLogInput) (*model.FoodLog, error) {
-	userID := ctx.Value("user_id").(int)
 
-	// ✅ 安全處理指標型別（避免 nil pointer crash）
-	if input.LoggedAt == nil {
-		return nil, fmt.Errorf("請提供 logged_at 日期")
-	}
+// Mutation returns generated.MutationResolver implementation.
+func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
-	// ✅ 解參考 *string 並轉為 time.Time
-	t, err := time.Parse("2006-01-02", *input.LoggedAt)
-	if err != nil {
-		return nil, fmt.Errorf("日期格式錯誤：%v", err)
-	}
+// Query returns generated.QueryResolver implementation.
+func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
-	// ✅ 寫入資料庫
-	var insertedID int
-	err = database.DB.QueryRow(`
-		INSERT INTO food_logs (user_id, name, calories, protein, fat, carbs, quantity, logged_at)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-		RETURNING id`,
-		userID, input.Name, input.Calories, input.Protein, input.Fat, input.Carbs, input.Quantity, t,
-	).Scan(&insertedID)
-
-	if err != nil {
-		return nil, err
-	}
-
-	// ✅ 回傳輸入內容（可用 *input.LoggedAt）
-	return &model.FoodLog{
-		ID:       insertedID,
-		Name:     input.Name,
-		Calories: input.Calories,
-		Protein:  input.Protein,
-		Fat:      input.Fat,
-		Carbs:    input.Carbs,
-		Quantity: input.Quantity,
-		LoggedAt: input.LoggedAt, // 這邊保留原本傳入的日期字串
-	}, nil
-}
-*/
+type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }
