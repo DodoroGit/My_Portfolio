@@ -80,7 +80,7 @@ func RegisterRoutes(r *gin.Engine) {
 		apiChat.POST("/clear", handlers.ClearChatHandler)
 	}
 
-	r.POST("/graphql", middlewares.AuthMiddleware(), func(c *gin.Context) {
+	r.POST("/graphql", middlewares.GraphQLAuthMiddleware(), func(c *gin.Context) {
 		h := handler.NewDefaultServer(
 			generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}),
 		)
