@@ -1,4 +1,3 @@
-// utils/fetch_history.go
 package utils
 
 import (
