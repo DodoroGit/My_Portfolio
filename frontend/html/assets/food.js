@@ -118,7 +118,7 @@ function renderTable(logs) {
   logs.forEach(log => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${log.logged_at || ""}</td>
+      <td>${log.loggedAt || ""}</td>
       <td>${log.name}</td>
       <td>${log.calories ?? ""}</td>
       <td>${log.protein ?? ""}</td>
