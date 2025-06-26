@@ -16,7 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("export-food-btn").addEventListener("click", () => {
     alert("匯出功能尚未實作");
   });
+
+  document.getElementById("date-filter").addEventListener("change", () => {
+    applyDateFilter();
+  });
 });
+
+let allLogs = [];
 
 function fetchFoodLogs() {
   const query = `
@@ -48,9 +54,9 @@ function fetchFoodLogs() {
         alert("查詢錯誤：" + data.errors[0].message);
         return;
       }
-      const logs = data.data.myFoodLogs;
-      renderTable(logs);
-      renderDateOptions(logs);
+      allLogs = data.data.myFoodLogs;
+      populateDateFilter(allLogs);
+      applyDateFilter();
     })
     .catch(err => {
       console.error("查詢失敗", err);
@@ -73,7 +79,6 @@ function addFoodLog() {
     mutation ($input: FoodLogInput!) {
       addFoodLog(input: $input) {
         id
-        name
       }
     }
   `;
@@ -125,21 +130,23 @@ function renderTable(logs) {
   });
 }
 
-function renderDateOptions(logs) {
+function populateDateFilter(logs) {
   const select = document.getElementById("date-filter");
   const dates = [...new Set(logs.map(log => log.loggedAt))].sort().reverse();
-  select.innerHTML = `<option value="">請選擇日期</option>` +
+  select.innerHTML = `<option value="">全部</option>` +
     dates.map(date => `<option value="${date}">${date}</option>`).join("");
+}
 
-  select.onchange = () => {
-    const selected = select.value;
-    const filtered = logs.filter(log => log.loggedAt === selected);
-    renderTable(filtered);
-    const totalCalories = filtered.reduce((sum, f) => sum + (f.calories || 0), 0);
-    const totalProtein = filtered.reduce((sum, f) => sum + (f.protein || 0), 0);
-    document.getElementById("summary-text").textContent = 
-      `總熱量：${totalCalories.toFixed(1)} kcal，總蛋白質：${totalProtein.toFixed(1)} g`;
-  };
+function applyDateFilter() {
+  const selected = document.getElementById("date-filter").value;
+  const filtered = selected ? allLogs.filter(log => log.loggedAt === selected) : allLogs;
+
+  renderTable(filtered);
+
+  const totalCalories = filtered.reduce((sum, f) => sum + (f.calories || 0), 0);
+  const totalProtein = filtered.reduce((sum, f) => sum + (f.protein || 0), 0);
+  document.getElementById("summary-text").textContent = 
+    `總熱量：${totalCalories.toFixed(1)} kcal，總蛋白質：${totalProtein.toFixed(1)} g`;
 }
 
 function deleteFoodLog(id) {
@@ -177,7 +184,6 @@ function editFoodLog(id) {
   const cells = row.querySelectorAll("td");
   const originalData = Array.from(cells).map(td => td.textContent);
 
-  // 替換成輸入欄位
   const fields = ["date", "name", "cal", "protein", "fat", "carbs", "qty"];
   const inputs = fields.map((_, i) => {
     return `<input type="${i === 0 ? 'date' : 'text'}" value="${originalData[i] || ''}" style="width:80px;" />`;

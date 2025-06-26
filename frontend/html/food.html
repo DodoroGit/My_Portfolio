@@ -57,18 +57,16 @@
       </form>
     </section>
 
-    <!-- 篩選區 -->
-    <section class="food-card">
-      <h2>📅 篩選特定日期紀錄</h2>
-      <select id="date-filter">
-        <option value="">請選擇日期</option>
-      </select>
-      <p id="summary-text"></p>
-    </section>
-
-    <!-- 顯示表格 -->
+    <!-- 顯示表格與篩選 -->
     <section class="food-card">
       <h2>📋 飲食紀錄表</h2>
+      <div style="text-align:left;margin-bottom:10px;">
+        <label for="date-filter">📅 篩選日期：</label>
+        <select id="date-filter">
+          <option value="">全部</option>
+        </select>
+        <span id="summary-text" style="margin-left:20px;"></span>
+      </div>
       <table class="food-table">
         <thead>
           <tr>
