@@ -8,6 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchFoodLogs();
 
+  // Modal 開關邏輯
+  const modal = document.getElementById("food-modal");
+  document.getElementById("open-add-modal").addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+  document.getElementById("close-modal").addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
   document.getElementById("food-form").addEventListener("submit", (e) => {
     e.preventDefault();
     addFoodLog();
@@ -99,6 +111,7 @@ function addFoodLog() {
       }
       alert("新增成功！");
       document.getElementById("food-form").reset();
+      document.getElementById("food-modal").style.display = "none"; // ✅ 關閉 modal
       fetchFoodLogs();
     })
     .catch(err => {
