@@ -160,6 +160,7 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 
 	type StockPayload struct {
 		Symbol   string  `json:"symbol"`
+		Name     string  `json:"name"`
 		Price    float64 `json:"price"`
 		Shares   int     `json:"shares"`
 		AvgPrice float64 `json:"avg_price"`
@@ -173,6 +174,8 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 		if err := rows.Scan(&symbol, &shares, &avgPrice); err != nil {
 			continue
 		}
+
+		name, _ := utils.FetchTWSEName(symbol)
 
 		price, err := utils.FetchTWSEPrice(symbol)
 		if err != nil {
@@ -194,6 +197,7 @@ func pushUserStocks(conn *websocket.Conn, userID int) {
 
 		payload := StockPayload{
 			Symbol:   symbol,
+			Name:     name,
 			Price:    price,
 			Shares:   shares,
 			AvgPrice: avgPrice,

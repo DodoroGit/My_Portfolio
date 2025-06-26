@@ -122,7 +122,10 @@ function updateStockRow(data) {
         row = document.createElement("tr");
         row.id = rowId;
         row.innerHTML = `
-            <td><button onclick="viewChart('${data.symbol}')">${data.symbol}</button></td>
+            <td>
+                <div><button onclick="viewChart('${data.symbol}')">${data.symbol}</button></div>
+                <div style="font-size: 13px; color: #666;">${data.name || ""}</div>
+            </td>
             <td>${data.shares}</td>
             <td id="avg-${data.symbol}">${avgPriceText}</td>
             <td id="price-${data.symbol}">${priceText}</td>
@@ -273,7 +276,7 @@ function loadProfitSummary() {
                 </span>
             </div>
 
-            <div style="margin-top: 1rem; text-align: left; font-size: 15px; background: #f8f9fa; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); line-height: 1.8; font-family: '標楷體', Cambria; font-weight: normal;">
+            <div style="margin-top: 1rem; text-align: left; font-size: 15px; background: #f8f9fa; padding: 1rem; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); line-height: 1.8; font-family: 'Calibri', '標楷體', sans-serif; font-weight: normal;">
                 <h3 style="font-size: 16px; margin: 0 0 0.5rem 0; font-weight: normal;">💡 計算公式說明：</h3>
                 <ul style="padding-left: 1rem; margin: 0;">
                     <li>每筆損益計算方式如下：</li>
@@ -283,7 +286,7 @@ function loadProfitSummary() {
                 </ul>
             </div>
 
-            <p style="color: red; font-size: 13px; margin-top: 8px; font-family: '標楷體', Cambria; font-weight: normal;">
+            <p style="color: red; font-size: 13px; margin-top: 8px; font-family: 'Calibri', '標楷體', sans-serif; font-weight: normal;">
                 ⚠️ 最終數字可能與券商 App 有誤差，僅供參考，請以官方資訊為準。
             </p>
         `;

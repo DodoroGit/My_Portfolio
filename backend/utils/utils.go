@@ -119,3 +119,28 @@ func TaiwanFee(amount float64) float64 {
 func TaiwanTax(amount float64) float64 {
 	return math.Floor(amount * 0.003)
 }
+
+func FetchTWSEName(code string) (string, error) {
+	url := fmt.Sprintf("https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_%s.tw", code)
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("User-Agent", "Mozilla/5.0")
+
+	client := &http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer res.Body.Close()
+
+	body, _ := ioutil.ReadAll(res.Body)
+	var parsed map[string]interface{}
+	if err := json.Unmarshal(body, &parsed); err != nil {
+		return "", err
+	}
+
+	if data, ok := parsed["msgArray"].([]interface{}); ok && len(data) > 0 {
+		info := data[0].(map[string]interface{})
+		return info["n"].(string), nil // 中文名稱
+	}
+	return "", fmt.Errorf("找不到名稱")
+}
