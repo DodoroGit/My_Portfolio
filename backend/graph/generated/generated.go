@@ -58,7 +58,9 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddFoodLog func(childComplexity int, input model.FoodLogInput) int
+		AddFoodLog    func(childComplexity int, input model.FoodLogInput) int
+		DeleteFoodLog func(childComplexity int, id int) int
+		UpdateFoodLog func(childComplexity int, id int, input model.FoodLogInput) int
 	}
 
 	Query struct {
@@ -68,6 +70,8 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	AddFoodLog(ctx context.Context, input model.FoodLogInput) (*model.FoodLog, error)
+	DeleteFoodLog(ctx context.Context, id int) (bool, error)
+	UpdateFoodLog(ctx context.Context, id int, input model.FoodLogInput) (*model.FoodLog, error)
 }
 type QueryResolver interface {
 	MyFoodLogs(ctx context.Context) ([]*model.FoodLog, error)
@@ -159,6 +163,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.AddFoodLog(childComplexity, args["input"].(model.FoodLogInput)), true
+
+	case "Mutation.deleteFoodLog":
+		if e.complexity.Mutation.DeleteFoodLog == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteFoodLog_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteFoodLog(childComplexity, args["id"].(int)), true
+
+	case "Mutation.updateFoodLog":
+		if e.complexity.Mutation.UpdateFoodLog == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateFoodLog_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateFoodLog(childComplexity, args["id"].(int), args["input"].(model.FoodLogInput)), true
 
 	case "Query.myFoodLogs":
 		if e.complexity.Query.MyFoodLogs == nil {
@@ -300,7 +328,11 @@ type Query {
 
 type Mutation {
   addFoodLog(input: FoodLogInput!): FoodLog!
+  deleteFoodLog(id: Int!): Boolean!
+  updateFoodLog(id: Int!, input: FoodLogInput!): FoodLog!
 }
+
+
 `, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -320,6 +352,85 @@ func (ec *executionContext) field_Mutation_addFoodLog_args(ctx context.Context, 
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_addFoodLog_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.FoodLogInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.FoodLogInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNFoodLogInput2githubᚗcomᚋDodoroGitᚋMy_PortfolioᚋbackendᚋgraphᚋmodelᚐFoodLogInput(ctx, tmp)
+	}
+
+	var zeroVal model.FoodLogInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFoodLog_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteFoodLog_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteFoodLog_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFoodLog_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateFoodLog_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	arg1, err := ec.field_Mutation_updateFoodLog_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateFoodLog_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (int, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNInt2int(ctx, tmp)
+	}
+
+	var zeroVal int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFoodLog_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (model.FoodLogInput, error) {
@@ -886,6 +997,134 @@ func (ec *executionContext) fieldContext_Mutation_addFoodLog(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_addFoodLog_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteFoodLog(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteFoodLog(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteFoodLog(rctx, fc.Args["id"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteFoodLog(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteFoodLog_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateFoodLog(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateFoodLog(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateFoodLog(rctx, fc.Args["id"].(int), fc.Args["input"].(model.FoodLogInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FoodLog)
+	fc.Result = res
+	return ec.marshalNFoodLog2ᚖgithubᚗcomᚋDodoroGitᚋMy_PortfolioᚋbackendᚋgraphᚋmodelᚐFoodLog(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateFoodLog(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FoodLog_id(ctx, field)
+			case "name":
+				return ec.fieldContext_FoodLog_name(ctx, field)
+			case "calories":
+				return ec.fieldContext_FoodLog_calories(ctx, field)
+			case "protein":
+				return ec.fieldContext_FoodLog_protein(ctx, field)
+			case "fat":
+				return ec.fieldContext_FoodLog_fat(ctx, field)
+			case "carbs":
+				return ec.fieldContext_FoodLog_carbs(ctx, field)
+			case "quantity":
+				return ec.fieldContext_FoodLog_quantity(ctx, field)
+			case "loggedAt":
+				return ec.fieldContext_FoodLog_loggedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FoodLog", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateFoodLog_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -3191,6 +3430,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "addFoodLog":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_addFoodLog(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteFoodLog":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteFoodLog(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateFoodLog":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateFoodLog(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

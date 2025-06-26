@@ -25,4 +25,8 @@ type Query {
 
 type Mutation {
   addFoodLog(input: FoodLogInput!): FoodLog!
+  deleteFoodLog(id: Int!): Boolean!
+  updateFoodLog(id: Int!, input: FoodLogInput!): FoodLog!
 }
+
+

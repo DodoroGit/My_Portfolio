@@ -54,6 +54,68 @@ func (r *mutationResolver) AddFoodLog(ctx context.Context, input model.FoodLogIn
 	}, nil
 }
 
+// DeleteFoodLog is the resolver for the deleteFoodLog field.
+func (r *mutationResolver) DeleteFoodLog(ctx context.Context, id int) (bool, error) {
+	userID, ok := ctx.Value("user_id").(int)
+	if !ok {
+		return false, fmt.Errorf("找不到登入使用者資訊")
+	}
+
+	result, err := database.DB.Exec(`DELETE FROM food_logs WHERE id = $1 AND user_id = $2`, id, userID)
+	if err != nil {
+		return false, err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return false, err
+	}
+
+	return rowsAffected > 0, nil
+}
+
+// UpdateFoodLog is the resolver for the updateFoodLog field.
+func (r *mutationResolver) UpdateFoodLog(ctx context.Context, id int, input model.FoodLogInput) (*model.FoodLog, error) {
+	userID, ok := ctx.Value("user_id").(int)
+	if !ok {
+		return nil, fmt.Errorf("找不到登入使用者資訊")
+	}
+
+	if input.LoggedAt == nil {
+		return nil, fmt.Errorf("請提供 loggedAt 日期")
+	}
+	t, err := time.Parse("2006-01-02", *input.LoggedAt)
+	if err != nil {
+		return nil, fmt.Errorf("日期格式錯誤：%v", err)
+	}
+
+	result, err := database.DB.Exec(`
+		UPDATE food_logs 
+		SET name = $1, calories = $2, protein = $3, fat = $4, carbs = $5, quantity = $6, logged_at = $7
+		WHERE id = $8 AND user_id = $9`,
+		input.Name, input.Calories, input.Protein, input.Fat, input.Carbs, input.Quantity, t, id, userID,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		return nil, fmt.Errorf("找不到符合的紀錄或無權限")
+	}
+
+	return &model.FoodLog{
+		ID:       id,
+		Name:     input.Name,
+		Calories: input.Calories,
+		Protein:  input.Protein,
+		Fat:      input.Fat,
+		Carbs:    input.Carbs,
+		Quantity: input.Quantity,
+		LoggedAt: input.LoggedAt,
+	}, nil
+}
+
 // 查詢食物紀錄
 func (r *queryResolver) MyFoodLogs(ctx context.Context) ([]*model.FoodLog, error) {
 	userID, ok := ctx.Value("user_id").(int)
