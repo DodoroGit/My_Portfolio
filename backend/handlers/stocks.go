@@ -24,24 +24,44 @@ type Stock struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// 取得用戶所有股票
 func GetStocks(c *gin.Context) {
 	userID := c.GetInt("user_id")
-	rows, err := database.DB.Query(`SELECT id, symbol, shares, avg_price, created_at FROM stocks WHERE user_id = $1`, userID)
+
+	rows, err := database.DB.Query(`
+		SELECT id, symbol, shares, avg_price, created_at
+		FROM stocks WHERE user_id = $1`, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "讀取失敗"})
 		return
 	}
 	defer rows.Close()
 
-	var stocks []Stock
+	type StockWithName struct {
+		ID        int       `json:"id"`
+		Symbol    string    `json:"symbol"`
+		Name      string    `json:"name"` // 中文名稱
+		Shares    int       `json:"shares"`
+		AvgPrice  float64   `json:"avg_price"`
+		CreatedAt time.Time `json:"created_at"`
+	}
+
+	var stocks []StockWithName
+
 	for rows.Next() {
-		var s Stock
-		s.UserID = userID
-		if err := rows.Scan(&s.ID, &s.Symbol, &s.Shares, &s.AvgPrice, &s.CreatedAt); err == nil {
+		var s StockWithName
+		var symbol string
+		if err := rows.Scan(&s.ID, &symbol, &s.Shares, &s.AvgPrice, &s.CreatedAt); err == nil {
+			s.Symbol = symbol
+			name, err := utils.FetchTWSEName(symbol)
+			if err != nil {
+				s.Name = ""
+			} else {
+				s.Name = name
+			}
 			stocks = append(stocks, s)
 		}
 	}
+
 	c.JSON(http.StatusOK, gin.H{"stocks": stocks})
 }
 

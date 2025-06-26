@@ -60,7 +60,10 @@ function renderTable(stocks) {
         const row = document.createElement("tr");
         row.id = `stock-row-${stock.symbol}`;
         row.innerHTML = `
-            <td><button onclick="viewChart('${stock.symbol}')">${stock.symbol}</button></td>
+            <td>
+                <div><button onclick="viewChart('${stock.symbol}')">${stock.symbol}</button></div>
+                <div style="font-size: 13px; color: #666;">${stock.name || ""}</div>
+            </td>
             <td>${stock.shares}</td>
             <td id="avg-${stock.symbol}">${stock.avg_price !== undefined ? stock.avg_price.toFixed(2) : '-'}</td>
             <td id="price-${stock.symbol}">-</td>
@@ -74,6 +77,7 @@ function renderTable(stocks) {
         tbody.appendChild(row);
     });
 }
+
 
 function deleteStock(id) {
     const token = localStorage.getItem("jwt");
