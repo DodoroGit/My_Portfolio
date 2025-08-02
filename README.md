@@ -142,7 +142,6 @@ $ docker-compose up --build -d
 * 👨‍💻 作者：王偉任 (Ren Wei Wang)
 * 📫 Email：[dokebi871218@gmail.com](mailto:dokebi871218@gmail.com)
 * 🌐 GitHub：[github.com/DodoroGit](https://github.com/DodoroGit)
-* 🔗 LinkedIn：[linkedin.com/in/ren-wei-75283a333](https://linkedin.com/in/ren-wei-75283a333)
 
 ---
 
